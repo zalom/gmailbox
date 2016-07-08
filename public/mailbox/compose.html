@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- BEGIN HEAD -->
+  <head>
+    <meta charset="utf-8" />
+    <title>MiaVision | Compose</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <meta content="" name="description" />
+    <meta content="" name="author" />
+    <!-- BEGIN GLOBAL MANDATORY STYLES -->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" data-mincss="ignore" />
+    <link href="../assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" data-mincss="ignore" />
+    <link href="../assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" data-mincss="ignore" />
+    <link href="../assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" data-mincss="ignore" />
+    <!-- END GLOBAL MANDATORY STYLES -->
+    <!-- BEGIN PAGE LEVEL PLUGINS -->
+    <link href="../assets/global/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.css" rel="stylesheet" type="text/css" />
+
+    <!-- END PAGE LEVEL PLUGINS -->
+    <!-- BEGIN THEME GLOBAL STYLES -->
+    <link href="../assets/global/css/custom.css" rel="stylesheet" id="style_components" type="text/css" />
+    <!-- END THEME GLOBAL STYLES -->
+    <!-- BEGIN PAGE LEVEL STYLES -->
+    <link href="../assets/apps/css/inbox.min.css" rel="stylesheet" type="text/css" />
+    <!-- END PAGE LEVEL STYLES -->
+    <!-- BEGIN THEME LAYOUT STYLES -->
+    <!-- END THEME LAYOUT STYLES -->
+  </head>
+  <!-- END HEAD -->
+  <body class="page-header-fixed page-sidebar-closed-hide-logo page-content-white">
+  <!-- BEGIN HEADER -->
+  <div class="page-header navbar navbar-fixed-top">
+    <!-- BEGIN HEADER INNER -->
+    <div class="page-header-inner ">
+      <!-- BEGIN LOGO -->
+      <div class="page-logo">
+        <a href="inbox.html">
+        <img src="../assets/layouts/layout/img/logo.png" alt="logo" class="logo-default"> </a>
+      </div>
+      <!-- END LOGO -->
+      <!-- BEGIN TOP NAVIGATION MENU -->
+      <div class="top-menu">
+        <ul class="nav navbar-nav pull-right">
+          <!-- BEGIN USER LOGIN DROPDOWN -->
+          <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
+          <li class="dropdown dropdown-user">
+            <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true" aria-expanded="false">
+              <img alt="" class="img-circle" src="../assets/layouts/layout/img/avatar3_small.jpg">
+              <span class="username username-hide-on-mobile"> Nick </span>
+              <i class="fa fa-angle-down"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-default">
+              <li>
+                <a href="user_profile.html">
+                <i class="icon-user"></i> My Profile </a>
+              </li>
+              <li>
+                <a href="inbox.html">
+                  <i class="icon-envelope-open"></i> My Inbox
+                  <span class="badge badge-danger"> 3 </span>
+                </a>
+              </li>
+              <li class="divider"> </li>
+              <li>
+                <a href="login.html">
+                <i class="icon-key"></i> Log Out </a>
+              </li>
+            </ul>
+          </li>
+          <!-- END USER LOGIN DROPDOWN -->
+          <!-- BEGIN QUICK SIDEBAR TOGGLER -->
+          <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
+          <li class="dropdown dropdown-quick-sidebar-toggler">
+            <a href="javascript:;" class="dropdown-toggle">
+              <i class="icon-logout"></i>
+            </a>
+          </li>
+          <!-- END QUICK SIDEBAR TOGGLER -->
+        </ul>
+      </div>
+      <!-- END TOP NAVIGATION MENU -->
+    </div>
+    <!-- END HEADER INNER -->
+  </div>
+  <!-- END HEADER -->
+  <!-- BEGIN HEADER & CONTENT DIVIDER -->
+  <div class="clearfix"> </div>
+  <!-- END HEADER & CONTENT DIVIDER -->
+    <div class="page-container">
+      <!-- BEGIN SIDEBAR -->
+      <!-- END SIDEBAR -->
+      <!-- BEGIN CONTENT -->
+      <div class="page-content-wrapper">
+        <!-- BEGIN CONTENT BODY -->
+        <div class="page-content">
+          <!-- BEGIN PAGE HEADER-->
+          <!-- BEGIN PAGE BAR -->
+          <div class="page-bar">
+            <div class="page-toolbar">
+            </div>
+          </div>
+          <!-- END PAGE BAR -->
+          <!-- BEGIN PAGE TITLE-->
+          <h3 class="page-title"> Inbox
+          <small>user inbox</small>
+          </h3>
+          <!-- END PAGE TITLE-->
+          <!-- END PAGE HEADER-->
+          <div class="inbox">
+            <div class="row">
+              <div class="col-md-2">
+                <div class="inbox-sidebar">
+                  <a href="javascript:;" data-title="Compose" class="btn red compose-btn btn-block">
+                  <i class="fa fa-edit"></i> Compose </a>
+                  <ul class="inbox-nav">
+                    <li>
+                      <a href="inbox.html" data-type="inbox" data-title="Inbox"> Inbox
+                        <span class="badge badge-success">3</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="important.html" data-type="important" data-title="Inbox"> Important </a>
+                    </li>
+                    <li>
+                      <a href="sent.html" data-type="sent" data-title="Sent"> Sent </a>
+                    </li>
+                    <li>
+                      <a href="draft.html" data-type="draft" data-title="Draft"> Draft
+                        <span class="badge badge-danger">8</span>
+                      </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                      <a href="trash.html" class="sbold uppercase" data-title="Trash"> Trash
+                        <span class="badge badge-info">23</span>
+                      </a>
+                    </li>
+                  </ul>
+                  <ul class="inbox-contacts">
+                    <li class="divider margin-bottom-30"></li>
+                    <li>
+                      <a href="user_profile.html">
+                        <img class="contact-pic" src="../assets/pages/media/users/avatar4.jpg">
+                        <span class="contact-name">Adam Stone</span>
+                        <span class="contact-status bg-green"></span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="user_profile.html">
+                        <img class="contact-pic" src="../assets/pages/media/users/avatar2.jpg">
+                        <span class="contact-name">Lisa Wong</span>
+                        <span class="contact-status bg-red"></span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="user_profile.html">
+                        <img class="contact-pic" src="../assets/pages/media/users/avatar6.jpg">
+                        <span class="contact-name">Anna Bold</span>
+                        <span class="contact-status bg-yellow"></span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-md-10">
+                <div class="inbox-body">
+                  <div class="inbox-header">
+                    <h1 class="pull-left">Compose</h1>
+
+                  </div>
+                  <div class="inbox-content">
+                    <form class="inbox-compose form-horizontal" id="fileupload" action="#" method="POST" enctype="multipart/form-data">
+                      <div class="inbox-compose-btn">
+                        <button id="btn-send" class="btn green">
+                        <i class="fa fa-check"></i>Send</button>
+                        <button id="btn-discard" class="btn default inbox-discard-btn">Discard</button>
+                        <button id="btn-draft" class="btn default">Draft</button>
+                      </div>
+                      <div class="inbox-form-group mail-to">
+                        <label class="control-label">To:</label>
+                        <div class="controls controls-to">
+                          <input type="text" class="form-control" name="to">
+                          <span class="inbox-cc-bcc">
+                            <span class="inbox-cc"> Cc </span>
+                            <span class="inbox-bcc"> Bcc </span>
+                          </span>
+                        </div>
+                      </div>
+                      <div class="inbox-form-group input-cc display-hide">
+                        <a href="javascript:;" class="close"> </a>
+                        <label class="control-label">Cc:</label>
+                        <div class="controls controls-cc">
+                          <input type="text" name="cc" class="form-control"> </div>
+                        </div>
+                        <div class="inbox-form-group input-bcc display-hide">
+                          <a href="javascript:;" class="close"> </a>
+                          <label class="control-label">Bcc:</label>
+                          <div class="controls controls-bcc">
+                            <input type="text" name="bcc" class="form-control"> </div>
+                          </div>
+                          <div class="inbox-form-group">
+                            <label class="control-label">Subject:</label>
+                            <div class="controls">
+                              <input type="text" class="form-control" name="subject"> </div>
+                            </div>
+                            <div class="inbox-form-group">
+                              <ul class="wysihtml5-toolbar">
+                                <li class="dropdown"><a class="btn default dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-font"></i>&nbsp;<span class="current-font">Normal text</span>&nbsp;<b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                  <li><a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="div" tabindex="-1" href="javascript:;" unselectable="on">Normal text</a></li>
+                                  <li><a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h1" tabindex="-1" href="javascript:;" unselectable="on">Heading 1</a></li>
+                                  <li><a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h2" tabindex="-1" href="javascript:;" unselectable="on">Heading 2</a></li>
+                                  <li><a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h3" tabindex="-1" href="javascript:;" unselectable="on">Heading 3</a></li>
+                                  <li><a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h4" href="javascript:;" unselectable="on">Heading 4</a></li>
+                                  <li><a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h5" href="javascript:;" unselectable="on">Heading 5</a></li>
+                                  <li><a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h6" href="javascript:;" unselectable="on">Heading 6</a></li>
+                                </ul>
+                              </li>
+                              <li>
+                                <div class="btn-group">
+                                  <a class="btn default" data-wysihtml5-command="bold" title="CTRL+B" tabindex="-1" href="javascript:;" unselectable="on">Bold</a>
+                                  <a class="btn default" data-wysihtml5-command="italic" title="CTRL+I" tabindex="-1" href="javascript:;" unselectable="on">Italic</a>
+                                  <a class="btn default" data-wysihtml5-command="underline" title="CTRL+U" tabindex="-1" href="javascript:;" unselectable="on">Underline</a>
+                                </div>
+                              </li>
+                              <li>
+                                <div class="btn-group">
+                                  <a class="btn default" data-wysihtml5-command="insertUnorderedList" title="Unordered list" tabindex="-1" href="javascript:;" unselectable="on"><i class="fa fa-list"></i></a>
+                                  <a class="btn default" data-wysihtml5-command="insertOrderedList" title="Ordered list" tabindex="-1" href="javascript:;" unselectable="on"><i class="fa fa-th-list"></i></a>
+                                  <a class="btn default" data-wysihtml5-command="Outdent" title="Outdent" tabindex="-1" href="javascript:;" unselectable="on"><i class="fa fa-outdent"></i></a>
+                                  <a class="btn default" data-wysihtml5-command="Indent" title="Indent" tabindex="-1" href="javascript:;" unselectable="on"><i class="fa fa-indent"></i></a>
+                                </div>
+                              </li>
+                              <li>
+                                <div class="btn-group">
+                                  <a class="btn default" data-wysihtml5-action="change_view" title="Edit HTML" tabindex="-1" href="javascript:;" unselectable="on"><i class="fa fa-pencil"></i></a>
+                                </div>
+                              </li>
+                              <li>
+                                <div class="bootstrap-wysihtml5-insert-link-modal modal fade">
+                                  <div class="modal-dialog">
+                                    <div class="modal-content">
+                                      <div class="modal-header">
+                                        <a class="close" data-dismiss="modal">×</a>
+                                      <h3>Insert link</h3></div>
+                                      <div class="modal-body">
+                                        <input value="http://" class="bootstrap-wysihtml5-insert-link-url form-control input-xlarge">
+                                        <label style="margin-top:5px;">
+                                          <input type="checkbox" class="bootstrap-wysihtml5-insert-link-target" checked="">Open link in new window</label>
+                                        </div>
+                                        <div class="modal-footer"><a href="#" class="btn default" data-dismiss="modal">Cancel</a><a href="#" class="btn btn-primary" data-dismiss="modal">Insert link</a></div>
+                                      </div>
+                                    </div>
+                                    </div><a class="btn default" data-wysihtml5-command="createLink" title="Insert link" tabindex="-1" href="javascript:;" unselectable="on"><i class="fa fa-share"></i></a></li>
+                                    <li>
+                                      <div class="bootstrap-wysihtml5-insert-image-modal modal fade">
+                                        <div class="modal-dialog">
+                                          <div class="modal-content">
+                                            <div class="modal-header"><a class="close" data-dismiss="modal">×</a>
+                                          <h3>Insert image</h3></div>
+                                          <div class="modal-body">
+                                            <input value="http://" class="bootstrap-wysihtml5-insert-image-url form-control input-xlarge">
+                                          </div>
+                                          <div class="modal-footer"><a href="#" class="btn default" data-dismiss="modal">Cancel</a><a href="#" class="btn btn-primary" data-dismiss="modal">Insert image</a></div>
+                                        </div>
+                                      </div>
+                                      </div><a class="btn default" data-wysihtml5-command="insertImage" title="Insert image" tabindex="-1" href="javascript:;" unselectable="on"><i class="fa fa-picture-o"></i></a></li>
+                                    </ul>
+                                    <textarea class="inbox-editor inbox-wysihtml5 form-control" name="message" rows="12" spellcheck="true" style="z-index: auto; position: relative; line-height: 20px; font-size: 14px; transition: none; display: none; background: none 0% 0% / auto repeat scroll padding-box border-box rgb(255, 255, 255);">
+                                    </textarea>
+                                    <input type="hidden" name="_wysihtml5_mode" value="1">
+                                    <div style="z-index: 2; opacity: 1; transform: translate(958.484px, 264px);" class="_9b5ef6-textarea_btn _9b5ef6-show _9b5ef6-anonymous _9b5ef6-field_hovered" data-grammarly-reactid=".6">
+                                      <div class="_9b5ef6-transform_wrap" data-grammarly-reactid=".6.0">
+                                        <div title="Protected by Grammarly" class="_9b5ef6-status" data-grammarly-reactid=".6.0.0">&nbsp;
+                                        </div>
+                                      </div>
+                                      <span class="_9b5ef6-btn_text" data-grammarly-reactid=".6.1">Not signed in</span>
+                                    </div>
+                                  </div>
+
+
+                                  <!-- The template to display files available for download -->
+
+                                  <div class="inbox-compose-btn">
+                                    <button class="btn green">
+                                    <i class="fa fa-check"></i>Send</button>
+                                    <button class="btn default">Discard</button>
+                                    <button class="btn default">Draft</button>
+                                  </div>
+
+                                </form>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- END CONTENT BODY -->
+                  </div>
+                  <!-- END CONTENT -->
+                </div>
+                <!-- BEGIN CORE PLUGINS -->
+                <script src="../assets/global/plugins/jquery.min.js" type="text/javascript"></script>
+                <script src="../assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+                <script src="../assets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js" type="text/javascript"></script>
+                <script src="../assets/pages/scripts/custom.js" type="text/javascript"></script>
+                <!-- END THEME LAYOUT SCRIPTS -->
+              </body>
+            </html>
