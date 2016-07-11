@@ -1097,3 +1097,10 @@ th>.mt-radio.mt-radio-single {
 .page-header.navbar .top-menu .navbar-nav>li.dropdown-user>.dropdown-menu {
     width: 195px
 }
+
+
+/*********** CUSTOM ************/
+
+img.inbox-author{
+  width: 5%;
+}
