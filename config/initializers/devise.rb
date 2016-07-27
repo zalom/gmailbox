@@ -6,13 +6,13 @@ Devise.setup do |config|
   # confirmation, reset password and unlock tokens in the database.
   # Devise will use the `secret_key_base` as its `secret_key`
   # by default. You can change it below and use your own secret key.
-  # config.secret_key = '3796565aa8a9faa95949c6aedbd9de63caf8d9577e3484164c0b4b77f0ab726f6ad99a61ce0c2eb76cb45762b625b3f84c10589dd20cb9b3ab7e3825e3a6cc47'
+  config.secret_key = '3796565aa8a9faa95949c6aedbd9de63caf8d9577e3484164c0b4b77f0ab726f6ad99a61ce0c2eb76cb45762b625b3f84c10589dd20cb9b3ab7e3825e3a6cc47'
 
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class
   # with default "from" parameter.
-  config.mailer_sender = 'please-change-me-at-config-initializers-devise@example.com'
+  config.mailer_sender = 'admin@example.com'
 
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'
@@ -121,7 +121,7 @@ Devise.setup do |config|
   # their account can't be confirmed with the token any more.
   # Default is nil, meaning there is no restriction on how long a user can take
   # before confirming their account.
-  # config.confirm_within = 3.days
+  config.confirm_within = 3.days
 
   # If true, requires any email changes to be confirmed (exactly the same way as
   # initial account confirmation) to be applied. Requires additional unconfirmed_email
