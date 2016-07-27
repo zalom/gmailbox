@@ -9,6 +9,7 @@ gem 'jquery-rails'
 gem 'turbolinks', '~> 5.x'
 gem 'devise'
 gem 'bootstrap-sass'
+gem "font-awesome-rails"
 
 group :development, :test do
   gem 'byebug', platform: :mri
