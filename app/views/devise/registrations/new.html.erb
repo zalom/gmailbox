@@ -1,4 +1,4 @@
-<div class="login" data-gr-c-s-loaded="true">
+<div class="login">
   <!-- BEGIN LOGO -->
   <div class="logo">
       <a href="inbox.html">
@@ -10,6 +10,11 @@
     <!-- BEGIN REGISTRATION FORM -->
     <%= form_for(resource, as: resource_name, url: registration_path(resource_name), class: "register-form") do |f| %>
       <h3 class="font-green">Sign Up</h3>
+      <div class="form-group margin-top-20 margin-bottom-20">
+        <div id="register_tnc_error">
+          <%= devise_error_messages! %>
+        </div>
+      </div>
       <p class="hint"> Enter your personal details below: </p>
       <div class="form-group">
         <%= f.text_field :first_name, autofocus: true, placeholder: "First Name", class: "form-control placeholder-no-fix" %>
@@ -23,29 +28,25 @@
       </div>
       <p class="hint"> Enter your account details below: </p>
       <div class="form-group">
-        <% if @minimum_password_length %>
-        <em>(<%= @minimum_password_length %> characters minimum)</em>
-        <% end %><br />
         <%= f.text_field :username, autocomplete: "off", placeholder: "Username", class: "form-control placeholder-no-fix" %>
       </div>
+      <p class="hint">
+        <% if @minimum_password_length %>
+        <em>(<%= @minimum_password_length %> characters minimum)</em>
+        <% end %>
+      </p>
       <div class="form-group">
         <%= f.password_field :password, autocomplete: "off", placeholder: "Password", class: "form-control placeholder-no-fix" %>
       </div>
       <div class="form-group">
         <%= f.password_field :password_confirmation, autocomplete: "off", placeholder: "Re-type Your Password", class: "form-control placeholder-no-fix" %>
       </div>
-      <div class="form-group margin-top-20 margin-bottom-20">
-        <div id="register_tnc_error">
-          <%= devise_error_messages! %>
-        </div>
-      </div>
       <div class="form-actions">
-          <button type="button" id="register-back-btn" class="btn green btn-outline">Back</button>
-          <%= f.submit "Sign up", id: "register-submit-btn", class: "btn btn-success uppercase pull-right" %>
+        <%= link_to "Log in", new_session_path(resource_name), id: "register-back-btn", class: "btn green btn-outline" %>
+        <%= f.submit "Sign up", id: "register-submit-btn", class: "btn green btn-outline uppercase pull-right" %>
       </div>
     <% end %>
     <!-- END REGISTRATION FORM -->
-    <%= render "devise/shared/links" %>
   </div>
   <div class="copyright"> 2016 © MiaVision. Mailbox. </div>
 </div>
