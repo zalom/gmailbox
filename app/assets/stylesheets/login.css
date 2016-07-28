@@ -1,11 +1,12 @@
 .login {
-  background-color: #364150!important
+  background-color: #364150!important;
+  height: 100%;
 }
 
 .login .logo {
   margin: 0 auto 0;
   padding-top: 30px;
-  text-align: center
+  text-align: center;
 }
 
 .login .content {
@@ -19,24 +20,25 @@
   margin: 47px auto 10px;
   padding: 10px 30px 30px;
   overflow: hidden;
-  position: relative
+  position: relative;
+
 }
 
 .login .content h3 {
   color: #4db3a5;
   text-align: center;
   font-size: 28px;
-  font-weight: 400!important
+  font-weight: 400!important;
 }
 
 .login .content h4 {
-  color: #555
+  color: #555;
 }
 
 .login .content .hint {
   color: #999;
   padding: 0;
-  margin: 15px 0 7px
+  margin: 15px 0 7px;
 }
 
 .login .content .forget-form,

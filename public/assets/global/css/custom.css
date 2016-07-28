@@ -1,6 +1,9 @@
 /*** COMPONENTS ROUNDED MIN CSS ***/
 
 /* l 1 */
+html{
+    height: 100%;
+}
 body,
 h1,
 h2,
@@ -21,7 +24,8 @@ body {
     padding: 0!important;
     margin: 0!important;
     direction: "ltr";
-    font-size: 14px
+    font-size: 14px;
+    height: 100%;
 }
 /* l 452 */
 .badge,
