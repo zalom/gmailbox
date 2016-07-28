@@ -16,19 +16,21 @@
         </div>
       </div>
       <p class="hint"> Enter your personal details below: </p>
-      <div class="form-group">
-        <%= f.text_field :first_name, autofocus: true, placeholder: "First Name", class: "form-control placeholder-no-fix" %>
-      </div>
-      <div class="form-group">
-        <%= f.text_field :last_name, placeholder: "Last Name", class: "form-control placeholder-no-fix" %>
-      </div>
+      <%= f.fields_for :profile, resource.build_profile do |p| %>
+        <div class="form-group">
+          <%= p.text_field :first_name, autofocus: true, placeholder: "First Name", class: "form-control placeholder-no-fix" %>
+        </div>
+        <div class="form-group">
+          <%= p.text_field :last_name, placeholder: "Last Name", class: "form-control placeholder-no-fix" %>
+        </div>
+        <div class="form-group">
+          <%= p.text_field :username, autocomplete: "off", placeholder: "Username", class: "form-control placeholder-no-fix" %>
+        </div>
+      <% end %>
+      <p class="hint"> Enter your account details below: </p>
       <div class="form-group">
         <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
         <%= f.text_field :email, placeholder: "Email", class: "form-control placeholder-no-fix" %>
-      </div>
-      <p class="hint"> Enter your account details below: </p>
-      <div class="form-group">
-        <%= f.text_field :username, autocomplete: "off", placeholder: "Username", class: "form-control placeholder-no-fix" %>
       </div>
       <p class="hint">
         <% if @minimum_password_length %>
@@ -43,7 +45,7 @@
       </div>
       <div class="form-actions">
         <%= link_to "Log in", new_session_path(resource_name), id: "register-back-btn", class: "btn green btn-outline" %>
-        <%= f.submit "Sign up", id: "register-submit-btn", class: "btn green btn-outline uppercase pull-right" %>
+        <%= f.submit "Sign up", id: "register-submit-btn", class: "btn green uppercase pull-right" %>
       </div>
     <% end %>
     <!-- END REGISTRATION FORM -->
