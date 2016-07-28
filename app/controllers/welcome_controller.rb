@@ -1,5 +1,5 @@
 class WelcomeController < ApplicationController
   def index
-    #redirect_to '/mailbox/login.html'
+    #redirect_to '/mailbo/xlogin.html'
   end
 end
