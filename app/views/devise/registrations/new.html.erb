@@ -15,18 +15,6 @@
           <%= devise_error_messages! %>
         </div>
       </div>
-      <p class="hint"> Enter your personal details below: </p>
-      <%= f.fields_for :profile, resource.build_profile do |p| %>
-        <div class="form-group">
-          <%= p.text_field :first_name, autofocus: true, placeholder: "First Name", class: "form-control placeholder-no-fix" %>
-        </div>
-        <div class="form-group">
-          <%= p.text_field :last_name, placeholder: "Last Name", class: "form-control placeholder-no-fix" %>
-        </div>
-        <div class="form-group">
-          <%= p.text_field :username, autocomplete: "off", placeholder: "Username", class: "form-control placeholder-no-fix" %>
-        </div>
-      <% end %>
       <p class="hint"> Enter your account details below: </p>
       <div class="form-group">
         <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
