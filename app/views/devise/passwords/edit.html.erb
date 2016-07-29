@@ -1,13 +1,7 @@
-<div class=" login">
-<!-- BEGIN LOGO -->
-<div class="logo">
-  <a href="inbox.html">
-    <img src="../assets/pages/img/logo-big.png" alt=""> </a>
-  </div>
-  <!-- END LOGO -->
+<!-- BEGIN FORGOT PASSWORD -->
+<div class="content">
   <!-- BEGIN FORGOT PASSWORD FORM -->
-  <div class="content">
-    <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put, novalidate: 'novalidate' }, class:"forget-form") do |f| %>
+  <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put, novalidate: 'novalidate' }, class:"forget-form") do |f| %>
     <%= devise_error_messages! %>
     <%= f.hidden_field :reset_password_token %>
     <h3 class="font-green">Change your password</h3>
@@ -26,8 +20,7 @@
       <%= link_to "Cancel", new_session_path(resource_name), id: "back-btn", class: "btn green btn-outline" %>
       <%= f.submit "Submit", id: "forgot-submit", class: "btn green uppercase pull-right" %>
     </div>
-    <% end %>
-    <!-- END FORGOT PASSWORD FORM -->
-  </div>
-  <div class="copyright"> 2016 © MiaVision. Mailbox. </div>
+  <% end %>
+  <!-- END FORGOT PASSWORD FORM -->
 </div>
+<!-- END FORGOT PASSWORD -->

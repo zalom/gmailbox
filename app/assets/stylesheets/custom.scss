@@ -1114,7 +1114,9 @@ th>.mt-radio.mt-radio-single {
 img.inbox-author{
   width: 5%;
 }
-div.flash-msg > p{
-  margin: 0!important;
-  background-color: #364150!important;
+div.flash-msg{
+  p{
+    margin: 0!important;
+    background-color: #364150!important;
+  }
 }

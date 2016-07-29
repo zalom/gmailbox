@@ -1,25 +1,16 @@
-<div class=" login">
-  <!-- BEGIN LOGO -->
-  <div class="logo">
-      <a href="inbox.html">
-          <img src="../assets/pages/img/logo-big.png" alt=""> </a>
-  </div>
-  <!-- END LOGO -->
-  <!-- BEGIN FORGOT PASSWORD FORM -->
-  <div class="content">
-    <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, novalidate: 'novalidate' }, class:"forget-form") do |f| %>
-      <%= devise_error_messages! %>
-      <h3 class="font-green">Forgot Password ?</h3>
-      <p> Enter your e-mail address below to reset your password. </p>
-      <div class="form-group">
-        <%= f.email_field :email, autofocus: true, class: "form-control placeholder-no-fix", placeholder: "Email", autocomplete: "off" %>
-      </div>
-      <div class="form-actions">
-        <%= link_to "Cancel", new_session_path(resource_name), id: "back-btn", class: "btn green btn-outline" %>
-        <%= f.submit "Submit", id: "forgot-submit", class: "btn green uppercase pull-right" %>
-      </div>
-    <% end %>
-    <!-- END FORGOT PASSWORD FORM -->
-  </div>
-  <div class="copyright"> 2016 © MiaVision. Mailbox. </div>
+<!-- BEGIN NEW FORGOTTEN PASSWORD FORM -->
+<div class="content">
+  <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, novalidate: 'novalidate' }, class:"forget-form") do |f| %>
+    <%= devise_error_messages! %>
+    <h3 class="font-green">Forgot Password ?</h3>
+    <p> Enter your e-mail address below to reset your password. </p>
+    <div class="form-group">
+      <%= f.email_field :email, autofocus: true, class: "form-control placeholder-no-fix", placeholder: "Email", autocomplete: "off" %>
+    </div>
+    <div class="form-actions">
+      <%= link_to "Cancel", new_session_path(resource_name), id: "back-btn", class: "btn green btn-outline" %>
+      <%= f.submit "Submit", id: "forgot-submit", class: "btn green uppercase pull-right" %>
+    </div>
+  <% end %>
+  <!-- END NEW FORGOTTEN PASSWORD FORM -->
 </div>

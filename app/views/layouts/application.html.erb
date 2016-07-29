@@ -9,7 +9,71 @@
   </head>
 
   <body>
-    <%= render 'shared/notice_alerts' %>
-    <%= yield %>
+    <% if !user_signed_in? %>
+      <%= render 'shared/notice_alerts' %>
+      <div class="login">
+        <!-- BEGIN LOGO -->
+        <%= render 'shared/logo' %>
+        <!-- END LOGO -->
+        <%= yield %>
+        <%= render 'shared/footer' %>
+      </div>
+    <%else %>
+      <div class="page-header-fixed page-sidebar-closed-hide-logo page-content-white">
+        <!-- BEGIN HEADER -->
+        <div class="page-header navbar navbar-fixed-top">
+          <!-- BEGIN HEADER INNER -->
+          <div class="page-header-inner ">
+            <!-- BEGIN LOGO -->
+            <div class="page-logo">
+              <a href="inbox.html">
+              <img src="../assets/layouts/layout/img/logo.png" alt="logo" class="logo-default"> </a>
+            </div>
+            <!-- END LOGO -->
+            <!-- BEGIN TOP NAVIGATION MENU -->
+            <%= render 'messages/shared/top_navigation' %>
+            <!-- END TOP NAVIGATION MENU -->
+          </div>
+          <!-- END HEADER INNER -->
+        </div>
+        <!-- END HEADER -->
+        <!-- BEGIN HEADER & CONTENT DIVIDER -->
+        <div class="clearfix"> </div>
+        <!-- END HEADER & CONTENT DIVIDER -->
+        <div class="page-container">
+          <!-- BEGIN SIDEBAR -->
+          <!-- END SIDEBAR -->
+          <!-- BEGIN CONTENT -->
+          <div class="page-content-wrapper">
+            <!-- BEGIN CONTENT BODY -->
+            <div class="page-content">
+              <!-- BEGIN PAGE HEADER-->
+              <!-- BEGIN PAGE BAR -->
+              <div class="page-bar">
+                <div class="page-toolbar">
+                </div>
+              </div>
+            </div>
+            <!-- END PAGE BAR -->
+            <!-- BEGIN PAGE TITLE-->
+            <h3 class="page-title"> Inbox
+            <small></small>
+            </h3>
+            <!-- END PAGE TITLE-->
+            <!-- END PAGE HEADER-->
+            <div class="inbox">
+              <div class="row">
+                <div class="col-md-12">
+                  <%= render 'shared/notice_alerts' %>
+                </div>
+              </div>
+              <%= yield %>
+            </div>
+          </div>
+            <!-- END CONTENT BODY -->
+        </div>
+        <!-- END CONTENT -->
+      </div>
+    <% end %>
   </body>
 </html>

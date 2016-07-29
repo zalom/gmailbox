@@ -1,42 +1,34 @@
-<div class="login">
-  <!-- BEGIN LOGO -->
-  <div class="logo">
-      <a href="inbox.html">
-          <img src="../assets/pages/img/logo-big.png" alt=""> </a>
-  </div>
-  <!-- END LOGO -->
-  <!-- BEGIN LOGIN -->
-  <div class="content">
-    <!-- BEGIN REGISTRATION FORM -->
-    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), class: "register-form") do |f| %>
-      <h3 class="font-green">Sign Up</h3>
-      <div class="form-group margin-top-20 margin-bottom-20">
-        <div id="register_tnc_error">
-          <%= devise_error_messages! %>
-        </div>
+<!-- BEGIN REGISTRATION -->
+<div class="content">
+  <!-- BEGIN REGISTRATION FORM -->
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), class: "register-form") do |f| %>
+    <h3 class="font-green">Sign Up</h3>
+    <div class="form-group margin-top-20 margin-bottom-20">
+      <div id="register_tnc_error">
+        <%= devise_error_messages! %>
       </div>
-      <p class="hint"> Enter your account details below: </p>
-      <div class="form-group">
-        <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
-        <%= f.text_field :email, placeholder: "Email", class: "form-control placeholder-no-fix" %>
-      </div>
-      <p class="hint">
-        <% if @minimum_password_length %>
-          <em>(<%= @minimum_password_length %> characters minimum)</em>
-        <% end %>
-      </p>
-      <div class="form-group">
-        <%= f.password_field :password, autocomplete: "off", placeholder: "Password", class: "form-control placeholder-no-fix" %>
-      </div>
-      <div class="form-group">
-        <%= f.password_field :password_confirmation, autocomplete: "off", placeholder: "Re-type Your Password", class: "form-control placeholder-no-fix" %>
-      </div>
-      <div class="form-actions">
-        <%= link_to "Log in", new_session_path(resource_name), id: "register-back-btn", class: "btn green btn-outline" %>
-        <%= f.submit "Sign up", id: "register-submit-btn", class: "btn green uppercase pull-right" %>
-      </div>
-    <% end %>
-    <!-- END REGISTRATION FORM -->
-  </div>
-  <div class="copyright"> 2016 © MiaVision. Mailbox. </div>
+    </div>
+    <p class="hint"> Enter your account details below: </p>
+    <div class="form-group">
+      <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+      <%= f.text_field :email, placeholder: "Email", class: "form-control placeholder-no-fix" %>
+    </div>
+    <p class="hint">
+      <% if @minimum_password_length %>
+        <em>(<%= @minimum_password_length %> characters minimum)</em>
+      <% end %>
+    </p>
+    <div class="form-group">
+      <%= f.password_field :password, autocomplete: "off", placeholder: "Password", class: "form-control placeholder-no-fix" %>
+    </div>
+    <div class="form-group">
+      <%= f.password_field :password_confirmation, autocomplete: "off", placeholder: "Re-type Your Password", class: "form-control placeholder-no-fix" %>
+    </div>
+    <div class="form-actions">
+      <%= link_to "Log in", new_session_path(resource_name), id: "register-back-btn", class: "btn green btn-outline" %>
+      <%= f.submit "Sign up", id: "register-submit-btn", class: "btn green uppercase pull-right" %>
+    </div>
+  <% end %>
+  <!-- END REGISTRATION FORM -->
 </div>
+<!-- END REGISTRATION -->
