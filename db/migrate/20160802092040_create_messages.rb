@@ -5,8 +5,8 @@ class CreateMessages < ActiveRecord::Migration[5.0]
       t.text :content
       t.integer :thread_id
       t.datetime :sent_at
-      t.boolean :is_read
-      t.boolean :is_important
+      t.boolean :is_read, default: false
+      t.boolean :is_important, default: false
 
       t.timestamps
     end
