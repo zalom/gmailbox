@@ -1,6 +1,7 @@
 class MessagesController < ApplicationController
   before_filter :authenticate_user!
   before_action :set_recipient, only: [:new, :create]
+  before_action :set_message, except: [:index, :new, :create]
 
   def new
   end
@@ -28,6 +29,10 @@ class MessagesController < ApplicationController
 
   def set_recipient
     @recipient = User.find(params[:user_id])
+  end
+
+  def set_message
+    @message = current_user.messages.find(params[:id])
   end
 
   def message_params

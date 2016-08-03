@@ -1,0 +1,136 @@
+<div class="row">
+  <!-- BODY SIDEBAR -->
+  <div class="col-md-2">
+    <div class="inbox-sidebar">
+      <a href="compose.html" data-title="Compose" class="btn red compose-btn btn-block">
+        <i class="fa fa-edit"></i> Compose 
+      </a>
+      <ul class="inbox-nav">
+        <li class="active">
+          <a href="inbox.html" data-type="inbox" data-title="Inbox"> Inbox
+            <span class="badge badge-success">3</span>
+          </a>
+        </li>
+        <li>
+          <a href="important.html" data-type="important" data-title="Inbox"> Important </a>
+        </li>
+        <li>
+          <a href="sent.html" data-type="sent" data-title="Sent"> Sent </a>
+        </li>
+        <li>
+          <a href="draft.html" data-type="draft" data-title="Draft"> Draft
+            <span class="badge badge-danger">8</span>
+          </a>
+        </li>
+        <li class="divider"></li>
+        <li>
+          <a href="trash.html" class="sbold uppercase" data-title="Trash"> Trash
+            <span class="badge badge-info">23</span>
+          </a>
+        </li>
+      </ul>
+      <ul class="inbox-contacts">
+        <li class="divider margin-bottom-30"></li>
+        <li>
+          <a href="compose.html">
+            <img class="contact-pic" src="../assets/pages/media/users/avatar4.jpg">
+            <span class="contact-name">Adam Stone</span>
+          </a>
+        </li>
+        <li>
+          <a href="compose.html">
+            <img class="contact-pic" src="../assets/pages/media/users/avatar2.jpg">
+            <span class="contact-name">Lisa Wong</span>
+          </a>
+        </li>
+        <li>
+          <a href="compose.html">
+            <img class="contact-pic" src="../assets/pages/media/users/avatar6.jpg">
+            <span class="contact-name">Anna Bold</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <!-- END BODY SIDEBAR -->
+  <!-- CONTENT -->
+  <div class="col-md-10">
+    <div class="inbox-body">
+      <div class="inbox-header">
+        <h1 class="pull-left">View Message</h1>
+      </div>
+      <div class="inbox-content">
+        <div class="inbox-header inbox-view-header">
+          <h1 class="pull-left"><%= @message.subject %>
+          <a href="javascript:;"> Inbox </a>
+          </h1>
+          <div class="pull-right">
+            <a href="javascript:;" class="btn btn-icon-only dark btn-outline">
+              <i class="fa fa-print"></i>
+            </a>
+          </div>
+        </div>
+        <% if !@message.thread_id.nil? %>
+        <div class="thread inbox-view-info">
+          <div class="row">
+            <a href="#" class="thread-link">
+              <div class="col-md-7">
+                <img src="../assets/pages/media/users/avatar1.jpg" class="inbox-author">
+                <span class="sbold">Dummy Name </span>
+                <span>&lt;<%= @message.sender_email %>&gt; </span> to
+                <span class="sbold"> me </span> on <%= @message.sent_at.strftime("%H:%M %d %b %Y") %>
+              </div>
+            </a>
+          </div>
+        </div>
+        <% end %>
+        <div class="row">
+          <div class="col-md-7">
+            <img src="../assets/pages/media/users/avatar1.jpg" class="inbox-author">
+            <span class="sbold">Dummy Name </span>
+            <span>&lt;<%= @message.sender_email %>&gt; </span> to
+            <span class="sbold"> me </span> on <%= @message.sent_at.strftime("%H:%M %d %b %Y") %>
+          </div>
+          <div class="col-md-5 inbox-info-btn">
+            <div class="btn-group pull-right">
+              <button data-messageid="23" class="btn green reply-btn">
+                <i class="fa fa-reply"></i> Reply
+                <i class="fa fa-angle-down"></i>
+              </button>
+              <ul class="dropdown-menu pull-right">
+                <li>
+                  <i class="fa fa-reply"></i> Reply
+                </li>
+                <li>
+                  <a href="javascript:;">
+                  <i class="fa fa-arrow-right reply-btn"></i> Forward </a>
+                </li>
+                <li>
+                  <a href="javascript:;">
+                  <i class="fa fa-print"></i> Print </a>
+                </li>
+                <li class="divider"> </li>
+                <li>
+                  <a href="javascript:;">
+                  <i class="fa fa-ban"></i> Spam </a>
+                </li>
+                <li>
+                  <a href="javascript:;">
+                  <i class="fa fa-trash-o"></i> Delete </a>
+                </li>
+                <li>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="inbox-view">
+          <%= @message.content %>
+        </div>
+        <hr>
+      </div>
+    </div>
+  </div>
+  <!-- END CONTENT -->
+</div>
+

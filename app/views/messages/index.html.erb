@@ -97,24 +97,7 @@
           </thead>
           <tbody>
             <% @messages.each do |message| %>
-              <tr class="unread" data-messageid="1">
-                <td class="inbox-small-cells">
-                  <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                    <input type="checkbox" class="mail-checkbox" value="1">
-                    <span></span>
-                  </label>
-                </td>
-                <td class="inbox-small-cells">
-                  <i class="fa fa-star"></i>
-                </td>
-                <td class="view-message hidden-xs"> <%= message.sender_email %> </td>
-                <td class="view-message "><a href="view_message.html"> <%= message.subject %> </a></td>
-                <td class="view-message inbox-small-cells">
-                </td>
-                <td class="view-message text-right"> <%= sent_format(message.sent_at) %> </td>
-              </tr>
-            <% end %>
-            <tr class="unread" data-messageid="2">
+            <tr class="unread" data-messageid="1">
               <td class="inbox-small-cells">
                 <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                   <input type="checkbox" class="mail-checkbox" value="1">
@@ -124,11 +107,12 @@
               <td class="inbox-small-cells">
                 <i class="fa fa-star"></i>
               </td>
-              <td class="view-message hidden-xs"> Daniel Wong </td>
-              <td class="view-message"><a href="view_message.html"> Please help us on customization of new secure server </a></td>
+              <td class="view-message hidden-xs"> <%= message.sender_email %> </td>
+              <td class="view-message "><%= link_to message.subject, message_path(message.id) %></td>
               <td class="view-message inbox-small-cells"> </td>
-              <td class="view-message text-right"> March 15 </td>
+              <td class="view-message text-right"> <%= inbox_sent_format(message.sent_at) %> </td>
             </tr>
+            <% end %>
           </tbody>
         </table>
       </div>
@@ -136,4 +120,3 @@
   </div>
   <!-- END CONTENT -->
 </div>
-

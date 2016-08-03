@@ -1,5 +1,5 @@
 module MessagesHelper
-  def sent_format(sent_at)
+  def inbox_sent_format(sent_at)
     case sent_at
     when sent_at.year < Time.now.year
       sent_at.strftime("%d/%m/%y")
