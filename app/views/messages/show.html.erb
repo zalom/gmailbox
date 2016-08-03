@@ -7,9 +7,9 @@
       </a>
       <ul class="inbox-nav">
         <li class="active">
-          <a href="inbox.html" data-type="inbox" data-title="Inbox"> Inbox
-            <span class="badge badge-success">3</span>
-          </a>
+          <%= link_to root_path, html: {"data-type": "inbox", "data-title": "Inbox"} do %>
+            Inbox <span class="badge badge-success">3</span>
+          <% end %>
         </li>
         <li>
           <a href="important.html" data-type="important" data-title="Inbox"> Important </a>
@@ -70,20 +70,6 @@
             </a>
           </div>
         </div>
-        <% if !@message.thread_id.nil? %>
-        <div class="thread inbox-view-info">
-          <div class="row">
-            <a href="#" class="thread-link">
-              <div class="col-md-7">
-                <img src="../assets/pages/media/users/avatar1.jpg" class="inbox-author">
-                <span class="sbold">Dummy Name </span>
-                <span>&lt;<%= @message.sender_email %>&gt; </span> to
-                <span class="sbold"> me </span> on <%= @message.sent_at.strftime("%H:%M %d %b %Y") %>
-              </div>
-            </a>
-          </div>
-        </div>
-        <% end %>
         <div class="row">
           <div class="col-md-7">
             <img src="../assets/pages/media/users/avatar1.jpg" class="inbox-author">
@@ -127,6 +113,7 @@
         <div class="inbox-view">
           <%= @message.content %>
         </div>
+
         <hr>
       </div>
     </div>

@@ -6,9 +6,9 @@
       <i class="fa fa-edit"></i> Compose </a>
       <ul class="inbox-nav">
         <li class="active">
-          <a href="inbox.html" data-type="inbox" data-title="Inbox"> Inbox
-            <span class="badge badge-success">3</span>
-          </a>
+          <%= link_to root_path, html: {"data-type": "inbox", "data-title": "Inbox"} do %>
+            Inbox <span class="badge badge-success">3</span>
+          <% end %>
         </li>
         <li>
           <a href="important.html" data-type="important" data-title="Inbox"> Important </a>
