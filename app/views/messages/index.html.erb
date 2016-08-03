@@ -1,56 +1,6 @@
 <div class="row">
   <!-- BODY SIDEBAR -->
-  <div class="col-md-2">
-    <div class="inbox-sidebar">
-      <a href="compose.html" data-title="Compose" class="btn red compose-btn btn-block">
-      <i class="fa fa-edit"></i> Compose </a>
-      <ul class="inbox-nav">
-        <li class="active">
-          <%= link_to root_path, data: { type: "inbox", title: "Inbox" } do %>
-            Inbox <span class="badge badge-success">3</span>
-          <% end %>
-        </li>
-        <li>
-          <a href="important.html" data-type="important" data-title="Inbox"> Important </a>
-        </li>
-        <li>
-          <a href="sent.html" data-type="sent" data-title="Sent"> Sent </a>
-        </li>
-        <li>
-          <a href="draft.html" data-type="draft" data-title="Draft"> Draft
-            <span class="badge badge-danger">8</span>
-          </a>
-        </li>
-        <li class="divider"></li>
-        <li>
-          <a href="trash.html" class="sbold uppercase" data-title="Trash"> Trash
-            <span class="badge badge-info">23</span>
-          </a>
-        </li>
-      </ul>
-      <ul class="inbox-contacts">
-        <li class="divider margin-bottom-30"></li>
-        <li>
-          <a href="compose.html">
-            <img class="contact-pic" src="../assets/pages/media/users/avatar4.jpg">
-            <span class="contact-name">Adam Stone</span>
-          </a>
-        </li>
-        <li>
-          <a href="compose.html">
-            <img class="contact-pic" src="../assets/pages/media/users/avatar2.jpg">
-            <span class="contact-name">Lisa Wong</span>
-          </a>
-        </li>
-        <li>
-          <a href="compose.html">
-            <img class="contact-pic" src="../assets/pages/media/users/avatar6.jpg">
-            <span class="contact-name">Anna Bold</span>
-          </a>
-        </li>
-      </ul>
-    </div>
-  </div>
+  <%= render 'messages/shared/sidebar' %>
   <!-- END BODY SIDEBAR -->
   <!-- CONTENT -->
   <div class="col-md-10">
@@ -73,8 +23,9 @@
                   </a>
                   <ul class="dropdown-menu">
                     <li>
-                      <a href="javascript:;">
-                      <i class="fa fa-pencil"></i> Mark as Read </a>
+                      <%= link_to "#", action: :show, controller: :messages do %>
+                        <i class="fa fa-pencil"></i> Mark as Read
+                      <% end %>
                     </li>
                     <li class="divider"> </li>
                     <li>
@@ -97,18 +48,16 @@
           </thead>
           <tbody>
             <% @messages.each do |message| %>
-            <tr class="unread" data-messageid="1">
+            <tr class="<%= read_class(message.is_read) %>" data-messageid="<%= message.id %>">
               <td class="inbox-small-cells">
                 <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
                   <input type="checkbox" class="mail-checkbox" value="1">
                   <span></span>
                 </label>
               </td>
-              <td class="inbox-small-cells">
-                <i class="fa fa-star"></i>
-              </td>
-              <td class="view-message hidden-xs"> <%= message.sender_email %> </td>
-              <td class="view-message "><%= link_to message.subject, message_path(message.id) %></td>
+              <td class="inbox-small-cells"> <i class="fa fa-star"></i> </td>
+              <td class="view-message hidden-xs col-md-2"><%= link_to message.sender_email, message_path(message.id), class: "cell-link" %></td>
+              <td class="view-message col-md-10"><%= link_to message.subject, message_path(message.id), class: "cell-link" %></td>
               <td class="view-message inbox-small-cells"> </td>
               <td class="view-message text-right"> <%= inbox_sent_format(message.sent_at) %> </td>
             </tr>

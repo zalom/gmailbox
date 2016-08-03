@@ -9,4 +9,8 @@ module MessagesHelper
       sent_at.strftime('%H:%M')
     end
   end
+
+  def read_class(is_read)
+    is_read ? '' : 'unread'
+  end
 end

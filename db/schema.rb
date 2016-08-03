@@ -17,13 +17,13 @@ ActiveRecord::Schema.define(version: 20160802094508) do
     t.text     "content"
     t.integer  "thread_id"
     t.datetime "sent_at"
-    t.boolean  "is_read"
-    t.boolean  "is_important"
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.boolean  "is_read",      default: false, null: false
+    t.boolean  "is_important", default: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
     t.integer  "recipient_id"
     t.integer  "sender_id"
-    t.boolean  "is_draft",     default: true, null: false
+    t.boolean  "is_draft",     default: true,  null: false
   end
 
   create_table "profiles", force: :cascade do |t|

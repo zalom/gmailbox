@@ -219,6 +219,12 @@
     width: 100px;
     text-align: right
 }
+/* custom added*/
+.inbox td > .cell-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
 
 .inbox td.inbox-small-cells {
     width: 10px

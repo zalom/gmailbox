@@ -1,9 +1,10 @@
 class MessagesController < ApplicationController
-  before_filter :authenticate_user!
+  before_action :authenticate_user!
   before_action :set_recipient, only: [:new, :create]
   before_action :set_message, except: [:index, :new, :create]
 
   def new
+    @message = current_user.messages.new
   end
 
   def index
@@ -11,9 +12,17 @@ class MessagesController < ApplicationController
   end
 
   def show
+    @message.mark_read
   end
 
   def create
+    @message = current_user.messages.new(message_params)
+    @message.recipient_id = @recipient
+    respond_to do |format|
+      if @message.save
+        format.html { redirect_to current_user.messages }
+      end
+    end
   end
 
   def edit
@@ -23,6 +32,11 @@ class MessagesController < ApplicationController
   end
 
   def destroy
+    respond_to do |format|
+      if @message.destroy
+        format.html { redirect_to current_user.messages, flash[:success] = 'You have successfully deleted a message!' }
+      end
+    end
   end
 
   private

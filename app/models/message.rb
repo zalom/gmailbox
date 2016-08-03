@@ -12,4 +12,16 @@ class Message < ApplicationRecord
   def sender_email
     User.find(sender_id).email
   end
+
+  def mark_read
+    return unless is_read.nil? || is_read == false
+    self.is_read = true
+    save
+  end
+
+  def mark_unread
+    return unless is_read.nil? || is_read == true
+    self.is_read = false
+    save
+  end
 end
