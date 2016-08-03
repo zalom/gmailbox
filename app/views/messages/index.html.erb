@@ -96,22 +96,24 @@
             </tr>
           </thead>
           <tbody>
-            <tr class="unread" data-messageid="1">
-              <td class="inbox-small-cells">
-                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                  <input type="checkbox" class="mail-checkbox" value="1">
-                  <span></span>
-                </label>
-              </td>
-              <td class="inbox-small-cells">
-                <i class="fa fa-star"></i>
-              </td>
-              <td class="view-message hidden-xs"> Petronas IT </td>
-              <td class="view-message "><a href="view_message.html"> New server for datacenter needed </a></td>
-              <td class="view-message inbox-small-cells">
-              </td>
-              <td class="view-message text-right"> 16:30 PM </td>
-            </tr>
+            <% @messages.each do |message| %>
+              <tr class="unread" data-messageid="1">
+                <td class="inbox-small-cells">
+                  <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
+                    <input type="checkbox" class="mail-checkbox" value="1">
+                    <span></span>
+                  </label>
+                </td>
+                <td class="inbox-small-cells">
+                  <i class="fa fa-star"></i>
+                </td>
+                <td class="view-message hidden-xs"> <%= message.sender_email %> </td>
+                <td class="view-message "><a href="view_message.html"> <%= message.subject %> </a></td>
+                <td class="view-message inbox-small-cells">
+                </td>
+                <td class="view-message text-right"> <%= sent_format(message.sent_at) %> </td>
+              </tr>
+            <% end %>
             <tr class="unread" data-messageid="2">
               <td class="inbox-small-cells">
                 <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
@@ -126,67 +128,6 @@
               <td class="view-message"><a href="view_message.html"> Please help us on customization of new secure server </a></td>
               <td class="view-message inbox-small-cells"> </td>
               <td class="view-message text-right"> March 15 </td>
-            </tr>
-            <tr data-messageid="3">
-              <td class="inbox-small-cells">
-                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                  <input type="checkbox" class="mail-checkbox" value="1">
-                  <span></span>
-                </label>
-              </td>
-              <td class="inbox-small-cells">
-                <i class="fa fa-star"></i>
-              </td>
-              <td class="view-message hidden-xs"> John Doe </td>
-              <td class="view-message"><a href="view_message.html"> Lorem ipsum dolor sit amet </a></td>
-              <td class="view-message inbox-small-cells"> </td>
-              <td class="view-message text-right"> March 15 </td>
-            </tr>
-            <tr data-messageid="4">
-              <td class="inbox-small-cells">
-                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                  <input type="checkbox" class="mail-checkbox" value="1">
-                  <span></span>
-                </label>
-              </td>
-              <td class="inbox-small-cells">
-                <i class="fa fa-star"></i>
-              </td>
-              <td class="view-message hidden-xs"> Facebook </td>
-              <td class="view-message"><a href="view_message.html"> Dolor sit amet, consectetuer adipiscing </a></td>
-              <td class="view-message inbox-small-cells"> </td>
-              <td class="view-message text-right"> March 14 </td>
-            </tr>
-            <tr data-messageid="5">
-              <td class="inbox-small-cells">
-                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                  <input type="checkbox" class="mail-checkbox" value="1">
-                  <span></span>
-                </label>
-              </td>
-              <td class="inbox-small-cells">
-                <i class="fa fa-star inbox-started"></i>
-              </td>
-              <td class="view-message hidden-xs"> John Doe </td>
-              <td class="view-message"><a href="view_message.html"> Lorem ipsum dolor sit amet </a></td>
-              <td class="view-message inbox-small-cells"> </td>
-              <td class="view-message text-right"> March 15 </td>
-            </tr>
-            <tr data-messageid="6">
-              <td class="inbox-small-cells">
-                <label class="mt-checkbox mt-checkbox-single mt-checkbox-outline">
-                  <input type="checkbox" class="mail-checkbox" value="1">
-                  <span></span>
-                </label>
-              </td>
-              <td class="inbox-small-cells">
-                <i class="fa fa-star inbox-started"></i>
-              </td>
-              <td class="view-message hidden-xs"> Facebook </td>
-              <td class="view-message"><a href="view_message.html"> Dolor sit amet, consectetuer adipiscing </a></td>
-              <td class="view-message inbox-small-cells">
-              </td>
-              <td class="view-message text-right"> March 14 </td>
             </tr>
           </tbody>
         </table>

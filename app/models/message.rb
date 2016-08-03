@@ -8,4 +8,8 @@ class Message < ApplicationRecord
   scope :unread, -> { where is_read: false }
   scope :important, -> { where is_important: true }
   scope :drafts, -> { where is_draft: true }
+
+  def sender_email
+    User.find(sender_id).email
+  end
 end

@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
+  # remove line below in production
   skip_before_action :verify_authenticity_token
 
   protected
