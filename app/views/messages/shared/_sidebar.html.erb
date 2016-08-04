@@ -5,25 +5,27 @@
     <ul class="inbox-nav">
       <li class="active">
         <%= link_to root_path, data: { type: "inbox", title: "Inbox" } do %>
-          Inbox <span class="badge badge-success">3</span>
+          Inbox <span class="badge badge-success"><%= count_messages("unread") %></span>
         <% end %>
       </li>
       <li>
-        <a href="important.html" data-type="important" data-title="Inbox"> Important </a>
+        <%= link_to messages_path(important: true), data: { type: "important", title: "Important" } do %> Important
+        <% end %>
       </li>
       <li>
-        <a href="sent.html" data-type="sent" data-title="Sent"> Sent </a>
+        <%= link_to messages_path(sent: true), data: { type: "sent", title: "Sent" } do %> Sent
+        <% end %>
       </li>
       <li>
-        <a href="draft.html" data-type="draft" data-title="Draft"> Draft
-          <span class="badge badge-danger">8</span>
-        </a>
+        <%= link_to messages_path(drafts: true), data: { type: "drafts", title: "Drafts" } do %> Drafts
+          <span class="badge badge-danger"><%= count_messages("drafts") %></span>
+        <% end %>
       </li>
       <li class="divider"></li>
       <li>
-        <a href="trash.html" class="sbold uppercase" data-title="Trash"> Trash
-          <span class="badge badge-info">23</span>
-        </a>
+        <%= link_to messages_path(trash: true), data: { type: "trash", title: "Trash" }, class: "sbold uppercase" do %> Trash
+          <span class="badge badge-info"><%= count_messages("unread") %></span>
+        <% end %>
       </li>
     </ul>
     <ul class="inbox-contacts">

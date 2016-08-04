@@ -9,6 +9,9 @@ class MessagesController < ApplicationController
 
   def index
     @messages = current_user.messages
+    @messages = current_user.sent_messages.non_drafts if params[:sent]
+    @messages = current_user.messages.important if params[:important]
+    @messages = current_user.sent_messages.drafts if params[:drafts]
   end
 
   def show
@@ -46,7 +49,13 @@ class MessagesController < ApplicationController
   end
 
   def set_message
-    @message = current_user.messages.find(params[:id])
+    if params[:sent]
+      @message = current_user.sent_messages.non_drafts.find(params[:id])
+    elsif params[:drafts]
+      @message = current_user.sent_messages.drafts.find(params[:id])
+    else
+      @message = current_user.messages.find(params[:id])
+    end
   end
 
   def message_params
