@@ -19,6 +19,9 @@ end
 user1 = User.find_by_email(users[:user1][:email])
 user2 = User.find_by_email(users[:user2][:email])
 user3 = User.find_by_email(users[:user3][:email])
+user4 = User.find_by_email(users[:user4][:email])
+user5 = User.find_by_email(users[:user5][:email])
+user6 = User.find_by_email(users[:user6][:email])
 
 # Zlatko -> Ervin
 user1.sent_messages.create(
@@ -41,7 +44,8 @@ user2.sent_messages.create(
 # Ervin -> Zlatko (thread)
 user3.sent_messages.create(
   subject: 'Pull request needed',
-  content: 'I am answering to the First seeded email. Commits are not good. Pull request is not approved.',
+  content: 'I am answering to the First seeded email. 
+            Commits are not good. Pull request is not approved.',
   recipient_id: User.find_by_email(users[:user1][:email]).id,
   sent_at: Time.now,
   is_draft: false,
@@ -51,7 +55,8 @@ user3.sent_messages.create(
 # Ervin -> Mirza (thread)
 user3.sent_messages.create(
   subject: 'Pull request info',
-  content: 'I am answering to the Second seeded email. Answered to Zlaja already.',
+  content: 'I am answering to the Second seeded email. 
+            Answered to Zlaja already.',
   recipient_id: User.find_by_email(users[:user2][:email]).id,
   sent_at: Time.now,
   is_draft: false,
@@ -78,14 +83,16 @@ user1.sent_messages.create(
 
 user1.messages.find(5).mark_important
 
-# Zlatko -> Enes
-user1.sent_messages.create(
+# Enes -> Zlatko
+user5.sent_messages.create(
   subject: 'Fix CSS!',
   content: 'CSS ... CSS ... CSS',
-  recipient_id: User.find_by_email(users[:user6][:email]).id,
+  recipient_id: User.find_by_email(users[:user1][:email]).id,
   sent_at: Time.now,
   is_draft: false
 )
+
+user1.messages.find(7).send_to_trash
 
 # Zlatko -> Mirza
 user1.sent_messages.create(

@@ -9,13 +9,14 @@ class Message < ApplicationRecord
   scope :drafts, -> { where is_draft: true }
   scope :non_drafts, -> { where.not sent_at: nil }
   scope :unread, -> { where is_read: false }
+  scope :trash, -> { where is_trash: true }
 
   def sender_email
-    User.find(sender_id).email.presence || ''
+    sender = User.find(sender_id).email.presence || ''
   end
 
   def recipient_email
-    User.find(recipient_id).email.presence || ''
+    recipient_id.nil? ? '' : User.find(recipient_id).email
   end
 
   def mark_read
@@ -32,6 +33,11 @@ class Message < ApplicationRecord
 
   def mark_important
     is_important == true ? self.is_important = false : self.is_important = true
+    save
+  end
+
+  def send_to_trash
+    self.is_trash = true
     save
   end
 
