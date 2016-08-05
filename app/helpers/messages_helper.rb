@@ -12,10 +12,8 @@ module MessagesHelper
     end
   end
 
-  def time_sent_on(sent_at)
-    unless @message.send("#{sent_at}".to_sym).nil?
-      @message.send("#{sent_at}".to_sym).strftime("%H:%M %d %b %Y")
-    end
+  def time_sent_on
+    @message.sent_at.strftime("%H:%M %d %b %Y") unless @message.sent_at.nil?
   end
 
   def read_class(is_read)

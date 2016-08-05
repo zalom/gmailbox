@@ -99,7 +99,6 @@ user1.sent_messages.create(
 user1.sent_messages.create(
   subject: 'Second draft',
   content: 'Hello Sedad, the weather is awesome!',
-  recipient_id: User.find_by_email(users[:user4][:email]).id,
   is_draft: true
 )
 
@@ -107,7 +106,6 @@ user1.sent_messages.create(
 user1.sent_messages.create(
   subject: 'Third draft',
   content: 'Hello Jasmin, hope you are well!',
-  recipient_id: User.find_by_email(users[:user5][:email]).id,
   is_draft: true
 )
 
