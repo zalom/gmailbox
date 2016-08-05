@@ -12,7 +12,7 @@ class Message < ApplicationRecord
   scope :trash, -> { where is_trash: true }
 
   def sender_email
-    sender = User.find(sender_id).email.presence || ''
+    User.find(sender_id).email
   end
 
   def recipient_email
