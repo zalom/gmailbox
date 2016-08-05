@@ -11,7 +11,11 @@ class Message < ApplicationRecord
   scope :unread, -> { where is_read: false }
 
   def sender_email
-    User.find(sender_id).email
+    User.find(sender_id).email.presence || ''
+  end
+
+  def recipient_email
+    User.find(recipient_id).email.presence || ''
   end
 
   def mark_read

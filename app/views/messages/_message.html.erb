@@ -6,7 +6,7 @@
     </label>
   </td>
   <td class="inbox-small-cells"> <i class="fa fa-star"></i> </td>
-  <td class="view-message hidden-xs col-md-2"><%= link_for(message, "sender_email") %></td>
+  <td class="view-message hidden-xs col-md-2"><%= link_for(message, actual_link_param) %></td>
   <td class="view-message col-md-10"><%= link_for(message, "subject") %></td>
   <td class="view-message inbox-small-cells"> </td>
   <td class="view-message text-right"> <%= inbox_sent_format(message.sent_at) %> </td>

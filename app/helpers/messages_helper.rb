@@ -29,16 +29,20 @@ module MessagesHelper
     end
   end
 
+  def actual_link_param
+    params[:drafts] ? 'recipient_email' : 'sender_email'
+  end
+
   def link_for(message, msg_param)
     if params[:sent]
       link_to(message.send("#{msg_param}".to_sym),
-              message_path(message.id, sent: true), class: "cell-link")
+              message_path(message.id, sent: true), class: 'cell-link')
     elsif params[:drafts]
       link_to(message.send("#{msg_param}".to_sym),
-              message_path(message.id, drafts: true), class: "cell-link")
+              message_path(message.id, drafts: true), class: 'cell-link')
     else
       link_to(message.send("#{msg_param}".to_sym),
-              message_path(message.id), class: "cell-link")
+              message_path(message.id), class: 'cell-link')
     end
   end
 end
