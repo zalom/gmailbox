@@ -92,7 +92,10 @@ user5.sent_messages.create(
   is_draft: false
 )
 
-user1.messages.find(7).send_to_trash
+user1.trash_messages.create(user_id: user1.id,
+                            message_id: user1.messages.find(7).id)
+user1.trash_messages.create(user_id: user1.id,
+                            message_id: user1.sent_messages.find(6).id)
 
 # Zlatko -> Mirza
 user1.sent_messages.create(

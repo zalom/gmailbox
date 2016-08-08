@@ -8,10 +8,11 @@ class MessagesController < ApplicationController
   end
 
   def index
-    @messages = current_user.messages
-    @messages = current_user.sent_messages.non_drafts if params[:sent]
-    @messages = current_user.messages.important if params[:important]
-    @messages = current_user.sent_messages.drafts if params[:drafts]
+    @messages = current_user.messages.exclude_trash
+    @messages = current_user.sent_messages.non_drafts.exclude_trash if params[:sent]
+    @messages = current_user.messages.important.exclude_trash if params[:important]
+    @messages = current_user.sent_messages.drafts.exclude_trash if params[:drafts]
+    @messages = Message.trash(current_user.id) if params[:trash]
   end
 
   def show
@@ -37,7 +38,10 @@ class MessagesController < ApplicationController
   def destroy
     respond_to do |format|
       if @message.destroy
-        format.html { redirect_to current_user.messages, flash[:success] = 'You have successfully deleted a message!' }
+        format.html do
+          redirect_to current_user.messages,
+          flash[:success] = 'You have successfully deleted a message!'
+        end
       end
     end
   end
@@ -53,13 +57,15 @@ class MessagesController < ApplicationController
       @message = current_user.sent_messages.non_drafts.find(params[:id])
     elsif params[:drafts]
       @message = current_user.sent_messages.drafts.find(params[:id])
+    elsif params[:trash]
+      @message = Message.trash(current_user.id).trash_messages.find(params[:id])
     else
       @message = current_user.messages.find(params[:id])
     end
   end
 
   def message_params
-    params.require(:message).permit(:subject, :content,
+    params.require(:message).permit(:subject, :content, :user_id,
                                     :recipient_id, :sender_id,
                                     :is_read, :is_important)
   end
