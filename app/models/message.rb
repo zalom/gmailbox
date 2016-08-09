@@ -10,7 +10,7 @@ class Message < ApplicationRecord
   scope :non_drafts, -> { where.not sent_at: nil }
   scope :unread, -> { where is_read: false }
 
-  scope :exclude_trash, -> { where.not id: TrashMessage.trash_ids }
+  scope :exclude_trash, -> (user_id) { where.not id: TrashMessage.user_trash_ids(user_id) }
   scope :trash, -> (user_id) { where id: TrashMessage.user_trash_ids(user_id) }
 
   scope :in_reply_to, -> (message) { where thread: message, order: 'created_at'}

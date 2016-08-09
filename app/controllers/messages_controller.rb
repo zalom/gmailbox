@@ -8,10 +8,10 @@ class MessagesController < ApplicationController
   end
 
   def index
-    @messages = current_user.messages.exclude_trash
-    @messages = current_user.sent_messages.non_drafts.exclude_trash if params[:sent]
-    @messages = current_user.messages.important.exclude_trash if params[:important]
-    @messages = current_user.sent_messages.drafts.exclude_trash if params[:drafts]
+    @messages = current_user.messages.exclude_trash(current_user.id)
+    @messages = current_user.sent_messages.non_drafts.exclude_trash(current_user.id) if params[:sent]
+    @messages = current_user.messages.important.exclude_trash(current_user.id) if params[:important]
+    @messages = current_user.sent_messages.drafts.exclude_trash(current_user.id) if params[:drafts]
     @messages = Message.trash(current_user.id) if params[:trash]
   end
 

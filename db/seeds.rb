@@ -23,7 +23,7 @@ user4 = User.find_by_email(users[:user4][:email])
 user5 = User.find_by_email(users[:user5][:email])
 user6 = User.find_by_email(users[:user6][:email])
 
-# Zlatko -> Ervin
+# Zlatko -> Ervin (id: 1)
 user1.sent_messages.create(
   subject: 'Pull request needed',
   content: 'First seeded email. Accept pull request.',
@@ -32,7 +32,7 @@ user1.sent_messages.create(
   is_draft: false
 )
 
-# Mirza -> Ervin
+# Mirza -> Ervin (id: 2)
 user2.sent_messages.create(
   subject: 'Pull request info',
   content: "Accept Zlaja's pull request.",
@@ -41,7 +41,7 @@ user2.sent_messages.create(
   is_draft: false
 )
 
-# Ervin -> Zlatko (thread)
+# Ervin -> Zlatko (thread) (id: 3)
 user3.sent_messages.create(
   subject: 'Pull request needed',
   content: 'I am answering to the First seeded email. 
@@ -52,7 +52,7 @@ user3.sent_messages.create(
   thread_id: 1
 )
 
-# Ervin -> Mirza (thread)
+# Ervin -> Mirza (thread) (id: 4)
 user3.sent_messages.create(
   subject: 'Pull request info',
   content: 'I am answering to the Second seeded email. 
@@ -63,7 +63,7 @@ user3.sent_messages.create(
   thread_id: 2
 )
 
-# Ervin -> Zlatko
+# Ervin -> Zlatko (id: 5)
 user3.sent_messages.create(
   subject: 'Pull request fix bugs',
   content: 'Have you fixed the bugs? It is Important!',
@@ -72,18 +72,29 @@ user3.sent_messages.create(
   is_draft: false
 )
 
-# Zlatko -> Ervin (thread)
+# Zlatko -> Ervin (thread) (id: 6)
 user1.sent_messages.create(
   subject: 'Pull request question',
   content: 'I am answering and marking your last email as Important.',
   recipient_id: User.find_by_email(users[:user3][:email]).id,
   sent_at: Time.now,
-  is_draft: false
+  is_draft: false,
+  thread_id: 5
 )
 
 user1.messages.find(5).mark_important
 
-# Enes -> Zlatko
+# Ervin -> Zlatko (thread) (id: 7)
+user3.sent_messages.create(
+  subject: 'Pull request question',
+  content: 'OK. I am waiting for the next message!',
+  recipient_id: User.find_by_email(users[:user1][:email]).id,
+  sent_at: Time.now,
+  is_draft: false,
+  thread_id: 5
+)
+
+# Enes -> Zlatko (id: 8)
 user5.sent_messages.create(
   subject: 'Fix CSS!',
   content: 'CSS ... CSS ... CSS',
@@ -92,12 +103,33 @@ user5.sent_messages.create(
   is_draft: false
 )
 
-user1.trash_messages.create(user_id: user1.id,
-                            message_id: user1.messages.find(7).id)
-user1.trash_messages.create(user_id: user1.id,
-                            message_id: user1.sent_messages.find(6).id)
+# Enes -> Zlatko (id: 9)
+user5.sent_messages.create(
+  subject: 'I said - Fix CSS!',
+  content: 'CSS...CSS...CSS...CSS',
+  recipient_id: User.find_by_email(users[:user1][:email]).id,
+  sent_at: Time.now,
+  is_draft: false
+)
 
-# Zlatko -> Mirza
+user1.trash_messages.create(user_id: user1.id,
+                            message_id: user1.messages.find(8).id)
+
+# Zlatko -> Enes (id: 10)
+user1.sent_messages.create(
+  subject: "I'll fix the css. OK!",
+  content: 'It is not fair that only you can say CSS...CSS...CSS...CSS!',
+  recipient_id: User.find_by_email(users[:user5][:email]).id,
+  sent_at: Time.now,
+  is_draft: false
+)
+
+user1.trash_messages.create(user_id: user1.id,
+                            message_id: user1.messages.find(9).id)
+user1.trash_messages.create(user_id: user1.id,
+                            message_id: user1.sent_messages.find(10).id)
+
+# Zlatko -> Mirza (id: 11)
 user1.sent_messages.create(
   subject: 'First draft',
   content: 'SCRUM meeting is canceled!',
@@ -105,14 +137,14 @@ user1.sent_messages.create(
   is_draft: true
 )
 
-# Zlatko -> Sedad
+# Zlatko -> Sedad (id: 12)
 user1.sent_messages.create(
   subject: 'Second draft',
   content: 'Hello Sedad, the weather is awesome!',
   is_draft: true
 )
 
-# Zlatko -> Jasmin
+# Zlatko -> Jasmin (id: 13)
 user1.sent_messages.create(
   subject: 'Third draft',
   content: 'Hello Jasmin, hope you are well!',

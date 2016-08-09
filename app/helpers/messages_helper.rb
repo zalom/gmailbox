@@ -23,9 +23,9 @@ module MessagesHelper
   def count_messages(type)
     case type
     when 'unread'
-      current_user.messages.unread.count
+      current_user.messages.unread.exclude_trash(current_user.id).count
     when 'drafts'
-      current_user.sent_messages.drafts.count
+      current_user.sent_messages.drafts.exclude_trash(current_user.id).count
     when 'trash'
       Message.trash(current_user.id).count
     end
