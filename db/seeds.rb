@@ -52,6 +52,16 @@ user3.sent_messages.create(
   thread_id: 1
 )
 
+Message.find(3).replies.build(
+  recipient_id: User.find_by_email(users[:user1][:email]).id,
+  sender_id:    User.find_by_email(users[:user3][:email]).id,
+  subject: 'Pull request needed',
+  content: 'I am answering to the First seeded email. 
+            Commits are not good. Pull request is not approved.',
+  sent_at: Time.now,
+  is_draft: false
+)
+
 # Ervin -> Mirza (thread)
 user3.sent_messages.create(
   subject: 'Pull request info',
