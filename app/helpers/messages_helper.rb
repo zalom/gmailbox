@@ -32,7 +32,7 @@ module MessagesHelper
   end
 
   def actual_link_param
-    params[:drafts] ? 'recipient_email' : 'sender_email'
+    params[:drafts] || params[:sent] ? 'recipient_email' : 'sender_email'
   end
 
   def link_for(message, msg_param)
