@@ -30,24 +30,14 @@
     </ul>
     <ul class="inbox-contacts">
       <li class="divider margin-bottom-30"></li>
+      <% @users.each do |user| %>
       <li>
-        <a href="compose.html">
-          <img class="contact-pic" src="../assets/pages/media/users/avatar4.jpg">
-          <span class="contact-name">Adam Stone</span>
-        </a>
+        <%= link_to '#' do %>
+          <%= image_tag("#{user.email[0, user.email.index('@')]}.jpg", class: "contact-pic") %>
+          <span class="contact-name"><%= user.email[0, user.email.index('@')] %></span>
+        <% end %>
       </li>
-      <li>
-        <a href="compose.html">
-          <img class="contact-pic" src="../assets/pages/media/users/avatar2.jpg">
-          <span class="contact-name">Lisa Wong</span>
-        </a>
-      </li>
-      <li>
-        <a href="compose.html">
-          <img class="contact-pic" src="../assets/pages/media/users/avatar6.jpg">
-          <span class="contact-name">Anna Bold</span>
-        </a>
-      </li>
+      <% end %>
     </ul>
   </div>
 </div>
