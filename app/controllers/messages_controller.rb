@@ -58,7 +58,7 @@ class MessagesController < ApplicationController
     elsif params[:drafts]
       @message = current_user.sent_messages.drafts.find(params[:id])
     elsif params[:trash]
-      @message = Message.trash(current_user.id).trash_messages.find(params[:id])
+      @message = Message.trash(current_user.id).find(params[:id])
     else
       @message = current_user.messages.find(params[:id])
     end

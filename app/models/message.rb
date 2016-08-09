@@ -43,4 +43,8 @@ class Message < ApplicationRecord
   def set_sent
     self.is_sent = Time.now if is_sent.nil?
   end
+
+  def count_trash(user_id)
+    trash(user_id).count
+  end
 end

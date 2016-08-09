@@ -26,6 +26,8 @@ module MessagesHelper
       current_user.messages.unread.count
     when 'drafts'
       current_user.sent_messages.drafts.count
+    when 'trash'
+      Message.trash(current_user.id).count
     end
   end
 
@@ -40,6 +42,9 @@ module MessagesHelper
     elsif params[:drafts]
       link_to(message.send("#{msg_param}".to_sym),
               message_path(message.id, drafts: true), class: 'cell-link')
+    elsif params[:trash]
+      link_to(message.send("#{msg_param}".to_sym),
+              message_path(message.id, trash: true), class: 'cell-link')
     else
       link_to(message.send("#{msg_param}".to_sym),
               message_path(message.id), class: 'cell-link')

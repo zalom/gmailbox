@@ -24,7 +24,7 @@
       <li class="divider"></li>
       <li>
         <%= link_to messages_path(trash: true), data: { type: "trash", title: "Trash" }, class: "sbold uppercase" do %> Trash
-          <span class="badge badge-info"><%= count_messages("unread") %></span>
+          <span class="badge badge-info"><%= count_messages("trash") %></span>
         <% end %>
       </li>
     </ul>
