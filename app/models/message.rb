@@ -14,7 +14,6 @@ class Message < ApplicationRecord
   scope :trash, -> (user_id) { where id: TrashMessage.user_trash_ids(user_id) }
 
   scope :thread, -> { where thread_id: nil }
-  # scope :in_reply_to, -> (message) { where thread: message }
 
   def sender_email
     User.find(sender_id).email
