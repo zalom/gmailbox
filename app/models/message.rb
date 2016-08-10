@@ -30,10 +30,18 @@ class Message < ApplicationRecord
     save
   end
 
+  def self.mark_all_read
+    update_all(is_read: true)
+  end
+
   def mark_unread
     return unless is_read.nil? || is_read == true
     self.is_read = false
     save
+  end
+
+  def self.mark_all_unread
+    update_all(is_read: false)
   end
 
   def mark_important

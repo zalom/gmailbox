@@ -16,8 +16,13 @@ class MessagesController < ApplicationController
   end
 
   def show
-    @message.mark_read
-    @replies = @message.replies.ordered if @message.replies.any?
+    if @message.replies.any?
+      @replies = @message.replies.ordered
+      @message.mark_read
+      @replies.mark_all_read
+    else
+      @message.mark_read
+    end
   end
 
   def create
