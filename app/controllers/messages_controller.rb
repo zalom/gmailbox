@@ -8,15 +8,16 @@ class MessagesController < ApplicationController
   end
 
   def index
-    @messages = current_user.messages.exclude_trash(current_user.id)
+    @messages = current_user.messages.thread.exclude_trash(current_user.id)
     @messages = current_user.sent_messages.non_drafts.exclude_trash(current_user.id) if params[:sent]
-    @messages = current_user.messages.important.exclude_trash(current_user.id) if params[:important]
+    @messages = current_user.messages.thread.important.exclude_trash(current_user.id) if params[:important]
     @messages = current_user.sent_messages.drafts.exclude_trash(current_user.id) if params[:drafts]
     @messages = Message.trash(current_user.id) if params[:trash]
   end
 
   def show
     @message.mark_read
+    @replies = @message.replies.ordered if @message.replies.any?
   end
 
   def create
@@ -39,8 +40,7 @@ class MessagesController < ApplicationController
     respond_to do |format|
       if @message.destroy
         format.html do
-          redirect_to current_user.messages,
-          flash[:success] = 'You have successfully deleted a message!'
+          redirect_to current_user.messages, flash[:success] = 'You have successfully deleted a message!'
         end
       end
     end

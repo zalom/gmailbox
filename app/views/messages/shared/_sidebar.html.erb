@@ -33,8 +33,8 @@
       <% @users.each do |user| %>
       <li>
         <%= link_to '#' do %>
-          <%= image_tag("#{user.email[0, user.email.index('@')]}.jpg", class: "contact-pic") %>
-          <span class="contact-name"><%= user.email[0, user.email.index('@')] %></span>
+          <%= image_tag("#{derive_username(user.email)}.jpg", class: "contact-pic") %>
+          <span class="contact-name"><%= derive_username(user.email).capitalize %></span>
         <% end %>
       </li>
       <% end %>

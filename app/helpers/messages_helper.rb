@@ -12,8 +12,8 @@ module MessagesHelper
     end
   end
 
-  def time_sent_on
-    @message.sent_at.strftime("%H:%M %d %b %Y") unless @message.sent_at.nil?
+  def time_sent_on(message = @message)
+    message.sent_at.strftime("%H:%M %d %b %Y") unless message.sent_at.nil?
   end
 
   def read_class(is_read)
@@ -49,5 +49,9 @@ module MessagesHelper
       link_to(message.send("#{msg_param}".to_sym),
               message_path(message.id), class: 'cell-link')
     end
+  end
+
+  def derive_username(email)
+    email[0, email.index('@')]
   end
 end

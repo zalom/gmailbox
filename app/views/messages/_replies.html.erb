@@ -1,0 +1,12 @@
+<div class="thread inbox-view-info">
+  <div class="row">
+    <a href="#" class="thread-link">
+      <div class="col-md-7">
+        <img src="../assets/pages/media/users/avatar1.jpg" class="inbox-author">
+        <span class="sbold"><%= derive_username(replies.sender_email).capitalize %> </span>
+        <span>&lt;<%= replies.sender_email %>&gt; </span> to
+        <span class="sbold"> me </span> <%= time_sent_on(replies) %> 
+      </div>
+    </a>
+  </div>
+</div>

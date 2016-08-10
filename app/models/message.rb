@@ -13,7 +13,8 @@ class Message < ApplicationRecord
   scope :exclude_trash, -> (user_id) { where.not id: TrashMessage.user_trash_ids(user_id) }
   scope :trash, -> (user_id) { where id: TrashMessage.user_trash_ids(user_id) }
 
-  scope :in_reply_to, -> (message) { where thread: message, order: 'created_at'}
+  scope :thread, -> { where thread_id: nil }
+  # scope :in_reply_to, -> (message) { where thread: message }
 
   def sender_email
     User.find(sender_id).email
@@ -44,4 +45,7 @@ class Message < ApplicationRecord
     self.is_sent = Time.now if is_sent.nil?
   end
 
+  def self.ordered
+    order('created_at asc')
+  end
 end
