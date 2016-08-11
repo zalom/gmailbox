@@ -33,6 +33,6 @@ class MessageFlag < ApplicationRecord
   end
 
   def self.read?(user)
-    where(user_id: user.id).select(:is_read)
+    where(user_id: user.id).map(&:is_read)[0]
   end
 end
