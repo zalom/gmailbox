@@ -10,20 +10,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160808092723) do
+ActiveRecord::Schema.define(version: 20160810123840) do
+
+  create_table "message_flags", force: :cascade do |t|
+    t.integer  "message_id"
+    t.integer  "user_id"
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.boolean  "is_read",      default: false
+    t.boolean  "is_important", default: false
+    t.boolean  "is_draft",     default: true
+    t.boolean  "is_trash",     default: false
+    t.index ["message_id"], name: "index_message_flags_on_message_id"
+    t.index ["user_id"], name: "index_message_flags_on_user_id"
+  end
 
   create_table "messages", force: :cascade do |t|
     t.string   "subject"
     t.text     "content"
     t.integer  "thread_id"
     t.datetime "sent_at"
-    t.boolean  "is_read",      default: false, null: false
-    t.boolean  "is_important", default: false
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
     t.integer  "recipient_id"
     t.integer  "sender_id"
-    t.boolean  "is_draft",     default: true,  null: false
   end
 
   create_table "profiles", force: :cascade do |t|
@@ -36,15 +46,6 @@ ActiveRecord::Schema.define(version: 20160808092723) do
     t.datetime "updated_at", null: false
     t.integer  "user_id"
     t.index ["user_id"], name: "index_profiles_on_user_id"
-  end
-
-  create_table "trash_messages", force: :cascade do |t|
-    t.integer  "message_id"
-    t.integer  "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["message_id"], name: "index_trash_messages_on_message_id"
-    t.index ["user_id"], name: "index_trash_messages_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|

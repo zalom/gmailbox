@@ -1,17 +1,18 @@
 class Message < ApplicationRecord
   belongs_to :thread, class_name: 'Message'
   has_many :replies, class_name: 'Message', foreign_key: 'thread_id'
+
   belongs_to :recipient, class_name: 'User', foreign_key: 'recipient_id'
   belongs_to :sender, class_name: 'User', foreign_key: 'sender_id'
-  has_many :trash_messages
+  has_many :users, through: :message_flags
+  has_many :message_flags
 
-  scope :important, -> { where(is_important: true) }
-  scope :drafts, -> { where is_draft: true }
-  scope :non_drafts, -> { where.not sent_at: nil }
-  scope :unread, -> { where is_read: false }
-
-  scope :exclude_trash, -> (user_id) { where.not id: TrashMessage.user_trash_ids(user_id) }
-  scope :trash, -> (user_id) { where id: TrashMessage.user_trash_ids(user_id) }
+  scope :trash, -> (user) { where(id: [MessageFlag.include_trash(user)]) }
+  scope :exclude_trash, -> (user) { where.not(id: [MessageFlag.include_trash(user)]) }
+  scope :important, -> (user) { where(id: [MessageFlag.include_important(user)]) }
+  scope :drafts, -> (user) { where(id: [MessageFlag.include_drafts(user)]) }
+  scope :non_drafts, -> (user) { where.not(id: [MessageFlag.include_drafts(user)]) }
+  scope :unread, -> (user) { where(id: [MessageFlag.include_unread(user)]) }
 
   scope :thread, -> { where thread_id: nil }
 
@@ -23,36 +24,15 @@ class Message < ApplicationRecord
     recipient_id.nil? ? '' : User.find(recipient_id).email
   end
 
-  def mark_read
-    return unless is_read.nil? || is_read == false
-    self.is_read = true
-    save
-  end
-
-  def self.mark_all_read
-    update_all(is_read: true)
-  end
-
-  def mark_unread
-    return unless is_read.nil? || is_read == true
-    self.is_read = false
-    save
-  end
-
-  def self.mark_all_unread
-    update_all(is_read: false)
-  end
-
-  def mark_important
-    is_important == true ? self.is_important = false : self.is_important = true
-    save
-  end
-
   def set_sent
     self.is_sent = Time.now if is_sent.nil?
   end
 
   def self.ordered
     order('created_at asc')
+  end
+
+  def read?(user)
+    message_flags.read?(user)
   end
 end

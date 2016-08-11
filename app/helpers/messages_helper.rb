@@ -16,18 +16,18 @@ module MessagesHelper
     message.sent_at.strftime("%H:%M %d %b %Y") unless message.sent_at.nil?
   end
 
-  def read_class(is_read)
-    is_read ? '' : 'unread'
+  def read_class(read)
+    read ? 'unread' : ''
   end
 
   def count_messages(type)
     case type
     when 'unread'
-      current_user.messages.unread.exclude_trash(current_user.id).count
+      current_user.received_messages.thread.unread(current_user).count
     when 'drafts'
-      current_user.sent_messages.drafts.exclude_trash(current_user.id).count
+      current_user.sent_messages.thread.drafts(current_user).count
     when 'trash'
-      Message.trash(current_user.id).count
+      current_user.messages.thread.trash(current_user).count
     end
   end
 

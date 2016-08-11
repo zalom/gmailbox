@@ -8,25 +8,25 @@ class MessagesController < ApplicationController
   end
 
   def index
-    @messages = current_user.messages.thread.exclude_trash(current_user.id)
-    @messages = current_user.sent_messages.non_drafts.exclude_trash(current_user.id) if params[:sent]
-    @messages = current_user.messages.thread.important.exclude_trash(current_user.id) if params[:important]
-    @messages = current_user.sent_messages.drafts.exclude_trash(current_user.id) if params[:drafts]
-    @messages = Message.trash(current_user.id) if params[:trash]
+    @messages = current_user.received_messages.thread.exclude_trash(current_user)
+    @messages = current_user.sent_messages.thread.non_drafts(current_user) if params[:sent]
+    @messages = current_user.messages.thread.important(current_user) if params[:important]
+    @messages = current_user.sent_messages.thread.drafts(current_user) if params[:drafts]
+    @messages = current_user.messages.thread.trash(current_user) if params[:trash]
   end
 
   def show
+    @message.message_flags.mark_all_read
     if @message.replies.any?
       @replies = @message.replies.ordered
-      @message.mark_read
-      @replies.mark_all_read
-    else
-      @message.mark_read
+      @replies.each do |reply|
+        reply.message_flags.mark_all_read
+      end
     end
   end
 
   def create
-    @message = current_user.messages.new(message_params)
+    @message = current_user.sent_messages.new(message_params)
     @message.recipient_id = @recipient
     respond_to do |format|
       if @message.save
