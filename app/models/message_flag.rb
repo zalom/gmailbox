@@ -7,7 +7,7 @@ class MessageFlag < ApplicationRecord
   scope :include_drafts, -> (user) { where(user_id: user.id, is_draft: true, is_trash: false).map(&:message_id) }
   scope :include_unread, -> (user) { where(user_id: user.id, is_read: true, is_trash: false).map(&:message_id) }
 
-  def self.mark_read
+  def mark_read
     return unless is_read.nil? || is_read == false
     self.is_read = true
     save
@@ -15,6 +15,7 @@ class MessageFlag < ApplicationRecord
 
   def self.mark_all_read
     update_all(is_read: true)
+    save
   end
 
   def mark_unread
@@ -25,6 +26,7 @@ class MessageFlag < ApplicationRecord
 
   def self.mark_all_unread
     update_all(is_read: false)
+    save
   end
 
   def self.mark_important

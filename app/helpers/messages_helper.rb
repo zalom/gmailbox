@@ -17,7 +17,7 @@ module MessagesHelper
   end
 
   def read_class(read)
-    read ? 'unread' : ''
+    read ? '' : 'unread'
   end
 
   def count_messages(type)
