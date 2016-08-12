@@ -9,7 +9,7 @@ class Message < ApplicationRecord
 
   scope :trash, -> (user) { where(id: [MessageFlag.include_trash(user)]) }
   scope :exclude_trash, -> (user) { where.not(id: [MessageFlag.include_trash(user)]) }
-  scope :important, -> (user) { where(id: [MessageFlag.include_important(user)]) }
+  scope :starred, -> (user) { where(id: [MessageFlag.include_starred(user)]) }
   scope :drafts, -> (user) { where(id: [MessageFlag.include_drafts(user)]) }
   scope :non_drafts, -> (user) { where.not(id: [MessageFlag.include_drafts(user)]) }
   scope :unread, -> (user) { where(id: [MessageFlag.include_unread(user)]) }
@@ -56,7 +56,7 @@ class Message < ApplicationRecord
     end
   end
 
-  def self.mark_important(user_id, message_id)
-    message_flags.where(user_id: user_id, message_id: message_id).update_all(is_important: false)
+  def self.mark_starred(user_id, message_id)
+    message_flags.where(user_id: user_id, message_id: message_id).update_all(is_starred: false)
   end
 end

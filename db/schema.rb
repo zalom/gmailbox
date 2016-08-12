@@ -10,17 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160810123840) do
+ActiveRecord::Schema.define(version: 20160812142525) do
 
   create_table "message_flags", force: :cascade do |t|
     t.integer  "message_id"
     t.integer  "user_id"
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
-    t.boolean  "is_read",      default: false
-    t.boolean  "is_important", default: false
-    t.boolean  "is_draft",     default: true
-    t.boolean  "is_trash",     default: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.boolean  "is_read",    default: false
+    t.boolean  "is_starred", default: false
+    t.boolean  "is_draft",   default: true
+    t.boolean  "is_trash",   default: false
     t.index ["message_id"], name: "index_message_flags_on_message_id"
     t.index ["user_id"], name: "index_message_flags_on_user_id"
   end

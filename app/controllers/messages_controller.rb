@@ -10,7 +10,7 @@ class MessagesController < ApplicationController
   def index
     @messages = current_user.received_messages.thread.exclude_trash(current_user)
     @messages = current_user.sent_messages.thread.non_drafts(current_user) if params[:sent]
-    @messages = current_user.messages.thread.important(current_user) if params[:important]
+    @messages = current_user.messages.thread.starred(current_user) if params[:starred]
     @messages = current_user.sent_messages.thread.drafts(current_user) if params[:drafts]
     @messages = current_user.messages.thread.trash(current_user) if params[:trash]
   end
@@ -59,8 +59,8 @@ class MessagesController < ApplicationController
       @message = current_user.sent_messages.thread.drafts(current_user).find(params[:id])
     elsif params[:trash]
       @message = current_user.messages.thread.trash(current_user).find(params[:id])
-    elsif params[:important]
-      @message = current_user.messages.thread.important(current_user).find(params[:id])
+    elsif params[:starred]
+      @message = current_user.messages.thread.starred(current_user).find(params[:id])
     else
       @message = current_user.received_messages.find(params[:id])
     end
@@ -69,6 +69,6 @@ class MessagesController < ApplicationController
   def message_params
     params.require(:message).permit(:subject, :content, :user_id,
                                     :recipient_id, :sender_id,
-                                    :is_read, :is_important)
+                                    :is_read, :is_starred)
   end
 end

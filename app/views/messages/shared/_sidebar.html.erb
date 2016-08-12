@@ -9,7 +9,7 @@
         <% end %>
       </li>
       <li>
-        <%= link_to messages_path(important: true), data: { type: "important", title: "Important" } do %> Important
+        <%= link_to messages_path(starred: true), data: { type: "starred", title: "Starred" } do %> Starred
         <% end %>
       </li>
       <li>
