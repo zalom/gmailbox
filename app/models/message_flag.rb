@@ -15,7 +15,6 @@ class MessageFlag < ApplicationRecord
 
   def self.mark_all_read
     update_all(is_read: true)
-    save
   end
 
   def mark_unread

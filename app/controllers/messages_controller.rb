@@ -4,7 +4,7 @@ class MessagesController < ApplicationController
   before_action :set_message, except: [:index, :new, :create]
 
   def new
-    @message = current_user.messages.new
+    @message = current_user.sent_messages.new
   end
 
   def index
@@ -54,7 +54,7 @@ class MessagesController < ApplicationController
   private
 
   def set_recipient
-    @recipient = User.find(params[:user_id])
+    @recipient = User.find(params[:recipient_id])
   end
 
   def set_message
