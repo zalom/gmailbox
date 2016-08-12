@@ -16,12 +16,10 @@ class MessagesController < ApplicationController
   end
 
   def show
-    @message.message_flags.mark_read(current_user.id, @message.id)
+    @message.mark_read(current_user.id, @message.id) unless @message.read?(current_user.id)
     if @message.replies.any?
       @replies = @message.replies.ordered
-      @replies.each do |reply|
-        reply.mark_all_read
-      end
+      @replies.mark_all_read(current_user.id)
     end
   end
 

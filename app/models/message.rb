@@ -36,7 +36,7 @@ class Message < ApplicationRecord
     message_flags.where(user_id: user_id).map(&:is_read)[0]
   end
 
-  def self.mark_read(user_id, message_id)
+  def mark_read(user_id, message_id)
     message_flags.where(user_id: user_id, message_id: message_id).update_all(is_read: true)
   end
 
@@ -46,7 +46,7 @@ class Message < ApplicationRecord
     end
   end
 
-  def self.mark_unread(user_id, message_id)
+  def mark_unread(user_id, message_id)
     message_flags.where(user_id: user_id, message_id: message_id).update_all(is_read: false)
   end
 
