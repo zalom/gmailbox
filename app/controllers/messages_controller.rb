@@ -58,15 +58,11 @@ class MessagesController < ApplicationController
   end
 
   def set_message
-    if params[:sent]
-      @message = current_user.sent_messages.non_drafts.find(params[:id])
-    elsif params[:drafts]
-      @message = current_user.sent_messages.drafts.find(params[:id])
-    elsif params[:trash]
-      @message = Message.trash(current_user.id).find(params[:id])
-    else
-      @message = current_user.messages.find(params[:id])
-    end
+    @message = current_user.received_messages.find(params[:id])
+    @message = current_user.sent_messages.thread.non_drafts(current_user).find(params[:id]) if params[:sent]
+    @message = current_user.sent_messages.thread.drafts(current_user).find(params[:id]) if params[:drafts]
+    @message = current_user.messages.thread.trash(current_user).find(params[:id]) if params[:trash]
+    @message = current_user.messages.thread.important(current_user).find(params[:id]) if params[:important]
   end
 
   def message_params
