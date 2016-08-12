@@ -56,6 +56,10 @@ class Message < ApplicationRecord
     end
   end
 
+  def starred?(user_id)
+    message_flags.where(user_id: user_id).map(&:is_starred)[0]
+  end
+
   def mark_starred(user_id, message_id)
     message_flags.where(user_id: user_id, message_id: message_id).update_all(is_starred: true)
   end
