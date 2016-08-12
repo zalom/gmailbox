@@ -56,7 +56,23 @@ class Message < ApplicationRecord
     end
   end
 
-  def self.mark_starred(user_id, message_id)
+  def mark_starred(user_id, message_id)
+    message_flags.where(user_id: user_id, message_id: message_id).update_all(is_starred: true)
+  end
+
+  def self.mark_all_starred(user_id)
+    all.each do |message|
+      message.message_flags.where(user_id: user_id, message_id: message.id).update_all(is_starred: true)
+    end
+  end
+
+  def mark_unstarred(user_id, message_id)
     message_flags.where(user_id: user_id, message_id: message_id).update_all(is_starred: false)
+  end
+
+  def self.mark_all_unstarred(user_id)
+    all.each do |message|
+      message.message_flags.where(user_id: user_id, message_id: message.id).update_all(is_starred: false)
+    end
   end
 end
