@@ -20,6 +20,10 @@ module MessagesHelper
     read ? '' : 'unread'
   end
 
+  def starred_class(starred)
+    starred ? 'fa-star' : 'fa-star-o'
+  end
+
   def count_messages(type)
     case type
     when 'unread'
