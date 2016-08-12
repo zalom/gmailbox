@@ -20,7 +20,7 @@ class MessagesController < ApplicationController
     if @message.replies.any?
       @replies = @message.replies.ordered
       @replies.each do |reply|
-        reply.message_flags.mark_all_read
+        reply.mark_all_read
       end
     end
   end

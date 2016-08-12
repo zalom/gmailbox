@@ -255,23 +255,33 @@ Message.find(10).message_flags.create(
   user_id: Message.find(10).recipient_id
 )
 
-# Zlatko -> Mirza (id: 11)
+# Zlatko -> Enes (id: 11)
+user5.sent_messages.create(
+  subject: "I'll fix the css. OK!",
+  content: 'I am only answering because you are testing messages!',
+  recipient_id: User.find_by_email(users[:user1][:email]).id,
+  sent_at: Time.now,
+  thread_id: 10
+)
+
+# Set Flags for Enes on message_id = 11
+user5.sent_messages.find(11).message_flags.create(
+  user_id: user5.id,
+  is_draft: false,
+  is_read: true
+)
+
+# TODO: After Create callback for recipient_id needed
+# Set Flags for Zlatko on message_id = 11 (is_read: false)
+Message.find(11).message_flags.create(
+  user_id: Message.find(11).recipient_id
+)
+
+# Zlatko -> Mirza (id: 12)
 user1.sent_messages.create(
   subject: 'First draft',
   content: 'SCRUM meeting is canceled!',
   recipient_id: User.find_by_email(users[:user2][:email]).id
-)
-
-# Set Flags for Zlatko on message_id = 11
-user1.sent_messages.find(11).message_flags.create(
-  user_id: user1.id,
-  is_read: true
-)
-
-# Zlatko -> Sedad (id: 12)
-user1.sent_messages.create(
-  subject: 'Second draft',
-  content: 'Hello Sedad, the weather is awesome!'
 )
 
 # Set Flags for Zlatko on message_id = 12
@@ -280,14 +290,26 @@ user1.sent_messages.find(12).message_flags.create(
   is_read: true
 )
 
-# Zlatko -> Jasmin (id: 13)
+# Zlatko -> Sedad (id: 13)
+user1.sent_messages.create(
+  subject: 'Second draft',
+  content: 'Hello Sedad, the weather is awesome!'
+)
+
+# Set Flags for Zlatko on message_id = 13
+user1.sent_messages.find(13).message_flags.create(
+  user_id: user1.id,
+  is_read: true
+)
+
+# Zlatko -> Jasmin (id: 14)
 user1.sent_messages.create(
   subject: 'Third draft',
   content: 'Hello Jasmin, hope you are well!'
 )
 
-# Set Flags for Zlatko on message_id = 11
-user1.sent_messages.find(13).message_flags.create(
+# Set Flags for Zlatko on message_id = 14
+user1.sent_messages.find(14).message_flags.create(
   user_id: user1.id,
   is_read: true
 )

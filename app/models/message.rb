@@ -32,7 +32,31 @@ class Message < ApplicationRecord
     order('created_at asc')
   end
 
-  def read?(user)
-    message_flags.read?(user)
+  def read?(user_id)
+    message_flags.where(user_id: user_id).map(&:is_read)[0]
+  end
+
+  def self.mark_read(user_id, message_id)
+    message_flags.where(user_id: user_id, message_id: message_id).update_all(is_read: true)
+  end
+
+  def self.mark_all_read(user_id)
+    all.each do |message|
+      message.message_flags.where(user_id: user_id, message_id: message.id).update_all(is_read: true)
+    end
+  end
+
+  def self.mark_unread(user_id, message_id)
+    message_flags.where(user_id: user_id, message_id: message_id).update_all(is_read: false)
+  end
+
+  def self.mark_all_unread(user_id)
+    all.each do |message|
+      message.message_flags.where(user_id: user_id, message_id: message.id).update_all(is_read: false)
+    end
+  end
+
+  def self.mark_important(user_id, message_id)
+    message_flags.where(user_id: user_id, message_id: message_id).update_all(is_important: false)
   end
 end
