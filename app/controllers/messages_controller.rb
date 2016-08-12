@@ -16,7 +16,7 @@ class MessagesController < ApplicationController
   end
 
   def show
-    @message.message_flags.mark_all_read
+    @message.message_flags.mark_read(current_user.id, @message.id)
     if @message.replies.any?
       @replies = @message.replies.ordered
       @replies.each do |reply|
@@ -58,11 +58,17 @@ class MessagesController < ApplicationController
   end
 
   def set_message
-    @message = current_user.received_messages.find(params[:id])
-    @message = current_user.sent_messages.thread.non_drafts(current_user).find(params[:id]) if params[:sent]
-    @message = current_user.sent_messages.thread.drafts(current_user).find(params[:id]) if params[:drafts]
-    @message = current_user.messages.thread.trash(current_user).find(params[:id]) if params[:trash]
-    @message = current_user.messages.thread.important(current_user).find(params[:id]) if params[:important]
+    if params[:sent]
+      @message = current_user.sent_messages.thread.non_drafts(current_user).find(params[:id])
+    elsif params[:drafts]
+      @message = current_user.sent_messages.thread.drafts(current_user).find(params[:id])
+    elsif params[:trash]
+      @message = current_user.messages.thread.trash(current_user).find(params[:id])
+    elsif params[:important]
+      @message = current_user.messages.thread.important(current_user).find(params[:id])
+    else
+      @message = current_user.received_messages.find(params[:id])
+    end
   end
 
   def message_params

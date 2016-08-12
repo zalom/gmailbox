@@ -1,23 +1,24 @@
-class TrashMessagesController < ApplicationController
+class MessageFlgasController < ApplicationController
   def create
-    trash_message = TrashMessage.find_or_initialize_by(trash_message_params)
+    message_flags = MessageFlag.find_or_initialize_by(message_flags_params)
     respond_to do |format|
-      if trash_message.save
+      if message_flags.save
         format.html { flash[:success] = 'Succesfully moved to trash!' }
       end
     end
   end
 
   def update
-    trashed_message = TrashMessage.find(message_id: params[:message_id],
+    flagged_message = MessageFlag.find(message_id: params[:message_id],
                                         user_id: params[:user_id])
-    trashed_message.update_attributes(trash_message_params)
-    trashed_message.save
+    flagged_message.update_attributes(message_flags_params)
+    flagged_message.save
   end
 
   private
 
-  def trash_message_params
-    params.require(:trash_message).permit(:user_id, :message_id)
+  def message_flags_params
+    params.require(:message_flag).permit(:user_id, :message_id, :is_read,
+                                         :is_trash, :is_important)
   end
 end
