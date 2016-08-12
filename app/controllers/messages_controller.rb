@@ -17,10 +17,7 @@ class MessagesController < ApplicationController
 
   def show
     @message.mark_read(current_user.id, @message.id) unless @message.read?(current_user.id)
-    if @message.replies.any?
-      @replies = @message.replies.ordered
-      @replies.mark_all_read(current_user.id)
-    end
+    @replies = @message.replies.ordered if @message.replies.any?
   end
 
   def create
@@ -28,7 +25,7 @@ class MessagesController < ApplicationController
     @message.recipient_id = @recipient
     respond_to do |format|
       if @message.save
-        format.html { redirect_to current_user.messages }
+        format.html { redirect_to current_user.received_messages }
       end
     end
   end
@@ -43,7 +40,7 @@ class MessagesController < ApplicationController
     respond_to do |format|
       if @message.destroy
         format.html do
-          redirect_to current_user.messages, flash[:success] = 'You have successfully deleted a message!'
+          redirect_to current_user.received_messages, flash[:success] = 'You have successfully deleted a message!'
         end
       end
     end
