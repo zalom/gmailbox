@@ -9,7 +9,7 @@ class MessagesController < ApplicationController
 
   def index
     @messages = current_user.received_messages.include_replies.or(current_user.sent_messages.include_replies).distinct
-    @messages = current_user.sent_messages.only_threads.join_flags.exclude_drafts if params[:sent]
+    @messages = current_user.sent_messages.only_threads.joins(:message_flags).exclude_trash.exclude_drafts.where("message_flags.user_id = ?", current_user.id) if params[:sent]
     @messages = current_user.messages.starred if params[:starred]
     @messages = current_user.sent_messages.drafts if params[:drafts]
     @messages = current_user.messages.trash if params[:trash]
