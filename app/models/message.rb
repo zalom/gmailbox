@@ -1,20 +1,42 @@
 class Message < ApplicationRecord
   belongs_to :thread, class_name: 'Message'
-  has_many :replies, class_name: 'Message', foreign_key: 'thread_id'
-
   belongs_to :recipient, class_name: 'User', foreign_key: 'recipient_id'
   belongs_to :sender, class_name: 'User', foreign_key: 'sender_id'
+
+  has_many :replies, class_name: 'Message', foreign_key: 'thread_id'
   has_many :users, through: :message_flags
   has_many :message_flags
 
-  scope :trash, -> (user) { where(id: [MessageFlag.include_trash(user)]) }
-  scope :exclude_trash, -> (user) { where.not(id: [MessageFlag.include_trash(user)]) }
-  scope :starred, -> (user) { where(id: [MessageFlag.include_starred(user)]) }
-  scope :drafts, -> (user) { where(id: [MessageFlag.include_drafts(user)]) }
-  scope :non_drafts, -> (user) { where.not(id: [MessageFlag.include_drafts(user)]) }
-  scope :unread, -> (user) { where(id: [MessageFlag.include_unread(user)]) }
+  # Scopes on model
+  scope :only_threads, -> { where thread_id: nil }
 
-  scope :thread, -> { where thread_id: nil }
+  # Joined model scopes
+  scope :join_flags,      -> { joins(:message_flags) }
+  scope :include_trash,   -> { where('message_flags.is_trash = ?', true) }
+  scope :exclude_trash,   -> { where('message_flags.is_trash = ?', false) }
+  scope :include_starred, -> { where('message_flags.is_starred = ?', true) }
+  scope :include_drafts,  -> { where('message_flags.is_draft = ?', true) }
+  scope :exclude_drafts,  -> { where('message_flags.is_draft = ?', false) }
+  scope :include_unread,  -> { where('message_flags.is_read = ?', false) }
+  scope :exclude_unread,  -> { where('message_flags.is_read = ?', true) }
+
+  scope :exclude_others,  -> { exclude_trash.exclude_drafts }
+
+  scope :trash,   -> { only_threads.include_trash }
+  scope :unread,  -> { only_threads.include_unread }
+  scope :starred, -> { only_threads.exclude_trash.include_starred }
+  scope :drafts,  -> { only_threads.join_flags.include_drafts }
+
+  scope :exclude_replies, lambda {
+    joins(:message_flags)
+      .merge(exclude_others)
+  }
+
+  # Multiple joined model scopes
+  scope :include_replies, lambda {
+    joins(:message_flags, :replies)
+      .merge(exclude_others)
+  }
 
   def sender_email
     User.find(sender_id).email
@@ -33,7 +55,7 @@ class Message < ApplicationRecord
   end
 
   def read?(user_id)
-    message_flags.where(user_id: user_id).map(&:is_read)[0]
+    message_flags.where(user_id: user_id).pluck(:is_read)
   end
 
   def mark_read(user_id, message_id)
@@ -57,7 +79,7 @@ class Message < ApplicationRecord
   end
 
   def starred?(user_id)
-    message_flags.where(user_id: user_id).map(&:is_starred)[0]
+    message_flags.where(user_id: user_id).pluck(:is_starred)
   end
 
   def mark_starred(user_id, message_id)

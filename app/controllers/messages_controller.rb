@@ -8,11 +8,11 @@ class MessagesController < ApplicationController
   end
 
   def index
-    @messages = current_user.received_messages.thread.exclude_trash(current_user)
-    @messages = current_user.sent_messages.thread.non_drafts(current_user) if params[:sent]
-    @messages = current_user.messages.thread.starred(current_user) if params[:starred]
-    @messages = current_user.sent_messages.thread.drafts(current_user) if params[:drafts]
-    @messages = current_user.messages.thread.trash(current_user) if params[:trash]
+    @messages = current_user.received_messages.include_replies.or(current_user.sent_messages.include_replies).distinct
+    @messages = current_user.sent_messages.only_threads.join_flags.exclude_drafts if params[:sent]
+    @messages = current_user.messages.starred if params[:starred]
+    @messages = current_user.sent_messages.drafts if params[:drafts]
+    @messages = current_user.messages.trash if params[:trash]
   end
 
   def show
@@ -54,15 +54,15 @@ class MessagesController < ApplicationController
 
   def set_message
     if params[:sent]
-      @message = current_user.sent_messages.thread.non_drafts(current_user).find(params[:id])
+      @message = current_user.sent_messages.only_threads.find(params[:id])
     elsif params[:drafts]
-      @message = current_user.sent_messages.thread.drafts(current_user).find(params[:id])
+      @message = current_user.sent_messages.drafts.find(params[:id])
     elsif params[:trash]
-      @message = current_user.messages.thread.trash(current_user).find(params[:id])
+      @message = current_user.messages.trash.find(params[:id])
     elsif params[:starred]
-      @message = current_user.messages.thread.starred(current_user).find(params[:id])
+      @message = current_user.messages.starred.find(params[:id])
     else
-      @message = current_user.received_messages.find(params[:id])
+      @message = current_user.received_messages.include_replies.or(current_user.sent_messages.include_replies).distinct.find(params[:id])
     end
   end
 
