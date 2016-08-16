@@ -1,6 +1,6 @@
 <div id="message-subject" class="row">
   <div class="col-md-7">
-    <img src="../assets/pages/media/users/avatar1.jpg" class="inbox-author">
+    <%= image_tag("#{derive_username(message.sender_email)}.jpg", class: "inbox-author") %>
     <span class="sbold"><%= derive_username(message.sender_email).capitalize %> </span>
     <span>&lt;<%= message.sender_email %>&gt; </span> to
     <span class="sbold"> me </span> on <%= time_sent_on %>
