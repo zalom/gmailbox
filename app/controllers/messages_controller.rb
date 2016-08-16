@@ -56,7 +56,7 @@ class MessagesController < ApplicationController
     if params[:sent]
       @message = current_user.sent_messages.only_threads.find(params[:id])
     elsif params[:drafts]
-      @message = current_user.sent_messages.drafts.find(params[:id])
+      @message = current_user.sent_messages.drafts(current_user.id).find(params[:id])
     elsif params[:trash]
       @message = current_user.messages.trash.find(params[:id])
     elsif params[:starred]
