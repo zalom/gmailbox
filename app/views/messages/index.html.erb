@@ -34,8 +34,9 @@
                     </li>
                     <li class="divider"> </li>
                     <li>
-                      <a href="javascript:;">
-                      <i class="fa fa-trash-o"></i> Delete </a>
+                      <%= link_to "#", action: :show, controller: :messages do %>
+                        <i class="fa fa-trash-o"></i> Delete </a>
+                      <% end %>
                     </li>
                   </ul>
                 </div>
