@@ -190,6 +190,10 @@ a:hover {
   margin-bottom: 40px!important
 }
 
+.margin-right-5 {
+  margin-right: 5px!important
+}
+
 .margin-right-10 {
   margin-right: 10px!important
 }
@@ -363,6 +367,68 @@ fieldset[disabled] .btn.default:not(.btn-outline):hover {
 .btn.default-stripe {
   border-left: 4px solid #e1e5ec!important
 }
+
+/* l 2213 - 2271 */
+.btn.blue:not(.btn-outline) {
+    color: #FFF;
+    background-color: #3598dc;
+    border-color: #3598dc
+}
+
+.btn.blue:not(.btn-outline).focus,
+.btn.blue:not(.btn-outline):focus {
+    color: #FFF;
+    background-color: #217ebd;
+    border-color: #15527c
+}
+
+.btn.blue:not(.btn-outline).active,
+.btn.blue:not(.btn-outline):active,
+.btn.blue:not(.btn-outline):hover,
+.open>.btn.blue:not(.btn-outline).dropdown-toggle {
+    color: #FFF;
+    background-color: #217ebd;
+    border-color: #1f78b5
+}
+
+.btn.blue:not(.btn-outline).active.focus,
+.btn.blue:not(.btn-outline).active:focus,
+.btn.blue:not(.btn-outline).active:hover,
+.btn.blue:not(.btn-outline):active.focus,
+.btn.blue:not(.btn-outline):active:focus,
+.btn.blue:not(.btn-outline):active:hover,
+.open>.btn.blue:not(.btn-outline).dropdown-toggle.focus,
+.open>.btn.blue:not(.btn-outline).dropdown-toggle:focus,
+.open>.btn.blue:not(.btn-outline).dropdown-toggle:hover {
+    color: #FFF;
+    background-color: #1c699f;
+    border-color: #15527c
+}
+
+.btn.blue:not(.btn-outline).active,
+.btn.blue:not(.btn-outline):active,
+.open>.btn.blue:not(.btn-outline).dropdown-toggle {
+    background-image: none
+}
+
+.btn.blue:not(.btn-outline).disabled.focus,
+.btn.blue:not(.btn-outline).disabled:focus,
+.btn.blue:not(.btn-outline).disabled:hover,
+.btn.blue:not(.btn-outline)[disabled].focus,
+.btn.blue:not(.btn-outline)[disabled]:focus,
+.btn.blue:not(.btn-outline)[disabled]:hover,
+fieldset[disabled] .btn.blue:not(.btn-outline).focus,
+fieldset[disabled] .btn.blue:not(.btn-outline):focus,
+fieldset[disabled] .btn.blue:not(.btn-outline):hover {
+    background-color: #3598dc;
+    border-color: #3598dc
+}
+
+.btn.blue:not(.btn-outline) .badge {
+    color: #3598dc;
+    background-color: #FFF
+}
+
 /* l 2273 */
 .btn.btn-outline.blue {
   border-color: #3598dc;
@@ -1119,4 +1185,9 @@ div.flash-msg{
     margin: 0!important;
     background-color: #364150!important;
   }
+}
+
+button.action-btn {
+  padding: 5px 15px;
+  margin: 15px 15px;
 }
