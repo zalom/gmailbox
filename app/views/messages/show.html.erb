@@ -13,11 +13,6 @@
           <h1 class="pull-left"><%= @message.subject %> 
             <%= message_folder_link %>
           </h1>
-          <div class="pull-right">
-            <a href="javascript:;" class="btn btn-icon-only dark btn-outline">
-              <i class="fa fa-print"></i>
-            </a>
-          </div>
         </div>
         <div id="message" class="row">
           <%= render partial: 'message', locals: { message: @message } %>
