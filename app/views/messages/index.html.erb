@@ -27,6 +27,11 @@
                         <i class="fa fa-pencil"></i> Mark as Read
                       <% end %>
                     </li>
+                    <li>
+                      <%= link_to "#", action: :show, controller: :messages do %>
+                        <i class="fa fa-star"></i> Mark as Starred
+                      <% end %>
+                    </li>
                     <li class="divider"> </li>
                     <li>
                       <a href="javascript:;">
