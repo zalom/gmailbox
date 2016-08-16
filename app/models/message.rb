@@ -55,7 +55,7 @@ class Message < ApplicationRecord
   end
 
   def read?(user_id)
-    message_flags.where(user_id: user_id).pluck(:is_read)
+    message_flags.where(user_id: user_id).map(&:is_read)[0]
   end
 
   def mark_read(user_id, message_id)
@@ -79,7 +79,7 @@ class Message < ApplicationRecord
   end
 
   def starred?(user_id)
-    message_flags.where(user_id: user_id).pluck(:is_starred)
+    message_flags.where(user_id: user_id).map(&:is_starred)[0]
   end
 
   def mark_starred(user_id, message_id)
