@@ -150,7 +150,7 @@ user1.sent_messages.find(6).message_flags.create(
 
 # Mark important for Zlatko on message_id = 5
 user1.messages.find(5).message_flags.where(user_id: user1.id).update_all(
-  is_important: true
+  is_starred: true
 )
 
 # TODO: After Create callback for recipient_id needed

@@ -15,7 +15,7 @@ class Message < ApplicationRecord
   scope :include_trash,   -> { where('message_flags.is_trash = ?', true) }
   scope :exclude_trash,   -> { where('message_flags.is_trash = ?', false) }
   scope :include_starred, -> { where('message_flags.is_starred = ?', true) }
-  scope :include_drafts,  -> { where('message_flags.is_draft = ?', true) }
+  scope :include_drafts,  -> (user_id) { where('message_flags.is_draft = ? AND message_flags.user_id = ?', true, user_id) }
   scope :exclude_drafts,  -> { where('message_flags.is_draft = ?', false) }
   scope :include_unread,  -> { where('message_flags.is_read = ?', false) }
   scope :exclude_unread,  -> { where('message_flags.is_read = ?', true) }
@@ -25,7 +25,7 @@ class Message < ApplicationRecord
   scope :trash,   -> { only_threads.include_trash }
   scope :unread,  -> { only_threads.exclude_trash.include_unread }
   scope :starred, -> { only_threads.exclude_trash.include_starred }
-  scope :drafts,  -> { only_threads.join_flags.include_drafts }
+  scope :drafts,  -> (user_id) { only_threads.join_flags.include_drafts(user_id) }
 
   scope :exclude_replies, lambda {
     joins(:message_flags)

@@ -29,7 +29,7 @@ module MessagesHelper
     when 'unread'
       current_user.messages.unread.count
     when 'drafts'
-      current_user.sent_messages.drafts.count
+      current_user.sent_messages.drafts(current_user.id).count
     when 'trash'
       current_user.messages.trash.count
     end
