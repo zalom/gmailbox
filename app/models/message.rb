@@ -23,7 +23,7 @@ class Message < ApplicationRecord
   scope :exclude_others,  -> { exclude_trash.exclude_drafts }
 
   scope :trash,   -> { only_threads.include_trash }
-  scope :unread,  -> { only_threads.include_unread }
+  scope :unread,  -> { only_threads.exclude_trash.include_unread }
   scope :starred, -> { only_threads.exclude_trash.include_starred }
   scope :drafts,  -> { only_threads.join_flags.include_drafts }
 
