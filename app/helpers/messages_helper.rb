@@ -49,6 +49,9 @@ module MessagesHelper
     elsif params[:trash]
       link_to(message.send("#{msg_param}".to_sym),
               message_path(message.id, trash: true), class: 'cell-link')
+    elsif params[:starred]
+      link_to(message.send("#{msg_param}".to_sym),
+              message_path(message.id, starred: true), class: 'cell-link')
     else
       link_to(message.send("#{msg_param}".to_sym),
               message_path(message.id), class: 'cell-link')
@@ -57,5 +60,19 @@ module MessagesHelper
 
   def derive_username(email)
     email[0, email.index('@')]
+  end
+
+  def message_folder_link
+    if params[:sent]
+      link_to('Sent',     messages_path(sent: true),    data: { type: 'sent',    title: 'Sent' })
+    elsif params[:drafts]
+      link_to('Drafts',   messages_path(drafts: true),  data: { type: 'drafts',  title: 'Drafts' })
+    elsif params[:starred]
+      link_to('Starred',  messages_path(starred: true), data: { type: 'starred', title: 'Starred' })
+    elsif params[:trash]
+      link_to('Trash',    messages_path(trash: true),   data: { type: 'trash',   title: 'Trash' })
+    else
+      link_to('Inbox',    root_path,                    data: { type: 'inbox',   title: 'Inbox' })
+    end
   end
 end
