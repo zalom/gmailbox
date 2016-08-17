@@ -3,26 +3,26 @@
     <a href="compose.html" data-title="Compose" class="btn red compose-btn btn-block">
     <i class="fa fa-edit"></i> Compose </a>
     <ul class="inbox-nav">
-      <li class="active">
+      <li id="inbox" class="active" data-turbolinks-permanent>
         <%= link_to root_path, data: { type: "inbox", title: "Inbox" } do %>
           Inbox <span class="badge badge-success"><%= count_messages("unread") %></span>
         <% end %>
       </li>
-      <li>
+      <li id="starred" class="inactive" data-turbolinks-permanent>
         <%= link_to messages_path(starred: true), data: { type: "starred", title: "Starred" } do %> Starred
         <% end %>
       </li>
-      <li>
+      <li id="sent" class="inactive" data-turbolinks-permanent>
         <%= link_to messages_path(sent: true), data: { type: "sent", title: "Sent" } do %> Sent
         <% end %>
       </li>
-      <li>
+      <li id="drafts" class="inactive" data-turbolinks-permanent>
         <%= link_to messages_path(drafts: true), data: { type: "drafts", title: "Drafts" } do %> Drafts
           <span class="badge badge-danger"><%= count_messages("drafts") %></span>
         <% end %>
       </li>
       <li class="divider"></li>
-      <li>
+      <li id="trash" class="inactive" data-turbolinks-permanent>
         <%= link_to messages_path(trash: true), data: { type: "trash", title: "Trash" }, class: "sbold uppercase" do %> Trash
           <span class="badge badge-info"><%= count_messages("trash") %></span>
         <% end %>

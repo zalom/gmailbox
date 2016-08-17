@@ -26,6 +26,7 @@ class Message < ApplicationRecord
   scope :unread,  -> { only_threads.exclude_trash.include_unread }
   scope :starred, -> { only_threads.exclude_trash.include_starred }
   scope :drafts,  -> (user_id) { only_threads.join_flags.include_drafts(user_id) }
+  scope :sent,    -> (user_id) { join_flags.exclude_trash.exclude_drafts.where('message_flags.user_id = ?', user_id) }
 
   scope :exclude_replies, lambda {
     joins(:message_flags)
@@ -55,7 +56,7 @@ class Message < ApplicationRecord
   end
 
   def read?(user_id)
-    message_flags.where(user_id: user_id).map(&:is_read)[0]
+    message_flags.where(user_id: user_id).try(:first).is_read
   end
 
   def mark_read(user_id)
@@ -79,7 +80,7 @@ class Message < ApplicationRecord
   end
 
   def starred?(user_id)
-    message_flags.where(user_id: user_id).map(&:is_starred)[0]
+    message_flags.where(user_id: user_id).try(:first).is_starred
   end
 
   def mark_starred(user_id, message_id)
