@@ -21,18 +21,9 @@
           <%= render partial: 'message', collection: @replies %>
         </div>
         <div id="editor" class="row">
-
         </div>
-
-        <div class="row inbox-info-btn text-center">
-          <div class="btn-group">
-            <button data-messageid="<%= @message.id %>" class="btn blue action-btn margin-right-10">
-              <i class="fa fa-reply"></i> Reply
-            </button>
-            <button data-messageid="<%= @message.id %>" class="btn blue action-btn">
-              <i class="fa fa-trash-o"></i> Delete
-            </button>
-          </div>
+        <div id="actions" class="row">
+          <%= render 'messages/shared/actions' %>
         </div>
       </div>
     </div>

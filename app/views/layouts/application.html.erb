@@ -10,8 +10,8 @@
 
   <body>
     <% if !user_signed_in? %>
-      <%= render 'shared/notice_alerts' %>
       <div class="login">
+        <%= render 'shared/notice_alerts' %>
         <!-- BEGIN LOGO -->
         <%= render 'shared/logo' %>
         <!-- END LOGO -->
@@ -56,17 +56,10 @@
             </div>
             <!-- END PAGE BAR -->
             <!-- BEGIN PAGE TITLE-->
-            <h3 class="page-title"> Inbox
-            <small></small>
-            </h3>
             <!-- END PAGE TITLE-->
             <!-- END PAGE HEADER-->
             <div class="inbox">
-              <div class="row">
-                <div class="col-md-12">
-                  <%= render 'shared/notice_alerts' %>
-                </div>
-              </div>
+              <%= render 'shared/notice_alerts' %>
               <%= yield %>
             </div>
           </div>

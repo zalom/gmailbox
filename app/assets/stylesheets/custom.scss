@@ -1014,6 +1014,7 @@ th>.mt-radio.mt-radio-single {
 /* l 52 */
 .page-header.navbar.navbar-fixed-top,
 .page-header.navbar.navbar-static-top {
+  position: static!important;
   z-index: 9995
 }
 /* l 57 */
@@ -1190,4 +1191,8 @@ div.flash-msg{
 button.action-btn {
   padding: 5px 15px;
   margin: 15px 15px;
+}
+
+.clear-right-margin {
+  margin-right: 0;
 }
