@@ -75,4 +75,8 @@ module MessagesHelper
       link_to('Inbox',    root_path,                    data: { type: 'inbox',   title: 'Inbox' })
     end
   end
+
+  def params_exist?
+    true if params[:starred] || params[:sent] || params[:trash] || params[:drafts]
+  end
 end
