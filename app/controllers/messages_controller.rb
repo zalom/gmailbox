@@ -1,6 +1,5 @@
 class MessagesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_recipient, only: [:new, :create]
   before_action :set_message, except: [:index, :new, :create]
 
   def new
@@ -25,7 +24,7 @@ class MessagesController < ApplicationController
     @message.recipient_id = @recipient
     respond_to do |format|
       if @message.save
-        format.html { redirect_to current_user.received_messages }
+        format.html { redirect_to root_path }
       end
     end
   end
@@ -34,6 +33,10 @@ class MessagesController < ApplicationController
   end
 
   def update
+    @message.update_attributes(message_params)
+    if @message.save
+      redirect_to @message
+    end
   end
 
   def destroy
@@ -68,7 +71,6 @@ class MessagesController < ApplicationController
 
   def message_params
     params.require(:message).permit(:subject, :content, :user_id,
-                                    :recipient_id, :sender_id,
-                                    :is_read, :is_starred)
+                                    :recipient_id, :sender_id)
   end
 end

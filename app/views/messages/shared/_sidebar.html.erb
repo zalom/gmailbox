@@ -1,7 +1,8 @@
 <div class="col-md-2">
   <div class="inbox-sidebar">
-    <a href="compose.html" data-title="Compose" class="btn red compose-btn btn-block">
-    <i class="fa fa-edit"></i> Compose </a>
+    <%= link_to new_user_message_path(user_id: current_user.id), data: { title: 'Compose' }, class: 'btn red compose-btn btn-block' do %>
+      <i class="fa fa-edit"></i> Compose
+    <% end %>
     <ul class="inbox-nav">
       <li id="inbox" class="<%= 'active' if !params_exist? %>">
         <%= link_to root_path, data: { type: "inbox", title: "Inbox" } do %>

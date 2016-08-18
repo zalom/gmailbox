@@ -1,0 +1,49 @@
+<div class="row clear-right-margin">
+  <!-- BODY SIDEBAR -->
+  <%= render 'messages/shared/sidebar' %>
+  <!-- END BODY SIDEBAR -->
+  <!-- CONTENT -->
+  <div class="col-md-10">
+    <div class="inbox-body">
+      <div class="inbox-header">
+        <h1 class="pull-left">Compose</h1>
+      </div>
+      <div class="inbox-content">
+        <form class="inbox-compose form-horizontal" id="fileupload" action="#" method="POST" enctype="multipart/form-data">
+          <div class="inbox-form-group mail-to">
+            <label class="control-label">To:</label>
+            <div class="controls controls-to">
+              <input type="text" class="form-control" name="to">
+            </div>
+          </div>
+          <div class="inbox-form-group">
+            <label class="control-label">Subject:</label>
+            <div class="controls">
+              <input type="text" class="form-control" name="subject">
+            </div>
+          </div>
+          <div class="inbox-form-group">
+            <textarea class="inbox-editor inbox-wysihtml5 form-control" name="message" rows="12" spellcheck="true" style="z-index: auto; position: relative; line-height: 20px; font-size: 14px; transition: none; display: none; background: none 0% 0% / auto repeat scroll padding-box border-box rgb(255, 255, 255);">
+            </textarea>
+            <input type="hidden" name="_wysihtml5_mode" value="1">
+            <div style="z-index: 2; opacity: 1; transform: translate(958.484px, 264px);" class="_9b5ef6-textarea_btn _9b5ef6-show _9b5ef6-anonymous _9b5ef6-field_hovered" data-grammarly-reactid=".6">
+              <div class="_9b5ef6-transform_wrap" data-grammarly-reactid=".6.0">
+                <div title="Protected by Grammarly" class="_9b5ef6-status" data-grammarly-reactid=".6.0.0">&nbsp;
+                </div>
+              </div>
+              <span class="_9b5ef6-btn_text" data-grammarly-reactid=".6.1">Not signed in</span>
+            </div>
+          </div>
+          <!-- The template to display files available for download -->
+          <div class="inbox-compose-btn">
+            <button class="btn green">
+              <i class="fa fa-check"></i>Send</button>
+            <button class="btn default">Discard</button>
+            <button class="btn default">Draft</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- END CONTENT -->
+</div>
