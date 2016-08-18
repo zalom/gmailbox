@@ -1,4 +1,8 @@
 class Message < ApplicationRecord
+  after_create :set_subject_if_empty
+  after_create :set_flags_for_receiver
+  after_update :set_flags_for_receiver
+
   belongs_to :thread, class_name: 'Message'
   belongs_to :recipient, class_name: 'User', foreign_key: 'recipient_id'
   belongs_to :sender, class_name: 'User', foreign_key: 'sender_id'
@@ -51,6 +55,18 @@ class Message < ApplicationRecord
 
   def set_sent
     self.is_sent = Time.now if is_sent.nil?
+  end
+
+  def set_subject_if_empty
+    self.subject = 'no subject' if subject == ''
+  end
+
+  def set_flags_for_receiver
+    message_flags.where(user_id: recipient_id, message_id: id).first_or_create(is_read: false) unless recipient_id.nil?
+  end
+
+  def set_flags_for_sender
+    message_flags.where(user_id: sender_id, message_id: id).first_or_create(is_read: true)
   end
 
   def self.ordered
@@ -106,10 +122,10 @@ class Message < ApplicationRecord
   end
 
   def mark_as_draft
-    message_flags.where(user_id: sender_id).update_all(is_draft: true)
+    message_flags.where(user_id: sender_id, message_id: id).first_or_create(is_draft: true, is_read: true).update_attributes!(is_draft: true)
   end
 
   def remove_from_drafts
-    message_flags.where(user_id: sender_id).update_all(is_draft: false)
+    message_flags.where(user_id: sender_id, message_id: id).first_or_create(is_draft: false, is_read: true).update_attributes!(is_draft: false)
   end
 end
