@@ -12,6 +12,7 @@ gem 'devise'
 gem 'bootstrap-sass'
 gem "font-awesome-rails"
 gem 'simple-line-icons-rails'
+gem 'trix'
 
 group :development, :test do
   gem 'byebug', platform: :mri

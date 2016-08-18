@@ -9,39 +9,32 @@
         <h1 class="pull-left">Compose</h1>
       </div>
       <div class="inbox-content">
-        <form class="inbox-compose form-horizontal" id="fileupload" action="#" method="POST" enctype="multipart/form-data">
+        <%= form_for([current_user, current_user.sent_messages.build], html: { id: 'new-message', class: 'inbox-compose form-horizontal' }) do |f| %>
           <div class="inbox-form-group mail-to">
             <label class="control-label">To:</label>
             <div class="controls controls-to">
-              <input type="text" class="form-control" name="to">
+              <%= f.text_field :recipient_email, class: 'form-control', html: { name: 'to' } %>
             </div>
           </div>
           <div class="inbox-form-group">
             <label class="control-label">Subject:</label>
             <div class="controls">
               <input type="text" class="form-control" name="subject">
+              <%= f.text_field :subject, class: 'form-control', html: { name: 'subject' } %>
             </div>
           </div>
           <div class="inbox-form-group">
-            <textarea class="inbox-editor inbox-wysihtml5 form-control" name="message" rows="12" spellcheck="true" style="z-index: auto; position: relative; line-height: 20px; font-size: 14px; transition: none; display: none; background: none 0% 0% / auto repeat scroll padding-box border-box rgb(255, 255, 255);">
-            </textarea>
-            <input type="hidden" name="_wysihtml5_mode" value="1">
-            <div style="z-index: 2; opacity: 1; transform: translate(958.484px, 264px);" class="_9b5ef6-textarea_btn _9b5ef6-show _9b5ef6-anonymous _9b5ef6-field_hovered" data-grammarly-reactid=".6">
-              <div class="_9b5ef6-transform_wrap" data-grammarly-reactid=".6.0">
-                <div title="Protected by Grammarly" class="_9b5ef6-status" data-grammarly-reactid=".6.0.0">&nbsp;
-                </div>
-              </div>
-              <span class="_9b5ef6-btn_text" data-grammarly-reactid=".6.1">Not signed in</span>
-            </div>
+            <%= f.trix_editor :content %>
           </div>
           <!-- The template to display files available for download -->
-          <div class="inbox-compose-btn">
-            <button class="btn green">
-              <i class="fa fa-check"></i>Send</button>
+          <div class="inbox-compose-btn text-center">
+            <%= button_tag class: 'btn green' do %>
+              <i class="fa fa-check"></i>Send
+            <% end %>
             <button class="btn default">Discard</button>
             <button class="btn default">Draft</button>
           </div>
-        </form>
+        <% end %>
       </div>
     </div>
   </div>

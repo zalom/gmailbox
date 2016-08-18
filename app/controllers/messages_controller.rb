@@ -21,10 +21,20 @@ class MessagesController < ApplicationController
 
   def create
     @message = current_user.sent_messages.new(message_params)
-    @message.recipient_id = @recipient
     respond_to do |format|
-      if @message.save
-        format.html { redirect_to root_path }
+      if User.valid_email?(params[:recipient_email])
+        @message.recipient_id = User.find_by_email(params[:recipient_email]).id
+        if @message.save
+          @message.set_sent
+          @message.remove_from_drafts
+          format.html { redirect_to root_path, notice: 'Message successfully sent!' }
+        end
+      else
+        @message.recipient_id = nil
+        if @message.save
+          format.html { redirect_to root_path, confirm: 'Save as draft?', notice: 'Message saved as draft.' }
+          @message.mark_as_draft
+        end
       end
     end
   end
@@ -33,27 +43,12 @@ class MessagesController < ApplicationController
   end
 
   def update
-    @message.update_attributes(message_params)
-    if @message.save
-      redirect_to @message
-    end
   end
 
   def destroy
-    respond_to do |format|
-      if @message.destroy
-        format.html do
-          redirect_to current_user.received_messages, flash[:success] = 'You have successfully deleted a message!'
-        end
-      end
-    end
   end
 
   private
-
-  def set_recipient
-    @recipient = User.find(params[:recipient_id])
-  end
 
   def set_message
     if params[:sent]
@@ -70,7 +65,6 @@ class MessagesController < ApplicationController
   end
 
   def message_params
-    params.require(:message).permit(:subject, :content, :user_id,
-                                    :recipient_id, :sender_id)
+    params.require(:message).permit(:subject, :content, :recipient_email)
   end
 end

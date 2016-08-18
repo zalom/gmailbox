@@ -7,6 +7,8 @@ class Message < ApplicationRecord
   has_many :users, through: :message_flags
   has_many :message_flags
 
+  attr_accessor :recipient_email
+
   # Scopes on model
   scope :only_threads, -> { where thread_id: nil }
 
@@ -101,5 +103,13 @@ class Message < ApplicationRecord
     all.each do |message|
       message.message_flags.where(user_id: user_id, message_id: message.id).update_all(is_starred: false)
     end
+  end
+
+  def mark_as_draft
+    message_flags.where(user_id: sender_id).update_all(is_draft: true)
+  end
+
+  def remove_from_drafts
+    message_flags.where(user_id: sender_id).update_all(is_draft: false)
   end
 end
