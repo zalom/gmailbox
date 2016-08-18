@@ -32,7 +32,7 @@ class MessagesController < ApplicationController
       else
         @message.recipient_id = nil
         if @message.save
-          format.html { redirect_to root_path, confirm: 'Save as draft?', notice: 'Message saved as draft.' }
+          format.html { redirect_to root_path, data: { confirm: 'Save as draft?' }, notice: 'Message saved as draft.' }
           @message.mark_as_draft
         end
       end
