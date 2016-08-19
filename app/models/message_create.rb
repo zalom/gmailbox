@@ -2,19 +2,24 @@ class MessageCreate
   def initialize(user, message_params)
     @message = user.sent_messages.new(message_params)
     @message_params = message_params
-    @user = user
   end
   attr_reader :message, :message_params, :notice
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 
   def create
-    if email_valid? && user.matches_user_in_database
+    50.times { print '#' }
+    5.times { puts }
+    puts "#{recipient_exists?}"
+    5.times { puts }
+    50.times { print '#' }
+
+    if recipient_exists?
       send_email
       @notice = 'Message successfully sent!'
     else
       save_draft
-      @notice = 'No recipient! Message saved as draft.'
+      @notice = 'Invalid email or No recipient found! Message saved as draft.'
     end
   end
 
@@ -23,7 +28,7 @@ class MessageCreate
   end
 
   def send_email
-    self.class.transaction do
+    message.class.transaction do
       set_recipient
       set_sent
       message.remove_from_drafts
@@ -33,7 +38,7 @@ class MessageCreate
   protected
 
   def set_sent
-    message.is_sent = Time.now if message.is_sent.nil?
+    message.update(sent_at: Time.now) if message.sent_at.nil?
   end
 
   def set_subject_if_empty
@@ -44,7 +49,15 @@ class MessageCreate
     message.recipient_id = User.find_by_email(message_params[:recipient_email]).id
   end
 
+  def recipient_exists?
+    email_valid? && matches_email_in_database?
+  end
+
   def email_valid?
-    message_params[:recipient_emai].present? && !(message_params[:recipient_emai] =~ VALID_EMAIL_REGEX).nil?
+    message_params[:recipient_email].present? && !(message_params[:recipient_email] =~ VALID_EMAIL_REGEX).nil?
+  end
+
+  def matches_email_in_database?
+    User.exists?(email: message_params[:recipient_email])
   end
 end

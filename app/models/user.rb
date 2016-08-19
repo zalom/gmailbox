@@ -8,10 +8,5 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
 
-  scope :user_email, -> (email) { find_by_email(email) }
   accepts_nested_attributes_for :profile
-
-  def self.matches_user_in_database
-    exists?(email: email)
-  end
 end
