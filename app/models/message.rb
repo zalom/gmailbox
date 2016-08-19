@@ -1,5 +1,5 @@
 class Message < ApplicationRecord
-  after_create :set_subject_if_empty
+  before_create :set_subject_if_empty
   after_create :set_flags_for_receiver
   after_update :set_flags_for_receiver
 
@@ -51,14 +51,6 @@ class Message < ApplicationRecord
 
   def recipient_email
     recipient_id.nil? ? '' : User.find(recipient_id).email
-  end
-
-  def set_sent
-    self.is_sent = Time.now if is_sent.nil?
-  end
-
-  def set_subject_if_empty
-    self.subject = 'no subject' if subject == ''
   end
 
   def set_flags_for_receiver
@@ -127,5 +119,15 @@ class Message < ApplicationRecord
 
   def remove_from_drafts
     message_flags.where(user_id: sender_id, message_id: id).first_or_create(is_draft: false, is_read: true).update_attributes!(is_draft: false)
+  end
+
+  protected
+
+  def set_sent
+    self.is_sent = Time.now if is_sent.nil?
+  end
+
+  def set_subject_if_empty
+    self.subject = 'no subject' if subject.blank?
   end
 end

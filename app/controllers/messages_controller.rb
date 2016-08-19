@@ -20,21 +20,12 @@ class MessagesController < ApplicationController
   end
 
   def create
-    @message = current_user.sent_messages.new(message_params)
+    new_message = MessageCreate.new(current_user, message_params)
     respond_to do |format|
-      if User.valid_email?(params[:recipient_email])
-        @message.recipient_id = User.find_by_email(params[:recipient_email]).id
-        if @message.save
-          @message.set_sent
-          @message.remove_from_drafts
-          format.html { redirect_to root_path, notice: 'Message successfully sent!' }
-        end
+      if new_message.create
+        format.html { redirect_to root_path, notice: new_message.notice }
       else
-        @message.recipient_id = nil
-        if @message.save
-          format.html { redirect_to root_path, data: { confirm: 'Save as draft?' }, notice: 'Message saved as draft.' }
-          @message.mark_as_draft
-        end
+        format.html { render :new, notice: 'Something went wrong!' }
       end
     end
   end
