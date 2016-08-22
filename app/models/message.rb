@@ -1,7 +1,5 @@
 class Message < ApplicationRecord
   before_create :set_subject_if_empty
-  after_create :set_flags_for_receiver
-  after_update :set_flags_for_receiver
 
   belongs_to :thread, class_name: 'Message'
   belongs_to :recipient, class_name: 'User', foreign_key: 'recipient_id'
@@ -26,7 +24,7 @@ class Message < ApplicationRecord
   scope :include_unread,  -> { where('message_flags.is_read = ?', false) }
   scope :exclude_unread,  -> { where('message_flags.is_read = ?', true) }
 
-  scope :exclude_others,  -> { exclude_trash.exclude_drafts }
+  scope :exclude_trash_and_drafts, -> { exclude_trash.exclude_drafts }
 
   scope :trash,   -> { only_threads.include_trash }
   scope :unread,  -> { only_threads.exclude_trash.include_unread }
@@ -34,15 +32,16 @@ class Message < ApplicationRecord
   scope :drafts,  -> (user_id) { only_threads.join_flags.include_drafts(user_id) }
   scope :sent,    -> (user_id) { join_flags.exclude_trash.exclude_drafts.where('message_flags.user_id = ?', user_id) }
 
-  scope :exclude_replies, lambda {
+  scope :exclude_other, lambda {
     joins(:message_flags)
-      .merge(exclude_others)
+      .merge(exclude_trash)
+      .merge(exclude_drafts)
   }
 
   # Multiple joined model scopes
   scope :include_replies, lambda {
     joins(:message_flags, :replies)
-      .merge(exclude_others)
+      .merge(exclude_trash_and_drafts)
   }
 
   def sender_email
@@ -53,14 +52,6 @@ class Message < ApplicationRecord
     recipient_id.nil? ? '' : User.find(recipient_id).email
   end
 
-  def set_flags_for_receiver
-    message_flags.where(user_id: recipient_id, message_id: id).first_or_create(is_read: false) unless recipient_id.nil?
-  end
-
-  def set_flags_for_sender
-    message_flags.where(user_id: sender_id, message_id: id).first_or_create(is_read: true)
-  end
-
   def self.ordered
     order('created_at asc')
   end
@@ -69,63 +60,51 @@ class Message < ApplicationRecord
     message_flags.where(user_id: user_id).try(:first).is_read
   end
 
-  def mark_read(user_id)
-    message_flags.where(user_id: user_id).update_all(is_read: true)
-  end
-
-  def self.mark_all_read(user_id)
-    all.each do |message|
-      message.message_flags.where(user_id: user_id, message_id: message.id).update_all(is_read: true)
-    end
-  end
-
-  def mark_unread(user_id)
-    message_flags.where(user_id: user_id).update_all(is_read: false)
-  end
-
-  def self.mark_all_unread(user_id)
-    all.each do |message|
-      message.message_flags.where(user_id: user_id, message_id: message.id).update_all(is_read: false)
-    end
-  end
-
   def starred?(user_id)
     message_flags.where(user_id: user_id).try(:first).is_starred
   end
 
-  def mark_starred(user_id, message_id)
-    message_flags.where(user_id: user_id, message_id: message_id).update_all(is_starred: true)
+  def mark_read(user_id)
+    message_flags.where(user_id: user_id, message_id: id).update_all(is_read: true)
+  end
+
+  def mark_unread(user_id)
+    message_flags.where(user_id: user_id, message_id: id).update_all(is_read: false)
+  end
+
+  def mark_starred(user_id)
+    message_flags.where(user_id: user_id, message_id: id).update_all(is_starred: true)
+  end
+
+  def mark_unstarred(user_id)
+    message_flags.where(user_id: user_id, message_id: id).update_all(is_starred: false)
+  end
+
+  def self.mark_all_read(user_id)
+    all.each do |message|
+      message.mark_read(user_id)
+    end
+  end
+
+  def self.mark_all_unread(user_id)
+    all.each do |message|
+      message.mark_unread(user_id)
+    end
   end
 
   def self.mark_all_starred(user_id)
     all.each do |message|
-      message.message_flags.where(user_id: user_id, message_id: message.id).update_all(is_starred: true)
+      message.mark_starred(user_id)
     end
-  end
-
-  def mark_unstarred(user_id, message_id)
-    message_flags.where(user_id: user_id, message_id: message_id).update_all(is_starred: false)
   end
 
   def self.mark_all_unstarred(user_id)
     all.each do |message|
-      message.message_flags.where(user_id: user_id, message_id: message.id).update_all(is_starred: false)
+      message.mark_unstarred(user_id)
     end
   end
 
-  def mark_as_draft
-    message_flags.where(user_id: sender_id, message_id: id).first_or_create(is_draft: true, is_read: true).update_attributes!(is_draft: true)
-  end
-
-  def remove_from_drafts
-    message_flags.where(user_id: sender_id, message_id: id).first_or_create(is_draft: false, is_read: true).update_attributes!(is_draft: false)
-  end
-
-  protected
-
-  def set_sent
-    self.is_sent = Time.now if is_sent.nil?
-  end
+  private
 
   def set_subject_if_empty
     self.subject = 'no subject' if subject.blank?

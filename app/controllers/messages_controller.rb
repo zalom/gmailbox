@@ -7,11 +7,11 @@ class MessagesController < ApplicationController
   end
 
   def index
-    @messages = current_user.received_messages.include_replies.or(current_user.sent_messages.include_replies).distinct
-    @messages = current_user.sent_messages.only_threads.sent(current_user.id) if params[:sent]
-    @messages = current_user.messages.starred if params[:starred]
-    @messages = current_user.sent_messages.drafts(current_user.id) if params[:drafts]
-    @messages = current_user.messages.trash if params[:trash]
+    @messages = current_user.messages.only_threads.exclude_trash_and_drafts.ordered
+    @messages = current_user.sent_messages.only_threads.sent(current_user.id).ordered if params[:sent]
+    @messages = current_user.messages.starred.ordered if params[:starred]
+    @messages = current_user.sent_messages.drafts(current_user.id).ordered if params[:drafts]
+    @messages = current_user.messages.trash.ordered if params[:trash]
   end
 
   def show
@@ -51,7 +51,7 @@ class MessagesController < ApplicationController
     elsif params[:starred]
       @message = current_user.messages.starred.find(params[:id])
     else
-      @message = current_user.received_messages.include_replies.or(current_user.sent_messages.include_replies).distinct.find(params[:id])
+      @message = current_user.messages.only_threads.exclude_trash_and_drafts.find(params[:id])
     end
   end
 

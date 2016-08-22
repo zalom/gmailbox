@@ -8,30 +8,25 @@ class MessageCreate
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 
   def create
-    50.times { print '#' }
-    5.times { puts }
-    puts "#{recipient_exists?}"
-    5.times { puts }
-    50.times { print '#' }
-
     if recipient_exists?
-      send_email
+      create_and_send_email
       @notice = 'Message successfully sent!'
     else
-      save_draft
-      @notice = 'Invalid email or No recipient found! Message saved as draft.'
+      create_as_draft
+      @notice = 'Invalid email or no recipient found! Message saved as draft.'
     end
   end
 
-  def save_draft
-    return message.mark_as_draft if message.save
+  def create_as_draft
+    return create_draft if message.save
   end
 
-  def send_email
+  def create_and_send_email
     message.class.transaction do
       set_recipient
       set_sent
-      message.remove_from_drafts
+      create_flags_for_sender
+      create_flags_for_receiver
     end if message.save
   end
 
@@ -59,5 +54,17 @@ class MessageCreate
 
   def matches_email_in_database?
     User.exists?(email: message_params[:recipient_email])
+  end
+
+  def create_flags_for_receiver
+    message.message_flags.where(user_id: message.recipient_id).first_or_create(is_read: false, is_draft: false) unless message.recipient_id.nil?
+  end
+
+  def create_flags_for_sender
+    message.message_flags.where(user_id: message.sender_id).first_or_create(is_read: true, is_draft: false) unless message.sender_id.nil?
+  end
+
+  def create_draft
+    message.message_flags.where(user_id: message.sender_id).first_or_create(is_draft: true) unless message.sender_id.nil?
   end
 end
