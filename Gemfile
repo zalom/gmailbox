@@ -16,6 +16,7 @@ gem 'trix'
 
 group :development, :test do
   gem 'byebug', platform: :mri
+  gem 'railroady'
 end
 
 group :development do
