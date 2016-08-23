@@ -7,7 +7,7 @@ class MessagesController < ApplicationController
   end
 
   def index
-    @messages = current_user.messages.only_threads.exclude_trash_and_drafts.ordered
+    @messages = current_user.messages.exclude_trash_and_drafts.ordered
     @messages = current_user.sent_messages.only_threads.sent(current_user.id).ordered if params[:sent]
     @messages = current_user.messages.starred.ordered if params[:starred]
     @messages = current_user.sent_messages.drafts(current_user.id).ordered if params[:drafts]

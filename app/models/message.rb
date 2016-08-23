@@ -24,7 +24,7 @@ class Message < ApplicationRecord
   scope :include_unread,  -> { where('message_flags.is_read = ?', false) }
   scope :exclude_unread,  -> { where('message_flags.is_read = ?', true) }
 
-  scope :exclude_trash_and_drafts, -> { exclude_trash.exclude_drafts }
+  scope :exclude_trash_and_drafts, -> { only_threads.exclude_trash.exclude_drafts }
 
   scope :trash,   -> { only_threads.include_trash }
   scope :unread,  -> { only_threads.exclude_trash.include_unread }
@@ -80,6 +80,14 @@ class Message < ApplicationRecord
     message_flags.where(user_id: user_id, message_id: id).update_all(is_starred: false)
   end
 
+  def mark_as_trash(user_id)
+    message_flags.where(user_id: user_id, message_id: id).update_all(is_trash: true)
+  end
+
+  def remove_from_trash(user_id)
+    message_flags.where(user_id: user_id, message_id: id).update_all(is_trash: false)
+  end
+
   def self.mark_all_read(user_id)
     all.each do |message|
       message.mark_read(user_id)
@@ -101,6 +109,18 @@ class Message < ApplicationRecord
   def self.mark_all_unstarred(user_id)
     all.each do |message|
       message.mark_unstarred(user_id)
+    end
+  end
+
+  def self.mark_all_trash(user_id)
+    all.each do |message|
+      message.mark_as_trash(user_id)
+    end
+  end
+
+  def self.remove_all_from_trash(user_id)
+    all.each do |message|
+      message.remove_from_trash(user_id)
     end
   end
 
