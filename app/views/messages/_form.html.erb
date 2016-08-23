@@ -1,0 +1,42 @@
+<%= form_for([current_user, current_user.sent_messages.build], html: { id: 'new-message', class: 'inbox-compose form-horizontal' }) do |f| %>
+  <% if !defined? thread %>
+    <div class="inbox-form-group mail-to">
+      <label class="control-label">To:</label>
+      <div class="controls controls-to">
+        <%= f.text_field :recipient_email, class: 'form-control', html: { name: 'to' } %>
+      </div>
+    </div>
+    <div class="inbox-form-group">
+      <label class="control-label">Subject:</label>
+      <div class="controls">
+        <%= f.text_field :subject, class: 'form-control', html: { name: 'subject' } %>
+      </div>
+    </div>
+  <% else %>
+    <%= f.hidden_field :thread_id, value: thread.id  %>
+    <%= f.hidden_field :recipient_email, value: find_correct_recipient(thread)  %>
+    <%= f.hidden_field :subject, value: thread.subject  %>
+  <% end %>
+  <div class="inbox-form-group">
+    <%= f.trix_editor :content %>
+  </div>
+  <!-- The template to display files available for download -->
+  <div class="inbox-compose-btn text-center">
+    <% if !defined? thread %>
+      <%= button_tag class: 'btn green' do %>
+        <i class="fa fa-check"></i>Send
+      <% end %>
+      <button class="btn default">Discard</button>
+      <button class="btn default">Draft</button>
+    <% else %>
+      <div class="btn-group">
+        <%= button_tag class: 'btn blue action-btn margin-right-10' do %>
+          <i class="fa fa-reply"></i> Reply
+        <% end %>
+        <button data-messageid="<%= @message.id %>" class="btn blue action-btn">
+          <i class="fa fa-trash-o"></i> Delete
+        </button>
+      </div>
+    <% end %>
+  </div>
+<% end %>

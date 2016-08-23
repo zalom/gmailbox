@@ -22,9 +22,16 @@ class MessageCreate
   end
 
   def create_and_send_email
+    50.times { print '#' }
+    5.times { puts }
+    puts message_params[:thread_id]
+    5.times { puts }
+    50.times { print '#' }
+    debugger
     message.class.transaction do
       set_recipient
       set_sent
+      set_thread
       create_flags_for_sender
       create_flags_for_receiver
     end if message.save
@@ -38,6 +45,10 @@ class MessageCreate
 
   def set_subject_if_empty
     message.subject = 'no subject' if message.subject.blank?
+  end
+
+  def set_thread
+    message.thread_id = message_params[:thread_id] unless message_params[:thread_id].nil?
   end
 
   def set_recipient

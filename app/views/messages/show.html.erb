@@ -21,9 +21,7 @@
           <%= render partial: 'message', collection: @replies %>
         </div>
         <div id="editor" class="row">
-        </div>
-        <div id="actions" class="row">
-          <%= render 'messages/shared/actions' %>
+          <%= render partial: 'form', locals: { thread: @message } %>
         </div>
       </div>
     </div>

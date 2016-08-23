@@ -74,4 +74,8 @@ module MessagesHelper
   def params_exist?
     true if params[:starred] || params[:sent] || params[:trash] || params[:drafts]
   end
+
+  def find_correct_recipient(thread)
+    thread.sender_id == current_user.id ? thread.recipient_email : thread.sender_email
+  end
 end

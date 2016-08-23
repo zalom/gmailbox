@@ -9,31 +9,7 @@
         <h1 class="pull-left">Compose</h1>
       </div>
       <div class="inbox-content">
-        <%= form_for([current_user, current_user.sent_messages.build], html: { id: 'new-message', class: 'inbox-compose form-horizontal' }) do |f| %>
-          <div class="inbox-form-group mail-to">
-            <label class="control-label">To:</label>
-            <div class="controls controls-to">
-              <%= f.text_field :recipient_email, class: 'form-control', html: { name: 'to' } %>
-            </div>
-          </div>
-          <div class="inbox-form-group">
-            <label class="control-label">Subject:</label>
-            <div class="controls">
-              <%= f.text_field :subject, class: 'form-control', html: { name: 'subject' } %>
-            </div>
-          </div>
-          <div class="inbox-form-group">
-            <%= f.trix_editor :content %>
-          </div>
-          <!-- The template to display files available for download -->
-          <div class="inbox-compose-btn text-center">
-            <%= button_tag class: 'btn green' do %>
-              <i class="fa fa-check"></i>Send
-            <% end %>
-            <button class="btn default">Discard</button>
-            <button class="btn default">Draft</button>
-          </div>
-        <% end %>
+        <%= render 'form' %>
       </div>
     </div>
   </div>
