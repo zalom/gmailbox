@@ -30,7 +30,7 @@ class Message < ApplicationRecord
   scope :unread,  -> { only_threads.exclude_trash.include_unread }
   scope :starred, -> { only_threads.exclude_trash.include_starred }
   scope :drafts,  -> (user_id) { only_threads.join_flags.include_drafts(user_id) }
-  scope :sent,    -> (user_id) { join_flags.exclude_trash.exclude_drafts.where('message_flags.user_id = ?', user_id) }
+  scope :sent,    -> (user_id) { only_threads.join_flags.exclude_trash_and_drafts.where('message_flags.user_id = ?', user_id) }
 
   scope :exclude_other, lambda {
     joins(:message_flags)

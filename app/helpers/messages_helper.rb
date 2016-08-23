@@ -41,20 +41,15 @@ module MessagesHelper
 
   def link_for(message, msg_param)
     if params[:sent]
-      link_to(message.send("#{msg_param}".to_sym),
-              message_path(message.id, sent: true), class: 'cell-link')
+      link_to(message.send(msg_param.to_s.to_sym), message_path(message.id, sent: true), class: 'cell-link')
     elsif params[:drafts]
-      link_to(message.send("#{msg_param}".to_sym),
-              message_path(message.id, drafts: true), class: 'cell-link')
+      link_to(message.send(msg_param.to_s.to_sym), message_path(message.id, drafts: true), class: 'cell-link')
     elsif params[:trash]
-      link_to(message.send("#{msg_param}".to_sym),
-              message_path(message.id, trash: true), class: 'cell-link')
+      link_to(message.send(msg_param.to_s.to_sym), message_path(message.id, trash: true), class: 'cell-link')
     elsif params[:starred]
-      link_to(message.send("#{msg_param}".to_sym),
-              message_path(message.id, starred: true), class: 'cell-link')
+      link_to(message.send(msg_param.to_s.to_sym), message_path(message.id, starred: true), class: 'cell-link')
     else
-      link_to(message.send("#{msg_param}".to_sym),
-              message_path(message.id), class: 'cell-link')
+      link_to(message.send(msg_param.to_s.to_sym), message_path(message.id), class: 'cell-link')
     end
   end
 
