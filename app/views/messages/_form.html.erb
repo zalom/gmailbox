@@ -26,8 +26,8 @@
       <%= button_tag class: 'btn green' do %>
         <i class="fa fa-check"></i>Send
       <% end %>
-      <button class="btn default">Discard</button>
-      <button class="btn default">Draft</button>
+      <%= link_to 'Discard', root_path, class: 'btn default', data: { confirm: 'Message not saved! Are you sure you want to cancel?' } %>
+      <%= button_to 'Draft', { action: 'create', params: { draft: true } }, { class: 'btn default' } %>
     <% else %>
       <div class="btn-group">
         <%= button_tag class: 'btn blue action-btn margin-right-10' do %>

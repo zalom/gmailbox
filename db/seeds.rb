@@ -23,293 +23,165 @@ user4 = User.find_by_email(users[:user4][:email])
 user5 = User.find_by_email(users[:user5][:email])
 user6 = User.find_by_email(users[:user6][:email])
 
+def print_notice(msg)
+  puts 'message_id: ' + msg.message.id.to_s
+  puts 'notice: ' + msg.notice
+end
+
 # Zlatko -> Ervin (id: 1)
-user1.sent_messages.create(
+message_params = {
   subject: 'Pull request needed',
   content: 'First seeded email. Accept pull request.',
-  recipient_id: User.find_by_email(users[:user3][:email]).id,
-  sent_at: Time.now
-)
-
-# Set Flags for Zlatko on message_id = 1
-user1.sent_messages.find(1).message_flags.create(
-  user_id: user1.id,
-  is_draft: false,
-  is_read: true
-)
-
-# TODO: After Create callback for recipient_id needed
-# Set Flags for Ervin on message_id = 1 (is_read: false)
-Message.find(1).message_flags.create(
-  user_id: Message.find(1).recipient_id
-)
+  recipient_email: user3.email
+}
+message = MessageCreate.new(user1, message_params)
+message.create
+print_notice(message)
 
 # Mirza -> Ervin (id: 2)
-user2.sent_messages.create(
+message_params = {
   subject: 'Pull request info',
   content: "Accept Zlaja's pull request.",
-  recipient_id: User.find_by_email(users[:user3][:email]).id,
-  sent_at: Time.now
-)
-
-# Set Flags for Mirza on message_id = 2
-user2.sent_messages.find(2).message_flags.create(
-  user_id: user2.id,
-  is_draft: false,
-  is_read: true
-)
-
-# TODO: After Create callback for recipient_id needed
-# Set Flags for Ervin on message_id = 2 (is_read: false)
-Message.find(2).message_flags.create(
-  user_id: Message.find(2).recipient_id
-)
+  recipient_email: user3.email
+}
+message = MessageCreate.new(user2, message_params)
+message.create
+print_notice(message)
 
 # Ervin -> Zlatko (thread) (id: 3)
-user3.sent_messages.create(
+message_params = {
   subject: 'Pull request needed',
   content: 'I am answering to the First seeded email. 
             Commits are not good. Pull request is not approved.',
-  recipient_id: User.find_by_email(users[:user1][:email]).id,
-  sent_at: Time.now,
+  recipient_email: user1.email,
   thread_id: 1
-)
-
-# Set Flags for Ervin on message_id = 3
-user3.sent_messages.find(3).message_flags.create(
-  user_id: user3.id,
-  is_draft: false,
-  is_read: true
-)
-
-# TODO: After Create callback for recipient_id needed
-# Set Flags for Zlatko on message_id = 3 (is_read: false)
-Message.find(3).message_flags.create(
-  user_id: Message.find(3).recipient_id
-)
+}
+message = MessageCreate.new(user3, message_params)
+message.create
+print_notice(message)
 
 # Ervin -> Mirza (thread) (id: 4)
-user3.sent_messages.create(
+message_params = {
   subject: 'Pull request info',
   content: 'I am answering to the Second seeded email. 
             Answered to Zlaja already.',
-  recipient_id: User.find_by_email(users[:user2][:email]).id,
-  sent_at: Time.now,
+  recipient_email: user2.email,
   thread_id: 2
-)
-
-# Set Flags for Ervin on message_id = 4
-user3.sent_messages.find(4).message_flags.create(
-  user_id: user3.id,
-  is_draft: false,
-  is_read: true
-)
-
-# TODO: After Create callback for recipient_id needed
-# Set Flags for Mirza on message_id = 4 (is_read: false)
-Message.find(4).message_flags.create(
-  user_id: Message.find(4).recipient_id
-)
+}
+message = MessageCreate.new(user3, message_params)
+message.create
+print_notice(message)
 
 # Ervin -> Zlatko (id: 5)
-user3.sent_messages.create(
+message_params = {
   subject: 'Pull request fix bugs',
   content: 'Have you fixed the bugs? It is Important!',
-  recipient_id: User.find_by_email(users[:user1][:email]).id,
-  sent_at: Time.now
-)
-
-# Set Flags for Ervin on message_id = 5
-user3.sent_messages.find(5).message_flags.create(
-  user_id: user3.id,
-  is_draft: false,
-  is_read: true
-)
-
-# TODO: After Create callback for recipient_id needed
-# Set Flags for Mirza on message_id = 5 (is_read: false)
-Message.find(5).message_flags.create(
-  user_id: Message.find(5).recipient_id
-)
+  recipient_email: user1.email
+}
+message = MessageCreate.new(user3, message_params)
+message.create
+print_notice(message)
 
 # Zlatko -> Ervin (thread) (id: 6)
-user1.sent_messages.create(
+message_params = {
   subject: 'Pull request question',
   content: 'I am answering and marking your last email as Important.',
-  recipient_id: User.find_by_email(users[:user3][:email]).id,
-  sent_at: Time.now,
+  recipient_email: user3.email,
   thread_id: 5
-)
+}
+message = MessageCreate.new(user1, message_params)
+message.create
+print_notice(message)
 
-# Set Flags for Zlatko on message_id = 6
-user1.sent_messages.find(6).message_flags.create(
-  user_id: user1.id,
-  is_draft: false,
-  is_read: true
-)
-
-# Mark important for Zlatko on message_id = 5
-user1.messages.find(5).message_flags.where(user_id: user1.id).update_all(
-  is_starred: true
-)
-
-# TODO: After Create callback for recipient_id needed
-# Set Flags for Ervin on message_id = 6 (is_read: false)
-Message.find(6).message_flags.create(
-  user_id: Message.find(6).recipient_id
-)
+# Mark starred for Zlatko on message_id = 5
+message.message.mark_starred(user1)
 
 # Ervin -> Zlatko (thread) (id: 7)
-user3.sent_messages.create(
+message_params = {
   subject: 'Pull request question',
   content: 'OK. I am waiting for the next message!',
-  recipient_id: User.find_by_email(users[:user1][:email]).id,
-  sent_at: Time.now,
+  recipient_email: user1.email,
   thread_id: 5
-)
-
-# Set Flags for Ervin on message_id = 7
-user3.sent_messages.find(7).message_flags.create(
-  user_id: user3.id,
-  is_draft: false,
-  is_read: true
-)
-
-# TODO: After Create callback for recipient_id needed
-# Set Flags for Zlatko on message_id = 7 (is_read: false)
-Message.find(7).message_flags.create(
-  user_id: Message.find(7).recipient_id
-)
+}
+message = MessageCreate.new(user3, message_params)
+message.create
+print_notice(message)
 
 # Enes -> Zlatko (id: 8)
-user5.sent_messages.create(
+message_params = {
   subject: 'Fix CSS!',
   content: 'CSS ... CSS ... CSS',
-  recipient_id: User.find_by_email(users[:user1][:email]).id,
-  sent_at: Time.now
-)
-
-# Set Flags for Enes on message_id = 8
-user5.sent_messages.find(8).message_flags.create(
-  user_id: user5.id,
-  is_draft: false,
-  is_read: true
-)
-
-# TODO: After Create callback for recipient_id needed
-# Set Flags for Zlatko on message_id = 8 (is_read: false)
-Message.find(8).message_flags.create(
-  user_id: Message.find(8).recipient_id
-)
+  recipient_email: user1.email
+}
+message = MessageCreate.new(user5, message_params)
+message.create
+print_notice(message)
 
 # Enes -> Zlatko (id: 9)
-user5.sent_messages.create(
+message_params = {
   subject: 'I said - Fix CSS!',
   content: 'CSS...CSS...CSS...CSS',
-  recipient_id: User.find_by_email(users[:user1][:email]).id,
-  sent_at: Time.now
-)
+  recipient_email: user1.email
+}
+message = MessageCreate.new(user5, message_params)
+message.create
+print_notice(message)
 
-# Set Flags for Enes on message_id = 9
-user5.sent_messages.find(9).message_flags.create(
-  user_id: user5.id,
-  is_draft: false,
-  is_read: true
-)
-
-# TODO: After Create callback for recipient_id needed
-# Set Flags for Zlatko on message_id = 9 (is_read: false)
-Message.find(9).message_flags.create(
-  user_id: Message.find(9).recipient_id
-)
-
-# Move to Trash message with id: 8 for Zlatko
-user1.messages.find(8).message_flags.where(user_id: user1.id).update_all(
-  is_trash: true
-)
+# Move unread message with id: 8 to Trash for Zlatko
+user1.messages.find(8).mark_as_trash(user1)
 
 # Mark as read message with id: 9 and move to Trash for Zlatko
-user1.messages.find(9).message_flags.where(user_id: user1.id).update_all(
-  is_read: true,
-  is_trash: true
-)
+user1.messages.find(9).mark_read(user1)
+user1.messages.find(9).mark_as_trash(user1)
 
 # Zlatko -> Enes (id: 10)
-user1.sent_messages.create(
+message_params = {
   subject: "I'll fix the css. OK!",
   content: 'It is not fair that only you can say CSS...CSS...CSS...CSS!',
-  recipient_id: User.find_by_email(users[:user5][:email]).id,
-  sent_at: Time.now
-)
+  recipient_email: user5.email
+}
+message = MessageCreate.new(user1, message_params)
+message.create
+print_notice(message)
 
-# Set Flags for Zlatko on message_id = 10
-user1.sent_messages.find(10).message_flags.create(
-  user_id: user1.id,
-  is_draft: false,
-  is_read: true
-)
-
-# TODO: After Create callback for recipient_id needed
-# Set Flags for Enes on message_id = 10 (is_read: false)
-Message.find(10).message_flags.create(
-  user_id: Message.find(10).recipient_id
-)
-
-# Zlatko -> Enes (id: 11)
-user5.sent_messages.create(
+# Enes -> Zlatko (thread) (id: 11)
+message_params = {
   subject: "I'll fix the css. OK!",
   content: 'I am only answering because you are testing messages!',
-  recipient_id: User.find_by_email(users[:user1][:email]).id,
-  sent_at: Time.now,
+  recipient_email: user1.email,
   thread_id: 10
-)
+}
+message = MessageCreate.new(user5, message_params)
+message.create
+print_notice(message)
 
-# Set Flags for Enes on message_id = 11
-user5.sent_messages.find(11).message_flags.create(
-  user_id: user5.id,
-  is_draft: false,
-  is_read: true
-)
-
-# TODO: After Create callback for recipient_id needed
-# Set Flags for Zlatko on message_id = 11 (is_read: false)
-Message.find(11).message_flags.create(
-  user_id: Message.find(11).recipient_id
-)
-
-# Zlatko -> Mirza (id: 12)
-user1.sent_messages.create(
+# Zlatko -> Mirza (draft) (id: 12)
+message_params = {
   subject: 'First draft',
   content: 'SCRUM meeting is canceled!',
-  recipient_id: User.find_by_email(users[:user2][:email]).id
-)
-
-# Set Flags for Zlatko on message_id = 12
-user1.sent_messages.find(12).message_flags.create(
-  user_id: user1.id,
-  is_read: true
-)
+  recipient_email: user2.email,
+  draft: true
+}
+message = MessageCreate.new(user1, message_params)
+message.create
+print_notice(message)
 
 # Zlatko -> Sedad (id: 13)
-user1.sent_messages.create(
+message_params = {
   subject: 'Second draft',
-  content: 'Hello Sedad, the weather is awesome!'
-)
-
-# Set Flags for Zlatko on message_id = 13
-user1.sent_messages.find(13).message_flags.create(
-  user_id: user1.id,
-  is_read: true
-)
+  content: 'Hello Sedad, the weather is awesome!',
+  draft: true
+}
+message = MessageCreate.new(user1, message_params)
+message.create
+print_notice(message)
 
 # Zlatko -> Jasmin (id: 14)
-user1.sent_messages.create(
+message_params = {
   subject: 'Third draft',
-  content: 'Hello Jasmin, hope you are well!'
-)
-
-# Set Flags for Zlatko on message_id = 14
-user1.sent_messages.find(14).message_flags.create(
-  user_id: user1.id,
-  is_read: true
-)
+  content: 'Hello Jasmin, hope you are well!',
+  draft: true
+}
+message = MessageCreate.new(user1, message_params)
+message.create
+print_notice(message)

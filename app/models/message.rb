@@ -9,7 +9,7 @@ class Message < ApplicationRecord
   has_many :users, through: :message_flags
   has_many :message_flags
 
-  attr_accessor :recipient_email
+  attr_accessor :recipient_email, :draft
 
   # Scopes on model
   scope :only_threads, -> { where thread_id: nil }
@@ -23,6 +23,7 @@ class Message < ApplicationRecord
   scope :exclude_drafts,  -> { where('message_flags.is_draft = ?', false) }
   scope :include_unread,  -> { where('message_flags.is_read = ?', false) }
   scope :exclude_unread,  -> { where('message_flags.is_read = ?', true) }
+  scope :ordered,         -> { includes(:message_flags).order('message_flags.is_read, message_flags.updated_at desc') }
 
   scope :exclude_trash_and_drafts, -> { only_threads.exclude_trash.exclude_drafts }
 
@@ -52,40 +53,36 @@ class Message < ApplicationRecord
     recipient_id.nil? ? '' : User.find(recipient_id).email
   end
 
-  def self.ordered
-    order('created_at asc')
-  end
-
   def read?(user_id)
-    message_flags.where(user_id: user_id).try(:first).is_read
+    check_for_thread.message_flags.where(user_id: user_id).try(:first).is_read
   end
 
   def starred?(user_id)
-    message_flags.where(user_id: user_id).try(:first).is_starred
+    check_for_thread.message_flags.where(user_id: user_id).try(:first).is_starred
   end
 
   def mark_read(user_id)
-    message_flags.where(user_id: user_id, message_id: id).update_all(is_read: true)
+    check_for_thread.message_flags.where(user_id: user_id, message_id: id).update_all(is_read: true)
   end
 
   def mark_unread(user_id)
-    message_flags.where(user_id: user_id, message_id: id).update_all(is_read: false)
+    check_for_thread.message_flags.where(user_id: user_id, message_id: id).update_all(is_read: false)
   end
 
   def mark_starred(user_id)
-    message_flags.where(user_id: user_id, message_id: id).update_all(is_starred: true)
+    check_for_thread.message_flags.where(user_id: user_id, message_id: id).update_all(is_starred: true)
   end
 
   def mark_unstarred(user_id)
-    message_flags.where(user_id: user_id, message_id: id).update_all(is_starred: false)
+    check_for_thread.message_flags.where(user_id: user_id, message_id: id).update_all(is_starred: false)
   end
 
   def mark_as_trash(user_id)
-    message_flags.where(user_id: user_id, message_id: id).update_all(is_trash: true)
+    check_for_thread.message_flags.where(user_id: user_id, message_id: id).update_all(is_trash: true)
   end
 
   def remove_from_trash(user_id)
-    message_flags.where(user_id: user_id, message_id: id).update_all(is_trash: false)
+    check_for_thread.message_flags.where(user_id: user_id, message_id: id).update_all(is_trash: false)
   end
 
   def self.mark_all_read(user_id)
@@ -122,6 +119,12 @@ class Message < ApplicationRecord
     all.each do |message|
       message.remove_from_trash(user_id)
     end
+  end
+
+  protected
+
+  def check_for_thread
+    thread.nil? ? self : thread
   end
 
   private

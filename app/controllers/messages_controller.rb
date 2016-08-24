@@ -10,8 +10,8 @@ class MessagesController < ApplicationController
     @messages = current_user.messages.exclude_trash_and_drafts.ordered
     @messages = current_user.sent_messages.sent(current_user.id).ordered if params[:sent]
     @messages = current_user.messages.starred.ordered if params[:starred]
-    @messages = current_user.sent_messages.drafts(current_user.id).ordered if params[:drafts]
-    @messages = current_user.messages.trash.ordered if params[:trash]
+    @messages = current_user.sent_messages.drafts(current_user.id) if params[:drafts]
+    @messages = current_user.messages.trash if params[:trash]
   end
 
   def show
@@ -56,6 +56,6 @@ class MessagesController < ApplicationController
   end
 
   def message_params
-    params.require(:message).permit(:subject, :content, :recipient_email, :thread_id)
+    params.require(:message).permit(:subject, :content, :recipient_email, :thread_id, :draft)
   end
 end

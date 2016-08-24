@@ -8,26 +8,29 @@ class MessageCreate
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 
   def create
-    if recipient_exists?
+    if recipient_exists? && !message_params.key?(:draft)
       create_and_send_email
       @notice = 'Message successfully sent!'
     else
       create_as_draft
-      @notice = 'Invalid email or no recipient found! Message saved as draft.'
+      notice_msg = 'Message saved as draft.'
+      @notice = recipient_exists? ? notice_msg : 'Recipient not known! ' + notice_msg
     end
   end
 
   def create_as_draft
-    return create_draft if message.save
+    message.class.transaction do
+      create_draft
+    end if message.save
   end
 
   def create_and_send_email
-    50.times { print '#' }
-    5.times { puts }
-    puts message_params[:thread_id]
-    5.times { puts }
-    50.times { print '#' }
-    debugger
+    # 50.times { print '#' }
+    # 5.times { puts }
+    # puts message_params
+    # 5.times { puts }
+    # 50.times { print '#' }
+    # debugger
     message.class.transaction do
       set_recipient
       set_sent
@@ -38,6 +41,11 @@ class MessageCreate
   end
 
   protected
+
+  def create_draft
+    return if message.sender_id.nil?
+    message.message_flags.where(user_id: message.sender_id).first_or_create(is_read: true, is_draft: true)
+  end
 
   def set_sent
     message.update(sent_at: Time.now) if message.sent_at.nil?
@@ -68,14 +76,12 @@ class MessageCreate
   end
 
   def create_flags_for_receiver
-    message.message_flags.where(user_id: message.recipient_id).first_or_create(is_read: false, is_draft: false) unless message.recipient_id.nil?
+    return if message.recipient_id.nil?
+    message.message_flags.where(user_id: message.recipient_id).first_or_create(is_read: false, is_draft: false)
   end
 
   def create_flags_for_sender
-    message.message_flags.where(user_id: message.sender_id).first_or_create(is_read: true, is_draft: false) unless message.sender_id.nil?
-  end
-
-  def create_draft
-    message.message_flags.where(user_id: message.sender_id).first_or_create(is_draft: true) unless message.sender_id.nil?
+    return if message.sender_id.nil?
+    message.message_flags.where(user_id: message.sender_id).first_or_create(is_read: true, is_draft: false)
   end
 end
