@@ -16,11 +16,11 @@ class MessagesController < ApplicationController
 
   def show
     @message.mark_read(current_user.id) unless @message.read?(current_user.id)
-    @replies = @message.replies.ordered if @message.replies.any?
+    @replies = @message.replies.ordered_replies if @message.replies.any?
   end
 
   def create
-    new_message = MessageCreate.new(current_user, message_params)
+    new_message = set_thread
     respond_to do |format|
       if new_message.create
         format.html { redirect_to root_path, notice: new_message.notice }
@@ -37,6 +37,29 @@ class MessagesController < ApplicationController
   end
 
   def destroy
+  end
+
+  protected
+
+  def set_thread
+    if params.key?(params[:thread_id])
+      inspect_params
+      MessageCreate.new(current_user, message_params, params[:id])
+    else
+      inspect_params
+      MessageCreate.new(current_user, message_params)
+    end
+  end
+
+  def inspect_params
+    50.times { print '#' }
+    5.times { puts }
+    puts params.inspect
+    puts params[:id]
+    puts message_params.inspect
+    5.times { puts }
+    50.times { print '#' }
+    debugger
   end
 
   private
@@ -56,6 +79,6 @@ class MessagesController < ApplicationController
   end
 
   def message_params
-    params.require(:message).permit(:subject, :content, :recipient_email, :thread_id, :draft)
+    params.require(:message).permit(:id, :subject, :content, :recipient_email, :thread_id, :draft)
   end
 end

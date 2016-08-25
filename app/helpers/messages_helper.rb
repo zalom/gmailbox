@@ -43,7 +43,7 @@ module MessagesHelper
     if params[:sent]
       link_to(message.send(msg_param.to_s.to_sym), message_path(message.id, sent: true), class: 'cell-link')
     elsif params[:drafts]
-      link_to(message.send(msg_param.to_s.to_sym), message_path(message.id, drafts: true), class: 'cell-link')
+      link_to(message.send(msg_param.to_s.to_sym), edit_user_message_path(current_user.id, message.id, drafts: true), class: 'cell-link')
     elsif params[:trash]
       link_to(message.send(msg_param.to_s.to_sym), message_path(message.id, trash: true), class: 'cell-link')
     elsif params[:starred]

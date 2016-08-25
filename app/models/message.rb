@@ -24,6 +24,7 @@ class Message < ApplicationRecord
   scope :include_unread,  -> { where('message_flags.is_read = ?', false) }
   scope :exclude_unread,  -> { where('message_flags.is_read = ?', true) }
   scope :ordered,         -> { includes(:message_flags).order('message_flags.is_read, message_flags.updated_at desc') }
+  scope :ordered_replies, -> { order('updated_at asc') }
 
   scope :exclude_trash_and_drafts, -> { only_threads.exclude_trash.exclude_drafts }
 
@@ -50,7 +51,11 @@ class Message < ApplicationRecord
   end
 
   def recipient_email
-    recipient_id.nil? ? '' : User.find(recipient_id).email
+    recipient_id.nil? ? '' : User.find_by_email(recipient_id).email
+  end
+
+  def recipient_email=(email)
+    self.recipient_id = User.find_by_email(email).id
   end
 
   def read?(user_id)

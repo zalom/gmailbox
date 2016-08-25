@@ -1,9 +1,10 @@
 class MessageCreate
-  def initialize(user, message_params)
+  def initialize(user, message_params, thread_id = nil)
     @message = user.sent_messages.new(message_params)
     @message_params = message_params
+    @thread_id = thread_id
   end
-  attr_reader :message, :message_params, :notice
+  attr_reader :message, :message_params, :notice, :thread_id
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 
@@ -19,18 +20,14 @@ class MessageCreate
   end
 
   def create_as_draft
+    inspect_params
     message.class.transaction do
       create_draft
     end if message.save
   end
 
   def create_and_send_email
-    # 50.times { print '#' }
-    # 5.times { puts }
-    # puts message_params
-    # 5.times { puts }
-    # 50.times { print '#' }
-    # debugger
+    inspect_params
     message.class.transaction do
       set_recipient
       set_sent
@@ -41,6 +38,16 @@ class MessageCreate
   end
 
   protected
+
+  def inspect_params
+    50.times { print '#' }
+    5.times { puts }
+    puts message_params.inspect
+    puts thread_id
+    5.times { puts }
+    50.times { print '#' }
+    debugger
+  end
 
   def create_draft
     return if message.sender_id.nil?
@@ -56,7 +63,7 @@ class MessageCreate
   end
 
   def set_thread
-    message.thread_id = message_params[:thread_id] unless message_params[:thread_id].nil?
+    message.thread_id = thread_id unless message_params[:thread_id].nil?
   end
 
   def set_recipient
@@ -83,5 +90,11 @@ class MessageCreate
   def create_flags_for_sender
     return if message.sender_id.nil?
     message.message_flags.where(user_id: message.sender_id).first_or_create(is_read: true, is_draft: false)
+  end
+
+  private
+
+  def thread_check_fails?
+
   end
 end

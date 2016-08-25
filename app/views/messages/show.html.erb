@@ -21,11 +21,10 @@
           <%= render partial: 'message', collection: @replies %>
         </div>
         <div id="editor" class="row">
-          <%= render partial: 'form', locals: { thread: @message } %>
+          <%= render partial: 'form', locals: { user: current_user, message: Message.new, thread: @message } %>
         </div>
       </div>
     </div>
   </div>
   <!-- END CONTENT -->
 </div>
-
