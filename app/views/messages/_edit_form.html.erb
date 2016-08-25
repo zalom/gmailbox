@@ -1,4 +1,4 @@
-<%= form_for([user, message], html: { id: 'new-message', class: 'inbox-compose form-horizontal' }) do |f| %>
+<%= form_for(message, html: { id: 'new-message', class: 'inbox-compose form-horizontal' }) do |f| %>
   <% if !defined? thread %>
     <div class="inbox-form-group mail-to">
       <label class="control-label">To:</label>
@@ -27,7 +27,6 @@
         <i class="fa fa-check"></i>Send
       <% end %>
       <%= link_to 'Discard', root_path, class: 'btn default', data: { confirm: 'Message not saved! Are you sure you want to cancel?' } %>
-      <%= button_to 'Draft', { action: 'create', params: { draft: true } }, { class: 'btn default' } %>
     <% else %>
       <div class="btn-group">
         <%= button_tag class: 'btn blue action-btn margin-right-10' do %>
