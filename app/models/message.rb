@@ -51,11 +51,7 @@ class Message < ApplicationRecord
   end
 
   def recipient_email
-    recipient_id.nil? ? '' : User.find_by_email(recipient_id).email
-  end
-
-  def recipient_email=(email)
-    self.recipient_id = User.find_by_email(email).id
+    recipient_id.nil? ? '' : User.find(recipient_id).email
   end
 
   def read?(user_id)

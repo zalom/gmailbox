@@ -1,4 +1,4 @@
-<%= form_for(message, html: { id: 'new-message', class: 'inbox-compose form-horizontal' }) do |f| %>
+<%= form_for(message, html: { class: 'inbox-compose form-horizontal' }) do |f| %>
   <% if !defined? thread %>
     <div class="inbox-form-group mail-to">
       <label class="control-label">To:</label>
@@ -39,3 +39,4 @@
     <% end %>
   </div>
 <% end %>
+<%= debug params %>

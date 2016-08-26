@@ -34,6 +34,20 @@ class MessagesController < ApplicationController
   end
 
   def update
+    respond_to do |format|
+      if @message.update(
+        subject: message_params[:subject],
+        content: message_params[:content],
+        recipient_id: User.find_by_email(message_params[:recipient_email]).id,
+        sent_at: Time.now
+      )
+        @message.sender.message_flags.where(message_id: @message.id).update(is_draft: false)
+        @message.recipient.message_flags.where(message_id: @message.id).first_or_create(is_read: false) unless @message.recipient.nil?
+        format.html { redirect_to root_path, notice: 'Message successfully sent!' }
+      else
+        format.html { render :edit, notice: 'Something went wrong!' }
+      end
+    end
   end
 
   def destroy
@@ -43,11 +57,9 @@ class MessagesController < ApplicationController
 
   def set_thread
     if params.key?(params[:thread_id])
-      inspect_params
-      MessageCreate.new(current_user, message_params, params[:id])
+      MessageCreate.new(current_user, params, message_params, params[:id])
     else
-      inspect_params
-      MessageCreate.new(current_user, message_params)
+      MessageCreate.new(current_user, params, message_params)
     end
   end
 
@@ -56,7 +68,6 @@ class MessagesController < ApplicationController
     5.times { puts }
     puts params.inspect
     puts params[:id]
-    puts message_params.inspect
     5.times { puts }
     50.times { print '#' }
     debugger
@@ -67,14 +78,14 @@ class MessagesController < ApplicationController
   def set_message
     if params[:sent]
       @message = current_user.sent_messages.only_threads.find(params[:id])
-    elsif params[:drafts]
+    elsif params[:drafts] || params[:action] == 'update'
       @message = current_user.sent_messages.drafts(current_user.id).find(params[:id])
     elsif params[:trash]
       @message = current_user.messages.trash.find(params[:id])
     elsif params[:starred]
       @message = current_user.messages.starred.find(params[:id])
     else
-      @message = current_user.messages.only_threads.exclude_trash_and_drafts.find(params[:id])
+      @message = current_user.messages.exclude_trash_and_drafts.find(params[:id])
     end
   end
 

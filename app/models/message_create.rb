@@ -1,15 +1,16 @@
 class MessageCreate
-  def initialize(user, message_params, thread_id = nil)
+  def initialize(user, params, message_params, thread_id = nil)
     @message = user.sent_messages.new(message_params)
     @message_params = message_params
+    @params = params
     @thread_id = thread_id
   end
-  attr_reader :message, :message_params, :notice, :thread_id
+  attr_reader :message, :params, :message_params, :notice, :thread_id
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 
   def create
-    if recipient_exists? && !message_params.key?(:draft)
+    if recipient_exists? && !params.key?(:draft)
       create_and_send_email
       @notice = 'Message successfully sent!'
     else
@@ -20,14 +21,13 @@ class MessageCreate
   end
 
   def create_as_draft
-    inspect_params
     message.class.transaction do
+      set_recipient
       create_draft
     end if message.save
   end
 
   def create_and_send_email
-    inspect_params
     message.class.transaction do
       set_recipient
       set_sent
@@ -42,8 +42,9 @@ class MessageCreate
   def inspect_params
     50.times { print '#' }
     5.times { puts }
+    puts params.inspect
     puts message_params.inspect
-    puts thread_id
+    puts thread_id.inspect
     5.times { puts }
     50.times { print '#' }
     debugger
@@ -63,11 +64,11 @@ class MessageCreate
   end
 
   def set_thread
-    message.thread_id = thread_id unless message_params[:thread_id].nil?
+    message.update(thread_id: thread_id) if message_params[:thread_id].nil?
   end
 
   def set_recipient
-    message.recipient_id = User.find_by_email(message_params[:recipient_email]).id
+    message.update(recipient_id: User.find_by_email(message_params[:recipient_email]).id) unless message_params[:recipient_email].blank?
   end
 
   def recipient_exists?
@@ -90,11 +91,5 @@ class MessageCreate
   def create_flags_for_sender
     return if message.sender_id.nil?
     message.message_flags.where(user_id: message.sender_id).first_or_create(is_read: true, is_draft: false)
-  end
-
-  private
-
-  def thread_check_fails?
-
   end
 end

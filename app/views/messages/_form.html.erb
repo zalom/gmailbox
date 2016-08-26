@@ -27,10 +27,10 @@
         <i class="fa fa-check"></i>Send
       <% end %>
       <%= link_to 'Discard', root_path, class: 'btn default', data: { confirm: 'Message not saved! Are you sure you want to cancel?' } %>
-      <%= button_to 'Draft', { action: 'create', params: { draft: true } }, { class: 'btn default' } %>
+      <%= button_tag 'Draft', class: 'btn default', name: 'draft' %>
     <% else %>
       <div class="btn-group">
-        <%= button_tag class: 'btn blue action-btn margin-right-10' do %>
+        <%= button_tag class: 'btn blue action-btn margin-right-10', name: 'reply' do %>
           <i class="fa fa-reply"></i> Reply
         <% end %>
         <button data-messageid="<%= @message.id %>" class="btn blue action-btn">
