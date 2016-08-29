@@ -63,27 +63,27 @@ class Message < ApplicationRecord
   end
 
   def mark_read(user_id)
-    check_for_thread.message_flags.where(user_id: user_id, message_id: id).update(is_read: true)
+    check_for_thread.message_flags.where(user_id: user_id).update(is_read: true)
   end
 
   def mark_unread(user_id)
-    check_for_thread.message_flags.where(user_id: user_id, message_id: id).update(is_read: false)
+    check_for_thread.message_flags.where(user_id: user_id).update(is_read: false)
   end
 
   def mark_starred(user_id)
-    check_for_thread.message_flags.where(user_id: user_id, message_id: id).update(is_starred: true)
+    check_for_thread.message_flags.where(user_id: user_id).update(is_starred: true)
   end
 
   def mark_unstarred(user_id)
-    check_for_thread.message_flags.where(user_id: user_id, message_id: id).update(is_starred: false)
+    check_for_thread.message_flags.where(user_id: user_id).update(is_starred: false)
   end
 
   def mark_as_trash(user_id)
-    check_for_thread.message_flags.where(user_id: user_id, message_id: id).update(is_trash: true)
+    check_for_thread.message_flags.where(user_id: user_id).update(is_trash: true)
   end
 
   def remove_from_trash(user_id)
-    check_for_thread.message_flags.where(user_id: user_id, message_id: id).update(is_trash: false)
+    check_for_thread.message_flags.where(user_id: user_id).update(is_trash: false)
   end
 
   def self.mark_all_read(user_id)
@@ -121,8 +121,6 @@ class Message < ApplicationRecord
       message.remove_from_trash(user_id)
     end
   end
-
-  protected
 
   def check_for_thread
     thread.nil? ? self : thread
