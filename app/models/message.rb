@@ -23,8 +23,8 @@ class Message < ApplicationRecord
   scope :exclude_drafts,  -> { where('message_flags.is_draft = ?', false) }
   scope :include_unread,  -> { where('message_flags.is_read = ?', false) }
   scope :exclude_unread,  -> { where('message_flags.is_read = ?', true) }
-  scope :ordered,         -> { includes(:message_flags).order('message_flags.is_read, message_flags.updated_at desc') }
-  scope :ordered_replies, -> { order('updated_at asc') }
+  scope :ordered,         -> { order('message_flags.is_read, message_flags.updated_at desc') }
+  scope :ordered_replies, -> { order('created_at asc') }
 
   scope :exclude_trash_and_drafts, -> { only_threads.exclude_trash.exclude_drafts }
 
@@ -63,27 +63,27 @@ class Message < ApplicationRecord
   end
 
   def mark_read(user_id)
-    check_for_thread.message_flags.where(user_id: user_id, message_id: id).update_all(is_read: true)
+    check_for_thread.message_flags.where(user_id: user_id, message_id: id).update(is_read: true)
   end
 
   def mark_unread(user_id)
-    check_for_thread.message_flags.where(user_id: user_id, message_id: id).update_all(is_read: false)
+    check_for_thread.message_flags.where(user_id: user_id, message_id: id).update(is_read: false)
   end
 
   def mark_starred(user_id)
-    check_for_thread.message_flags.where(user_id: user_id, message_id: id).update_all(is_starred: true)
+    check_for_thread.message_flags.where(user_id: user_id, message_id: id).update(is_starred: true)
   end
 
   def mark_unstarred(user_id)
-    check_for_thread.message_flags.where(user_id: user_id, message_id: id).update_all(is_starred: false)
+    check_for_thread.message_flags.where(user_id: user_id, message_id: id).update(is_starred: false)
   end
 
   def mark_as_trash(user_id)
-    check_for_thread.message_flags.where(user_id: user_id, message_id: id).update_all(is_trash: true)
+    check_for_thread.message_flags.where(user_id: user_id, message_id: id).update(is_trash: true)
   end
 
   def remove_from_trash(user_id)
-    check_for_thread.message_flags.where(user_id: user_id, message_id: id).update_all(is_trash: false)
+    check_for_thread.message_flags.where(user_id: user_id, message_id: id).update(is_trash: false)
   end
 
   def self.mark_all_read(user_id)

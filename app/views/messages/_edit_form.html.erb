@@ -13,9 +13,9 @@
       </div>
     </div>
   <% else %>
-    <%= f.hidden_field :thread_id, value: thread.id  %>
-    <%= f.hidden_field :recipient_email, value: find_correct_recipient(thread)  %>
-    <%= f.hidden_field :subject, value: thread.subject  %>
+    <%= f.hidden_field :thread_id, value: thread.id, readonly: true  %>
+    <%= f.hidden_field :recipient_email, value: find_correct_recipient(thread), readonly: true   %>
+    <%= f.hidden_field :subject, value: thread.subject, readonly: true   %>
   <% end %>
   <div class="inbox-form-group">
     <%= f.trix_editor :content %>

@@ -1,22 +1,21 @@
 class MessageCreate
-  def initialize(user, params, message_params, thread_id = nil)
+  def initialize(user, message_params, other_params = {})
     @message = user.sent_messages.new(message_params)
     @message_params = message_params
-    @params = params
-    @thread_id = thread_id
+    @thread_id = message_params[:thread_id]
+    @other_params = other_params
   end
-  attr_reader :message, :params, :message_params, :notice, :thread_id
+  attr_reader :message, :message_params, :notice, :thread_id, :other_params
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 
   def create
-    if recipient_exists? && !params.key?(:draft)
+    if recipient_exists? && !send_as_draft?
       create_and_send_email
       @notice = 'Message successfully sent!'
     else
       create_as_draft
-      notice_msg = 'Message saved as draft.'
-      @notice = recipient_exists? ? notice_msg : 'Recipient not known! ' + notice_msg
+      @notice = recipient_exists? ? 'Message saved as draft.' : 'Recipient not known! ' + 'Message saved as draft.'
     end
   end
 
@@ -81,6 +80,10 @@ class MessageCreate
 
   def matches_email_in_database?
     User.exists?(email: message_params[:recipient_email])
+  end
+
+  def send_as_draft?
+    message_params.key?(:draft) || other_params.key?(:draft)
   end
 
   def create_flags_for_receiver

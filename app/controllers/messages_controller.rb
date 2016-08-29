@@ -20,7 +20,7 @@ class MessagesController < ApplicationController
   end
 
   def create
-    new_message = set_thread
+    new_message = MessageCreate.new(current_user, message_params, other_params)
     respond_to do |format|
       if new_message.create
         format.html { redirect_to root_path, notice: new_message.notice }
@@ -55,14 +55,6 @@ class MessagesController < ApplicationController
 
   protected
 
-  def set_thread
-    if params.key?(params[:thread_id])
-      MessageCreate.new(current_user, params, message_params, params[:id])
-    else
-      MessageCreate.new(current_user, params, message_params)
-    end
-  end
-
   def inspect_params
     50.times { print '#' }
     5.times { puts }
@@ -90,6 +82,10 @@ class MessagesController < ApplicationController
   end
 
   def message_params
-    params.require(:message).permit(:id, :subject, :content, :recipient_email, :thread_id, :draft)
+    params.require(:message).permit(:subject, :content, :recipient_email, :thread_id, :draft)
+  end
+
+  def other_params
+    params.permit(:id, :user_id, :draft, :reply)
   end
 end

@@ -13,9 +13,9 @@
       </div>
     </div>
   <% else %>
-    <%= f.hidden_field :thread_id, value: thread.id  %>
-    <%= f.hidden_field :recipient_email, value: find_correct_recipient(thread)  %>
-    <%= f.hidden_field :subject, value: thread.subject  %>
+    <%= f.hidden_field :thread_id, value: thread.id, readonly: true  %>
+    <%= f.hidden_field :recipient_email, value: find_correct_recipient(thread), readonly: true  %>
+    <%= f.hidden_field :subject, value: thread.subject, readonly: true  %>
   <% end %>
   <div class="inbox-form-group">
     <%= f.trix_editor :content %>
@@ -30,7 +30,7 @@
       <%= button_tag 'Draft', class: 'btn default', name: 'draft' %>
     <% else %>
       <div class="btn-group">
-        <%= button_tag class: 'btn blue action-btn margin-right-10', name: 'reply' do %>
+        <%= button_tag class: 'btn blue action-btn margin-right-10', name: 'reply', value: thread.id, readonly: true do %>
           <i class="fa fa-reply"></i> Reply
         <% end %>
         <button data-messageid="<%= @message.id %>" class="btn blue action-btn">
