@@ -10,7 +10,7 @@ class MessageCreate
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 
   def create
-    if recipient_exists? && !send_as_draft?
+    if recipient_exists? && !save_as_draft?
       create_and_send_email
       @notice = 'Message successfully sent!'
     else
@@ -32,7 +32,7 @@ class MessageCreate
       set_sent
       set_thread
       create_flags_for_sender
-      create_flags_for_receiver
+      create_flags_for_recipient
     end if message.save
   end
 
@@ -50,7 +50,7 @@ class MessageCreate
   end
 
   def create_draft
-    return if message.sender_id.nil?
+    return if message.sender.blank?
     message.message_flags.where(user_id: message.sender_id).first_or_create(is_read: true, is_draft: true)
   end
 
@@ -82,11 +82,11 @@ class MessageCreate
     User.exists?(email: message_params[:recipient_email])
   end
 
-  def send_as_draft?
+  def save_as_draft?
     message_params.key?(:draft) || other_params.key?(:draft)
   end
 
-  def create_flags_for_receiver
+  def create_flags_for_recipient
     return if message.recipient_id.nil?
     message.message_flags.where(user_id: message.recipient_id).first_or_create(is_read: false, is_draft: false)
   end

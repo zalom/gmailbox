@@ -20,10 +20,10 @@ class MessagesController < ApplicationController
   end
 
   def create
-    new_message = MessageCreate.new(current_user, message_params, other_params)
+    message = MessageCreate.new(current_user, message_params, other_params)
     respond_to do |format|
-      if new_message.create
-        format.html { redirect_to root_path, notice: new_message.notice }
+      if message.create
+        format.html { redirect_to root_path, notice: message.notice }
       else
         format.html { render :new, notice: 'Something went wrong!' }
       end
@@ -34,16 +34,10 @@ class MessagesController < ApplicationController
   end
 
   def update
+    message = MessageUpdate.new(@message, message_params)
     respond_to do |format|
-      if @message.update(
-        subject: message_params[:subject],
-        content: message_params[:content],
-        recipient_id: User.find_by_email(message_params[:recipient_email]).id,
-        sent_at: Time.now
-      )
-        @message.sender.message_flags.where(message_id: @message.id).update(is_draft: false)
-        @message.recipient.message_flags.where(message_id: @message.id).first_or_create(is_read: false) unless @message.recipient.nil?
-        format.html { redirect_to root_path, notice: 'Message successfully sent!' }
+      if message.update
+        format.html { redirect_to root_path, notice: message.notice }
       else
         format.html { render :edit, notice: 'Something went wrong!' }
       end

@@ -95,7 +95,6 @@ print_notice(message)
 
 # Mark starred for Zlatko on message_id = 5
 message.message.mark_starred(user1)
-debugger
 
 # Ervin -> Zlatko (thread) (id: 7)
 message_params = {
