@@ -38,17 +38,6 @@ class MessageCreate
 
   protected
 
-  def inspect_params
-    50.times { print '#' }
-    5.times { puts }
-    puts params.inspect
-    puts message_params.inspect
-    puts thread_id.inspect
-    5.times { puts }
-    50.times { print '#' }
-    debugger
-  end
-
   def create_draft
     return if message.sender.blank?
     message.message_flags.where(user_id: message.sender_id).first_or_create(is_read: true, is_draft: true)

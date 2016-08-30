@@ -7,7 +7,7 @@ class Message < ApplicationRecord
 
   has_many :replies, class_name: 'Message', foreign_key: 'thread_id'
   has_many :users, through: :message_flags
-  has_many :message_flags
+  has_many :message_flags, dependent: :destroy
 
   attr_accessor :recipient_email, :draft
 

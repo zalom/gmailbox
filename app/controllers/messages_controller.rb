@@ -45,18 +45,13 @@ class MessagesController < ApplicationController
   end
 
   def destroy
-  end
-
-  protected
-
-  def inspect_params
-    50.times { print '#' }
-    5.times { puts }
-    puts params.inspect
-    puts params[:id]
-    5.times { puts }
-    50.times { print '#' }
-    debugger
+    respond_to do |format|
+      if @message.destroy
+        format.html { redirect_to root_path, notice: 'Draft discarded!' }
+      else
+        format.html { render :edit, notice: 'Something went wrong!' }
+      end
+    end
   end
 
   private
@@ -64,7 +59,7 @@ class MessagesController < ApplicationController
   def set_message
     if params[:sent]
       @message = current_user.sent_messages.only_threads.find(params[:id])
-    elsif params[:drafts] || params[:action] == 'update'
+    elsif params[:drafts] || params[:action] == 'update' || params[:action] == 'destroy'
       @message = current_user.sent_messages.drafts(current_user.id).find(params[:id])
     elsif params[:trash]
       @message = current_user.messages.trash.find(params[:id])
