@@ -1,6 +1,6 @@
 class MessagesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_message, except: [:index, :new, :create]
+  before_action :set_message, except: [:index, :new, :create, :update_action]
 
   def new
     @message = current_user.sent_messages.new
@@ -54,6 +54,25 @@ class MessagesController < ApplicationController
     end
   end
 
+  def update_action
+    respond_to do |format|
+      if params[:read]
+        MessageFlag.where(user_id: current_user).where(message_id: params[:thread_ids]).update_all(is_read: true)
+      elsif params[:unread]
+        MessageFlag.where(user_id: current_user).where(message_id: params[:thread_ids]).update_all(is_read: false)
+      elsif params[:trash]
+        MessageFlag.where(user_id: current_user).where(message_id: params[:thread_ids]).update_all(is_trash: true)
+      elsif params[:non_trash]
+        MessageFlag.where(user_id: current_user).where(message_id: params[:thread_ids]).update_all(is_trash: false)
+      elsif params[:starred]
+        MessageFlag.where(user_id: current_user).where(message_id: params[:thread_ids]).update_all(is_starred: true)
+      elsif params[:unstarred]
+        MessageFlag.where(user_id: current_user).where(message_id: params[:thread_ids]).update_all(is_starred: false)
+      end
+      format.js { render inline: 'location.reload();' }
+    end
+  end
+
   private
 
   def set_message
@@ -71,7 +90,7 @@ class MessagesController < ApplicationController
   end
 
   def message_params
-    params.require(:message).permit(:subject, :content, :recipient_email, :thread_id, :draft)
+    params.require(:message).permit(:subject, :content, :recipient_email, :thread_id, :thread_ids, :draft)
   end
 
   def other_params

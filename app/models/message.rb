@@ -55,74 +55,38 @@ class Message < ApplicationRecord
   end
 
   def read?(user_id)
-    check_for_thread.message_flags.where(user_id: user_id).try(:first).is_read
+    find_thread.message_flags.where(user_id: user_id).try(:first).is_read
   end
 
   def starred?(user_id)
-    check_for_thread.message_flags.where(user_id: user_id).try(:first).is_starred
+    find_thread.message_flags.where(user_id: user_id).try(:first).is_starred
   end
 
   def mark_read(user_id)
-    check_for_thread.message_flags.where(user_id: user_id).update(is_read: true)
+    find_thread.message_flags.where(user_id: user_id).update_all(is_read: true)
   end
 
   def mark_unread(user_id)
-    check_for_thread.message_flags.where(user_id: user_id).update(is_read: false)
+    find_thread.message_flags.where(user_id: user_id).update_all(is_read: false)
   end
 
   def mark_starred(user_id)
-    check_for_thread.message_flags.where(user_id: user_id).update(is_starred: true)
+    find_thread.message_flags.where(user_id: user_id).update_all(is_starred: true)
   end
 
   def mark_unstarred(user_id)
-    check_for_thread.message_flags.where(user_id: user_id).update(is_starred: false)
+    find_thread.message_flags.where(user_id: user_id).update_all(is_starred: false)
   end
 
   def mark_as_trash(user_id)
-    check_for_thread.message_flags.where(user_id: user_id).update(is_trash: true)
+    find_thread.message_flags.where(user_id: user_id).update_all(is_trash: true)
   end
 
   def remove_from_trash(user_id)
-    check_for_thread.message_flags.where(user_id: user_id).update(is_trash: false)
+    find_thread.message_flags.where(user_id: user_id).update_all(is_trash: false)
   end
 
-  def self.mark_all_read(user_id)
-    all.each do |message|
-      message.mark_read(user_id)
-    end
-  end
-
-  def self.mark_all_unread(user_id)
-    all.each do |message|
-      message.mark_unread(user_id)
-    end
-  end
-
-  def self.mark_all_starred(user_id)
-    all.each do |message|
-      message.mark_starred(user_id)
-    end
-  end
-
-  def self.mark_all_unstarred(user_id)
-    all.each do |message|
-      message.mark_unstarred(user_id)
-    end
-  end
-
-  def self.mark_all_trash(user_id)
-    all.each do |message|
-      message.mark_as_trash(user_id)
-    end
-  end
-
-  def self.remove_all_from_trash(user_id)
-    all.each do |message|
-      message.remove_from_trash(user_id)
-    end
-  end
-
-  def check_for_thread
+  def find_thread
     thread.nil? ? self : thread
   end
 
