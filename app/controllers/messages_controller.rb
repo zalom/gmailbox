@@ -56,19 +56,7 @@ class MessagesController < ApplicationController
 
   def update_action
     respond_to do |format|
-      if params[:read]
-        MessageFlag.where(user_id: current_user).where(message_id: params[:thread_ids]).update_all(is_read: true)
-      elsif params[:unread]
-        MessageFlag.where(user_id: current_user).where(message_id: params[:thread_ids]).update_all(is_read: false)
-      elsif params[:trash]
-        MessageFlag.where(user_id: current_user).where(message_id: params[:thread_ids]).update_all(is_trash: true)
-      elsif params[:non_trash]
-        MessageFlag.where(user_id: current_user).where(message_id: params[:thread_ids]).update_all(is_trash: false)
-      elsif params[:starred]
-        MessageFlag.where(user_id: current_user).where(message_id: params[:thread_ids]).update_all(is_starred: true)
-      elsif params[:unstarred]
-        MessageFlag.where(user_id: current_user).where(message_id: params[:thread_ids]).update_all(is_starred: false)
-      end
+      MessageFlag.send(update_action_params.keys.first, current_user, params[:thread_ids])
       format.js { render inline: 'location.reload();' }
     end
   end
@@ -95,5 +83,9 @@ class MessagesController < ApplicationController
 
   def other_params
     params.permit(:id, :user_id, :draft, :reply)
+  end
+
+  def update_action_params
+    params.permit(:mark_read, :mark_unread, :mark_as_trash, :remove_from_trash, :mark_starred, :mark_unstarred)
   end
 end

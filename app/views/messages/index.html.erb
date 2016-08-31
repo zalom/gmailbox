@@ -24,35 +24,35 @@
                   </a>
                   <ul class="dropdown-menu">
                     <li>
-                      <%= button_tag type: "submit", name: 'read', class: "btn btn-md white", style: "width: 100%; text-align: left" do %>
+                      <%= button_tag type: "submit", name: 'mark_read', class: "btn btn-md white", style: "width: 100%; text-align: left" do %>
                         <i class="fa fa-pencil-square"></i> Mark as Read
                       <% end %>
                     </li>
                     <li>
-                      <%= button_tag type: "submit", name: 'unread', class: "btn btn-md white", style: "width: 100%; text-align: left" do %>
+                      <%= button_tag type: "submit", name: 'mark_unread', class: "btn btn-md white", style: "width: 100%; text-align: left" do %>
                         <i class="fa fa-pencil-square-o"></i> Mark as Unread
                       <% end %>
                     </li>
                     <li>
-                      <%= button_tag type: "submit", name: 'starred', class: "btn btn-md white", style: "width: 100%; text-align: left" do %>
+                      <%= button_tag type: "submit", name: 'mark_starred', class: "btn btn-md white", style: "width: 100%; text-align: left" do %>
                         <i class="fa fa-star"></i> Mark as Starred
                       <% end %>
                     </li>
                     <li>
-                      <%= button_tag type: "submit", name: 'unstarred', class: "btn btn-md white", style: "width: 100%; text-align: left" do %>
+                      <%= button_tag type: "submit", name: 'mark_unstarred', class: "btn btn-md white", style: "width: 100%; text-align: left" do %>
                         <i class="fa fa-star-o"></i> Mark as Unstarred
                       <% end %>
                     </li>
                     <li class="divider"> </li>
                     <% if params[:trash] %>
                      <li>
-                       <%= button_tag type: "submit", name: 'non_trash', class: "btn btn-md white", style: "width: 100%; text-align: left" do %>
+                       <%= button_tag type: "submit", name: 'remove_from_trash', class: "btn btn-md white", style: "width: 100%; text-align: left" do %>
                          <i class="fa fa-trash-o"></i> Restore
                        <% end %>
                      </li>
                     <% else %>
                     <li>
-                      <%= button_tag type: "submit", name: 'trash', class: "btn btn-md white", style: "width: 100%; text-align: left" do %>
+                      <%= button_tag type: "submit", name: 'mark_as_trash', class: "btn btn-md white", style: "width: 100%; text-align: left" do %>
                         <i class="fa fa-trash-o"></i> Delete
                       <% end %>
                     </li>
