@@ -18,47 +18,7 @@
                   <input type="checkbox" class="mail-group-checkbox">
                   <span></span>
                 </label>
-                <div class="btn-group input-actions">
-                  <a class="btn btn-sm blue btn-outline dropdown-toggle sbold" href="javascript:;" data-toggle="dropdown"> Actions
-                    <i class="fa fa-angle-down"></i>
-                  </a>
-                  <ul class="dropdown-menu">
-                    <li>
-                      <%= button_tag type: "submit", name: 'mark_read', readonly: true, class: "btn btn-md white", style: "width: 100%; text-align: left" do %>
-                        <i class="fa fa-pencil-square"></i> Mark as Read
-                      <% end %>
-                    </li>
-                    <li>
-                      <%= button_tag type: "submit", name: 'mark_unread', readonly: true, class: "btn btn-md white", style: "width: 100%; text-align: left" do %>
-                        <i class="fa fa-pencil-square-o"></i> Mark as Unread
-                      <% end %>
-                    </li>
-                    <li>
-                      <%= button_tag type: "submit", name: 'mark_starred', readonly: true, class: "btn btn-md white", style: "width: 100%; text-align: left" do %>
-                        <i class="fa fa-star"></i> Mark as Starred
-                      <% end %>
-                    </li>
-                    <li>
-                      <%= button_tag type: "submit", name: 'mark_unstarred', readonly: true, class: "btn btn-md white", style: "width: 100%; text-align: left" do %>
-                        <i class="fa fa-star-o"></i> Mark as Unstarred
-                      <% end %>
-                    </li>
-                    <li class="divider"> </li>
-                    <% if params[:trash] %>
-                     <li>
-                       <%= button_tag type: "submit", name: 'remove_from_trash', readonly: true, class: "btn btn-md white", style: "width: 100%; text-align: left" do %>
-                         <i class="fa fa-trash-o"></i> Restore
-                       <% end %>
-                     </li>
-                    <% else %>
-                    <li>
-                      <%= button_tag type: "submit", name: 'mark_as_trash', readonly: true, class: "btn btn-md white", style: "width: 100%; text-align: left" do %>
-                        <i class="fa fa-trash-o"></i> Delete
-                      <% end %>
-                    </li>
-                    <% end %>
-                  </ul>
-                </div>
+                <%= render 'message_actions' %>
               </th>
               <th class="pagination-control" colspan="3">
                 <span class="pagination-info"> 1-30 of 789 </span>
