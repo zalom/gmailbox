@@ -62,30 +62,6 @@ class Message < ApplicationRecord
     find_thread.message_flags.where(user_id: user_id).try(:first).is_starred
   end
 
-  def mark_read(user_id)
-    find_thread.message_flags.where(user_id: user_id).update_all(is_read: true)
-  end
-
-  def mark_unread(user_id)
-    find_thread.message_flags.where(user_id: user_id).update_all(is_read: false)
-  end
-
-  def mark_starred(user_id)
-    find_thread.message_flags.where(user_id: user_id).update_all(is_starred: true)
-  end
-
-  def mark_unstarred(user_id)
-    find_thread.message_flags.where(user_id: user_id).update_all(is_starred: false)
-  end
-
-  def mark_as_trash(user_id)
-    find_thread.message_flags.where(user_id: user_id).update_all(is_trash: true)
-  end
-
-  def remove_from_trash(user_id)
-    find_thread.message_flags.where(user_id: user_id).update_all(is_trash: false)
-  end
-
   def find_thread
     thread.nil? ? self : thread
   end

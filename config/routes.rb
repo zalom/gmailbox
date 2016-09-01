@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   end
   resources :messages, only: [:index, :show, :destroy, :edit, :update] do #-> domain.com/messages/:id
     collection do
-      patch :update_action
+      patch :bulk_action
     end
   end
 end

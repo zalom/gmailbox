@@ -1,6 +1,6 @@
 class MessagesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_message, except: [:index, :new, :create, :update_action]
+  before_action :set_message, except: [:index, :new, :create, :bulk_action]
 
   def new
     @message = current_user.sent_messages.new
@@ -25,7 +25,7 @@ class MessagesController < ApplicationController
       if message.create
         format.html { redirect_to root_path, notice: message.notice }
       else
-        format.html { render :new, notice: 'Something went wrong!' }
+        format.html { render :new, alert: 'Something went wrong!' }
       end
     end
   end
@@ -39,7 +39,7 @@ class MessagesController < ApplicationController
       if message.update
         format.html { redirect_to root_path, notice: message.notice }
       else
-        format.html { render :edit, notice: 'Something went wrong!' }
+        format.html { render :edit, alert: 'Something went wrong!' }
       end
     end
   end
@@ -49,15 +49,19 @@ class MessagesController < ApplicationController
       if @message.destroy
         format.html { redirect_to root_path, notice: 'Draft discarded!' }
       else
-        format.html { render :edit, notice: 'Something went wrong!' }
+        format.html { render :edit, alert: 'Something went wrong!' }
       end
     end
   end
 
-  def update_action
+  def bulk_action
     respond_to do |format|
-      MessageFlag.send(update_action_params.keys.first, current_user, params[:thread_ids])
-      format.js { render inline: 'location.reload();' }
+      begin
+        MessageFlag.send(bulk_action_params.keys[0].to_sym, current_user, params[:thread_ids])
+        format.js { render inline: 'location.reload();' }
+      rescue TypeError => e
+        format.html { redirect_to root_path, alert: "Params not good! Message: #{e}" }
+      end
     end
   end
 
@@ -85,7 +89,7 @@ class MessagesController < ApplicationController
     params.permit(:id, :user_id, :draft, :reply)
   end
 
-  def update_action_params
+  def bulk_action_params
     params.permit(:mark_read, :mark_unread, :mark_as_trash, :remove_from_trash, :mark_starred, :mark_unstarred)
   end
 end
