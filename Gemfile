@@ -13,6 +13,7 @@ gem 'bootstrap-sass'
 gem "font-awesome-rails"
 gem 'simple-line-icons-rails'
 gem 'trix'
+gem 'kaminari', github: 'amatsuda/kaminari', branch: '0-17-stable'
 
 group :development, :test do
   gem 'byebug', platform: :mri
