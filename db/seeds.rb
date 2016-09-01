@@ -34,9 +34,9 @@ message_params = {
   content: 'First seeded email. Accept pull request.',
   recipient_email: user3.email
 }
-message = MessageCreate.new(user1, message_params)
-message.create
-print_notice(message)
+new_message = MessageCreate.new(user1, message_params)
+new_message.create
+print_notice(new_message)
 
 # Mirza -> Ervin (id: 2)
 message_params = {
@@ -44,9 +44,9 @@ message_params = {
   content: "Accept Zlaja's pull request.",
   recipient_email: user3.email
 }
-message = MessageCreate.new(user2, message_params)
-message.create
-print_notice(message)
+new_message = MessageCreate.new(user2, message_params)
+new_message.create
+print_notice(new_message)
 
 # Ervin -> Zlatko (thread) (id: 3)
 message_params = {
@@ -56,9 +56,9 @@ message_params = {
   recipient_email: user1.email,
   thread_id: 1
 }
-message = MessageCreate.new(user3, message_params)
-message.create
-print_notice(message)
+new_message = MessageCreate.new(user3, message_params)
+new_message.create
+print_notice(new_message)
 
 # Ervin -> Mirza (thread) (id: 4)
 message_params = {
@@ -68,9 +68,9 @@ message_params = {
   recipient_email: user2.email,
   thread_id: 2
 }
-message = MessageCreate.new(user3, message_params)
-message.create
-print_notice(message)
+new_message = MessageCreate.new(user3, message_params)
+new_message.create
+print_notice(new_message)
 
 # Ervin -> Zlatko (id: 5)
 message_params = {
@@ -78,9 +78,9 @@ message_params = {
   content: 'Have you fixed the bugs? It is Important!',
   recipient_email: user1.email
 }
-message = MessageCreate.new(user3, message_params)
-message.create
-print_notice(message)
+new_message = MessageCreate.new(user3, message_params)
+new_message.create
+print_notice(new_message)
 
 # Zlatko -> Ervin (thread) (id: 6)
 message_params = {
@@ -89,12 +89,12 @@ message_params = {
   recipient_email: user3.email,
   thread_id: 5
 }
-message = MessageCreate.new(user1, message_params)
-message.create
-print_notice(message)
+new_message = MessageCreate.new(user1, message_params)
+new_message.create
+print_notice(new_message)
 
 # Mark starred for Zlatko on message_id = 5
-message.message.mark_starred(user1)
+user1.message_flags.mark_starred(user1, 5)
 
 # Ervin -> Zlatko (thread) (id: 7)
 message_params = {
@@ -103,9 +103,9 @@ message_params = {
   recipient_email: user1.email,
   thread_id: 5
 }
-message = MessageCreate.new(user3, message_params)
-message.create
-print_notice(message)
+new_message = MessageCreate.new(user3, message_params)
+new_message.create
+print_notice(new_message)
 
 # Enes -> Zlatko (id: 8)
 message_params = {
@@ -113,9 +113,9 @@ message_params = {
   content: 'CSS ... CSS ... CSS',
   recipient_email: user1.email
 }
-message = MessageCreate.new(user5, message_params)
-message.create
-print_notice(message)
+new_message = MessageCreate.new(user5, message_params)
+new_message.create
+print_notice(new_message)
 
 # Enes -> Zlatko (id: 9)
 message_params = {
@@ -123,16 +123,16 @@ message_params = {
   content: 'CSS...CSS...CSS...CSS',
   recipient_email: user1.email
 }
-message = MessageCreate.new(user5, message_params)
-message.create
-print_notice(message)
+new_message = MessageCreate.new(user5, message_params)
+new_message.create
+print_notice(new_message)
 
 # Move unread message with id: 8 to Trash for Zlatko
-user1.messages.find(8).mark_as_trash(user1)
+user1.message_flags.mark_as_trash(user1, 8)
 
 # Mark as read message with id: 9 and move to Trash for Zlatko
-user1.messages.find(9).mark_read(user1)
-user1.messages.find(9).mark_as_trash(user1)
+user1.message_flags.mark_read(user1, 9)
+user1.message_flags.mark_as_trash(user1, 9)
 
 # Zlatko -> Enes (id: 10)
 message_params = {
@@ -140,9 +140,9 @@ message_params = {
   content: 'It is not fair that only you can say CSS...CSS...CSS...CSS!',
   recipient_email: user5.email
 }
-message = MessageCreate.new(user1, message_params)
-message.create
-print_notice(message)
+new_message = MessageCreate.new(user1, message_params)
+new_message.create
+print_notice(new_message)
 
 # Enes -> Zlatko (thread) (id: 11)
 message_params = {
@@ -151,9 +151,9 @@ message_params = {
   recipient_email: user1.email,
   thread_id: 10
 }
-message = MessageCreate.new(user5, message_params)
-message.create
-print_notice(message)
+new_message = MessageCreate.new(user5, message_params)
+new_message.create
+print_notice(new_message)
 
 # Zlatko -> Mirza (draft) (id: 12)
 message_params = {
@@ -162,9 +162,9 @@ message_params = {
   recipient_email: user2.email,
   draft: true
 }
-message = MessageCreate.new(user1, message_params)
-message.create
-print_notice(message)
+new_message = MessageCreate.new(user1, message_params)
+new_message.create
+print_notice(new_message)
 
 # Zlatko -> Sedad (id: 13)
 message_params = {
@@ -172,9 +172,9 @@ message_params = {
   content: 'Hello Sedad, the weather is awesome!',
   draft: true
 }
-message = MessageCreate.new(user1, message_params)
-message.create
-print_notice(message)
+new_message = MessageCreate.new(user1, message_params)
+new_message.create
+print_notice(new_message)
 
 # Zlatko -> Jasmin (id: 14)
 message_params = {
@@ -182,6 +182,6 @@ message_params = {
   content: 'Hello Jasmin, hope you are well!',
   draft: true
 }
-message = MessageCreate.new(user1, message_params)
-message.create
-print_notice(message)
+new_message = MessageCreate.new(user1, message_params)
+new_message.create
+print_notice(new_message)

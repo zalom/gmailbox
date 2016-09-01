@@ -15,7 +15,7 @@ class MessagesController < ApplicationController
   end
 
   def show
-    @message.mark_read(current_user.id) unless @message.read?(current_user.id)
+    current_user.message_flags.mark_read(current_user, @message.id) unless @message.read?(current_user.id)
     @replies = @message.replies.ordered_replies if @message.replies.any?
   end
 
