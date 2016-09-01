@@ -21,13 +21,8 @@
                 <%= render 'message_actions' %>
               </th>
               <th class="pagination-control" colspan="3">
-                <span class="pagination-info"> 1-30 of 789 </span>
-                <a class="btn btn-sm blue btn-outline">
-                  <i class="fa fa-angle-left"></i>
-                </a>
-                <a class="btn btn-sm blue btn-outline">
-                  <i class="fa fa-angle-right"></i>
-                </a>
+                <%= paginate @messages, always_display: true %>
+                <span class="pagination-info"> <%= page_entries_info @messages %> </span>
               </th>
             </tr>
           </thead>
