@@ -1,15 +1,11 @@
 $(document).on('turbolinks:load', function() {
-   $('label.mt-checkbox').on('click', 'input[type=checkbox]', function(event){
-      toggleCheckBox($(event.target));
-   });
+  $('#check_all').on('click', 'input[type=checkbox]', function() {
+    $('tbody').find('label.mt-checkbox > input[type=checkbox]').each(function() {
+      toggleCheckBox($(this));
+    });
+  });
 });
 
 function toggleCheckBox(et){
-  var attr = et.attr('checked');
-  if (typeof attr !== typeof undefined) {
-   et.removeAttr('checked');
-  }
-  else{
-    et.attr('checked', true);
-  }
+  et.prop('checked') === 'checked' || et.prop('checked') ? et.prop('checked', false) : et.prop('checked', true);
 }
