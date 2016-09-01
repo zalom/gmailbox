@@ -1,6 +1,123 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
+<div class="row">
+  <div class="col-md-12">
+    <!-- BEGIN PROFILE SIDEBAR -->
+    <div class="profile-sidebar">
+      <!-- PORTLET MAIN -->
+      <div class="portlet light profile-sidebar-portlet ">
+        <!-- SIDEBAR USERPIC -->
+        <div class="profile-userpic">
+        <img src="../assets/pages/media/profile/profile_user.jpg" class="img-responsive" alt=""> </div>
+        <!-- END SIDEBAR USERPIC -->
+        <!-- SIDEBAR USER TITLE -->
+        <div class="profile-usertitle">
+          <div class="profile-usertitle-name"> Marcus Doe </div>
+          <div class="profile-usertitle-job"> Developer </div>
+        </div>
+        <!-- END SIDEBAR USER TITLE -->
+        <!-- SIDEBAR BUTTONS -->
+        <div class="profile-userbuttons">
+          
+        </div>
+        <!-- END SIDEBAR BUTTONS -->
+        <!-- SIDEBAR MENU -->
+        <div class="profile-usermenu">
+          <ul class="nav">
+            <li>
+              <a href="inbox.html">
+              <i class="icon-envelope-open"></i> Inbox </a>
+            </li>
+          </ul>
+        </div>
+        <!-- END MENU -->
+      </div>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+    </div>
+    <!-- END BEGIN PROFILE SIDEBAR -->
+    <!-- BEGIN PROFILE CONTENT -->
+    <div class="profile-content">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="portlet light ">
+            <div class="portlet-title tabbable-line">
+              <div class="caption caption-md">
+                <i class="icon-globe theme-font hide"></i>
+                <span class="caption-subject font-blue-madison bold uppercase">Profile Account</span>
+              </div>
+              <ul class="nav nav-tabs">
+                <li class="active">
+                  <a href="#tab_1_1" data-toggle="tab">Personal Info</a>
+                </li>
+                <li>
+                  <a href="#tab_1_3" data-toggle="tab">Change Password</a>
+                </li>
+              </ul>
+            </div>
+            <div class="portlet-body">
+              <div class="tab-content">
+                <!-- PERSONAL INFO TAB -->
+                <div class="tab-pane active" id="tab_1_1">
+                  <form role="form" action="#">
+                    <div class="form-group">
+                      <label class="control-label">First Name</label>
+                      <input type="text" placeholder="John" class="form-control">
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label">Last Name</label>
+                      <input type="text" placeholder="Doe" class="form-control">
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label">Mobile Number</label>
+                      <input type="text" placeholder="+1 646 580 DEMO (6284)" class="form-control">
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label">Occupation</label>
+                      <input type="text" placeholder="Web Developer" class="form-control">
+                    </div>
+                    <div class="margin-top-10">
+                      <a href="javascript:;" class="btn green"> Save Changes </a>
+                      <a href="javascript:;" class="btn default"> Cancel </a>
+                    </div>
+                  </form>
+                </div>
+                <!-- END PERSONAL INFO TAB -->
+
+                <!-- CHANGE PASSWORD TAB -->
+                <div class="tab-pane" id="tab_1_3">
+                  <form action="#">
+                    <div class="form-group">
+                      <label class="control-label">Current Password</label>
+                      <input type="password" class="form-control">
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label">New Password</label>
+                      <input type="password" class="form-control">
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label">Re-type New Password</label>
+                      <input type="password" class="form-control">
+                    </div>
+                    <div class="margin-top-10">
+                      <a href="javascript:;" class="btn green"> Change Password </a>
+                      <a href="javascript:;" class="btn default"> Cancel </a>
+                    </div>
+                  </form>
+                </div>
+                <!-- END CHANGE PASSWORD TAB -->
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- END PROFILE CONTENT -->
+    </div>
+  </div>
+</div>
+
+<!-- <h2>Edit <%= user.to_s.humanize %></h2>
+
+<%= form_for(resource, as: user, url: registration_path(user), html: { method: :put }) do |f| %>
   <%= devise_error_messages! %>
 
   <div class="field">
@@ -34,6 +151,6 @@
 
 <h3>Cancel my account</h3>
 
-<p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %></p>
+<p>Unhappy? <%= button_to "Cancel my account", registration_path(user), data: { confirm: "Are you sure?" }, method: :delete %></p>
 
-<%= link_to "Back", :back %>
+<%= link_to "Back", :back %> -->

@@ -10,13 +10,15 @@
       </a>
       <ul class="dropdown-menu dropdown-menu-default">
         <li>
-          <a href="user_profile.html">
-          <i class="icon-user"></i> My Profile </a>
+          <%= link_to edit_user_registration_path do %>
+            <i class="icon-user"></i> My Profile 
+          <% end %>
         </li>
         <li class="divider"> </li>
         <li>
-          <a href="login.html">
-          <i class="icon-key"></i> Log Out </a>
+          <%= link_to destroy_user_session_path, :method => :delete do %>
+            <i class="icon-key"></i> Log Out 
+          <% end %>
         </li>
       </ul>
     </li>
