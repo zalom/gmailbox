@@ -6,25 +6,26 @@
       <div class="portlet light profile-sidebar-portlet ">
         <!-- SIDEBAR USERPIC -->
         <div class="profile-userpic">
-        <img src="../assets/pages/media/profile/profile_user.jpg" class="img-responsive" alt=""> </div>
+        <%= image_tag("#{derive_username(current_user.email)}.jpg", class: "img-responsive") %>
+        </div>
         <!-- END SIDEBAR USERPIC -->
         <!-- SIDEBAR USER TITLE -->
         <div class="profile-usertitle">
-          <div class="profile-usertitle-name"> Marcus Doe </div>
-          <div class="profile-usertitle-job"> Developer </div>
+          <div class="profile-usertitle-name"> <%= user_full_name %> </div>
+          <div class="profile-usertitle-job"> <%= user_occupation %> </div>
         </div>
         <!-- END SIDEBAR USER TITLE -->
         <!-- SIDEBAR BUTTONS -->
         <div class="profile-userbuttons">
-          
         </div>
         <!-- END SIDEBAR BUTTONS -->
         <!-- SIDEBAR MENU -->
         <div class="profile-usermenu">
           <ul class="nav">
             <li>
-              <a href="inbox.html">
-              <i class="icon-envelope-open"></i> Inbox </a>
+              <%= link_to root_path do %>
+                <i class="icon-envelope-open"></i> Inbox
+              <% end %>
             </li>
           </ul>
         </div>
@@ -56,56 +57,64 @@
               <div class="tab-content">
                 <!-- PERSONAL INFO TAB -->
                 <div class="tab-pane active" id="tab_1_1">
-                  <form role="form" action="#">
+                  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+                  <%= devise_error_messages! %>
+                  <div class="form-group">
+                    <%= f.label :email, class: "control-label" %><br />
+                    <%= f.email_field :email, autofocus: true, class: "form-control", placeholder: "valid@email.com" %>
+                  </div>
+                  <%= f.fields_for :profile do |p| %>
+                  <div class="form-group">
+                    <%= p.label :username, class: "control-label" %>
+                    <%= p.text_field :username, class: "form-control", placeholder: "nickname" %>
+                  </div>
                     <div class="form-group">
-                      <label class="control-label">First Name</label>
-                      <input type="text" placeholder="John" class="form-control">
+                      <%= p.label :first_name, class: "control-label" %>
+                      <%= p.text_field :first_name, class: "form-control", placeholder: "John" %>
                     </div>
                     <div class="form-group">
-                      <label class="control-label">Last Name</label>
-                      <input type="text" placeholder="Doe" class="form-control">
+                      <%= p.label :last_name, class: "control-label" %>
+                      <%= p.text_field :last_name, class: "form-control", placeholder: "Doe" %>
                     </div>
                     <div class="form-group">
-                      <label class="control-label">Mobile Number</label>
-                      <input type="text" placeholder="+1 646 580 DEMO (6284)" class="form-control">
+                      <label class="control-label">Phone Number</label>
+                      <%= p.text_field :phone, class: "form-control", placeholder: "+387 61 001 002" %>
                     </div>
                     <div class="form-group">
-                      <label class="control-label">Occupation</label>
-                      <input type="text" placeholder="Web Developer" class="form-control">
+                      <%= p.label :occupation, class: "control-label" %>
+                      <%= p.text_field :occupation, class: "form-control", placeholder: "Web Developer" %>
                     </div>
                     <div class="margin-top-10">
-                      <a href="javascript:;" class="btn green"> Save Changes </a>
-                      <a href="javascript:;" class="btn default"> Cancel </a>
+                      <%= f.submit 'Save Changes', class: 'btn green' %>
                     </div>
-                  </form>
+                  <% end %>
                 </div>
+                <% end %>
                 <!-- END PERSONAL INFO TAB -->
 
                 <!-- CHANGE PASSWORD TAB -->
                 <div class="tab-pane" id="tab_1_3">
-                  <form action="#">
-                    <div class="form-group">
-                      <label class="control-label">Current Password</label>
-                      <input type="password" class="form-control">
-                    </div>
-                    <div class="form-group">
-                      <label class="control-label">New Password</label>
-                      <input type="password" class="form-control">
-                    </div>
-                    <div class="form-group">
-                      <label class="control-label">Re-type New Password</label>
-                      <input type="password" class="form-control">
-                    </div>
-                    <div class="margin-top-10">
-                      <a href="javascript:;" class="btn green"> Change Password </a>
-                      <a href="javascript:;" class="btn default"> Cancel </a>
-                    </div>
-                  </form>
+                  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+                  <%= devise_error_messages! %>
+                  <div class="form-group">
+                    <label class="control-label">New Password</label> <i>(leave blank if you don't want to change it)</i>
+                    <%= f.password_field :password, class: "form-control", autocomplete: "off" %>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label">Confirm New Password</label>
+                    <%= f.password_field :password_confirmation, class: "form-control", autocomplete: "off" %>
+                  </div>
+                  <div class="margin-top-10">
+                    <%= f.submit 'Save Changes', class: 'btn green' %>
+                  </div>
+                  <% end %>
                 </div>
                 <!-- END CHANGE PASSWORD TAB -->
-
                 </div>
               </div>
+              <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+                <div>Currently waiting confirmation for: <%= resource_name.unconfirmed_email %></div>
+              <% end %>
             </div>
           </div>
         </div>
@@ -115,42 +124,6 @@
   </div>
 </div>
 
-<!-- <h2>Edit <%= user.to_s.humanize %></h2>
-
-<%= form_for(resource, as: user, url: registration_path(user), html: { method: :put }) do |f| %>
-  <%= devise_error_messages! %>
-
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true %>
-  </div>
-
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-    <%= f.password_field :password, autocomplete: "off" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "off" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-    <%= f.password_field :current_password, autocomplete: "off" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Update" %>
-  </div>
-<% end %>
-
-<h3>Cancel my account</h3>
-
-<p>Unhappy? <%= button_to "Cancel my account", registration_path(user), data: { confirm: "Are you sure?" }, method: :delete %></p>
+<!-- <p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %></p>
 
 <%= link_to "Back", :back %> -->

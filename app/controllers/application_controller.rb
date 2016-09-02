@@ -10,9 +10,9 @@ class ApplicationController < ActionController::Base
 
   protected
 
-  def authenticate_user!
+  def authenticate_user!(options = {})
     if user_signed_in?
-      super
+      super(options)
     else
       redirect_to new_user_session_path
     end

@@ -53,10 +53,6 @@ module MessagesHelper
     end
   end
 
-  def derive_username(email)
-    email[0, email.index('@')]
-  end
-
   def message_folder_link
     if params[:sent]
       link_to('Sent',     messages_path(sent: true),    data: { type: 'sent',    title: 'Sent' })
