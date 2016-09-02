@@ -5,12 +5,12 @@
     <li class="dropdown dropdown-user">
       <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true" aria-expanded="false">
         <%= image_tag("#{derive_username(current_user.email)}.jpg", class: "img-circle") %>
-        <span class="username username-hide-on-mobile"> <%= current_user.email %> </span>
+        <span class="username username-hide-on-mobile"> <%= user_full_name %> </span>
         <i class="fa fa-angle-down"></i>
       </a>
       <ul class="dropdown-menu dropdown-menu-default">
         <li>
-          <%= link_to edit_user_registration_path do %>
+          <%= link_to profile_path do %>
             <i class="icon-user"></i> My Profile 
           <% end %>
         </li>

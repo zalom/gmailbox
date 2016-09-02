@@ -4,7 +4,7 @@ module ApplicationHelper
   end
 
   def user_full_name
-    if !(current_user.profile.blank?)
+    if !(current_user.profile.nil? && current_user.profile.blank?)
       #current_user.profile.first_name + ' ' + current_user.profile.last_name
       current_user.email
 

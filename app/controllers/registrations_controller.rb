@@ -1,13 +1,8 @@
 class RegistrationsController < Devise::RegistrationsController
-  def create
-    if resource.save
-        resource.create_profile
-    end
-  end
-
+  before_action :set_user, only: [:update, :edit]
   def update
     respond_to do |format|
-      if resource.update(user_params)
+      if @user.update(user_params)
         format.html { redirect_to profile_path, notice: 'Profile successfully updated!' }
       else
         format.html { render :edit, notice: 'Something went wrong!' }
@@ -16,6 +11,10 @@ class RegistrationsController < Devise::RegistrationsController
   end
 
   private
+
+  def set_user
+    @user = current_user
+  end
 
   def user_params
     params.require(resource_name).permit(:email, :password, :password_confirmation,
