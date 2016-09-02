@@ -23,7 +23,7 @@ class Message < ApplicationRecord
   scope :exclude_drafts,  -> { where('message_flags.is_draft = ?', false) }
   scope :include_unread,  -> { where('message_flags.is_read = ?', false) }
   scope :exclude_unread,  -> { where('message_flags.is_read = ?', true) }
-  scope :ordered,         -> { order('message_flags.is_read, message_flags.updated_at desc') }
+  scope :ordered,         -> { order('updated_at desc') }
   scope :ordered_replies, -> { order('created_at asc') }
 
   scope :exclude_trash_and_drafts, -> { only_threads.exclude_trash.exclude_drafts }
