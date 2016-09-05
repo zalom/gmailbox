@@ -6,7 +6,7 @@
   <div class="col-md-10">
     <div class="inbox-body">
       <div class="inbox-header">
-        <h1 class="pull-left">Inbox</h1>
+        <h1 class="pull-left"><%= folder_name %></h1>
       </div>
       <div class="inbox-content">
         <%= form_tag bulk_action_messages_path, method: :patch, remote: true do %>

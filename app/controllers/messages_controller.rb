@@ -83,7 +83,6 @@ class MessagesController < ApplicationController
 
   def redirect_location_for(message)
     location = message.redirect_location
-    debugger
     location.is_a?(String) ? give_correct_location(location) : location
   end
 
@@ -92,7 +91,8 @@ class MessagesController < ApplicationController
   end
 
   def message_params
-    params.require(:message).permit(:subject, :content, :recipient_email, :thread_id, :thread_ids, :draft)
+    params.require(:message).permit(:subject, :content, :recipient_email, :thread_id, :thread_ids, :draft,
+                                    :drafts, :starred, :trash, :sent)
   end
 
   def other_params

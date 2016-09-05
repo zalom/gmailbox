@@ -54,16 +54,12 @@ module MessagesHelper
   end
 
   def message_folder_link
-    if params[:sent]
-      link_to('Sent',     messages_path(sent: true),    data: { type: 'sent',    title: 'Sent' })
-    elsif params[:drafts]
-      link_to('Drafts',   messages_path(drafts: true),  data: { type: 'drafts',  title: 'Drafts' })
-    elsif params[:starred]
-      link_to('Starred',  messages_path(starred: true), data: { type: 'starred', title: 'Starred' })
-    elsif params[:trash]
-      link_to('Trash',    messages_path(trash: true),   data: { type: 'trash',   title: 'Trash' })
+    folders = %w(drafts starred trash sent)
+    folder = params.permit!.to_h.first[0].to_s
+    if folders.include?(folder)
+      link_to(folder.capitalize, messages_path(folder.to_sym => true), data: { type: folder, title: folder.capitalize })
     else
-      link_to('Inbox',    root_path,                    data: { type: 'inbox',   title: 'Inbox' })
+      link_to('Inbox', root_path, data: { type: 'inbox', title: 'Inbox' })
     end
   end
 
@@ -73,5 +69,11 @@ module MessagesHelper
 
   def find_correct_recipient(thread)
     thread.sender_id == current_user.id ? thread.recipient_email : thread.sender_email
+  end
+
+  def folder_name
+    folders = %w(drafts starred trash sent)
+    folder = params.permit!.to_h.first[0].to_s
+    folders.include?(folder) ? folder.capitalize : 'Inbox'
   end
 end
