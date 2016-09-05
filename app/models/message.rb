@@ -23,16 +23,19 @@ class Message < ApplicationRecord
   scope :exclude_drafts,  -> { where('message_flags.is_draft = ?', false) }
   scope :include_unread,  -> { where('message_flags.is_read = ?', false) }
   scope :exclude_unread,  -> { where('message_flags.is_read = ?', true) }
-  scope :ordered,         -> { order('updated_at desc') }
+
+  scope :exclude_deleted, -> { where('message_flags.is_deleted = ?', false) }
+
+  scope :ordered,         -> { order('message_flags.is_read, message_flags.updated_at desc') }
   scope :ordered_replies, -> { order('created_at asc') }
 
   scope :exclude_trash_and_drafts, -> { only_threads.exclude_trash.exclude_drafts }
 
-  scope :trash,   -> { only_threads.include_trash }
-  scope :unread,  -> { only_threads.exclude_trash.include_unread }
-  scope :starred, -> { only_threads.exclude_trash.include_starred }
-  scope :drafts,  -> (user_id) { only_threads.join_flags.include_drafts(user_id) }
-  scope :sent,    -> (user_id) { only_threads.join_flags.exclude_trash_and_drafts.where('message_flags.user_id = ?', user_id) }
+  scope :trash,   -> { only_threads.include_trash.exclude_deleted }
+  scope :unread,  -> { only_threads.exclude_trash.include_unread.exclude_deleted }
+  scope :starred, -> { only_threads.exclude_trash.include_starred.exclude_trash.exclude_deleted }
+  scope :drafts,  -> (user_id) { only_threads.join_flags.include_drafts(user_id).exclude_trash.exclude_deleted }
+  scope :sent,    -> (user_id) { only_threads.join_flags.exclude_trash_and_drafts.where('message_flags.user_id = ?', user_id).exclude_deleted }
 
   scope :exclude_other, lambda {
     joins(:message_flags)

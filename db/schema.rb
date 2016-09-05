@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160812142525) do
+ActiveRecord::Schema.define(version: 20160905143638) do
 
   create_table "message_flags", force: :cascade do |t|
     t.integer  "message_id"
@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 20160812142525) do
     t.boolean  "is_starred", default: false
     t.boolean  "is_draft",   default: true
     t.boolean  "is_trash",   default: false
+    t.boolean  "is_deleted", default: false
     t.index ["message_id"], name: "index_message_flags_on_message_id"
     t.index ["user_id"], name: "index_message_flags_on_user_id"
   end

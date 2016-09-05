@@ -30,6 +30,11 @@
          <i class="fa fa-trash-o"></i> Restore
        <% end %>
      </li>
+     <li>
+       <%= button_tag type: "submit", name: 'delete_forever', readonly: true, class: "btn btn-md white", style: "width: 100%; text-align: left" do %>
+         <i class="fa fa-trash"></i> Delete Forever
+       <% end %>
+     </li>
     <% else %>
     <li>
       <%= button_tag type: "submit", name: 'mark_as_trash', readonly: true, class: "btn btn-md white", style: "width: 100%; text-align: left" do %>

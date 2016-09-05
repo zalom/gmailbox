@@ -25,4 +25,8 @@ class MessageFlag < ApplicationRecord
   def self.remove_from_trash(user, thread_ids)
     where(user_id: user).where(message_id: thread_ids).update_all(is_trash: false)
   end
+
+  def self.delete_forever(user, thread_ids)
+    where(user_id: user).where(message_id: thread_ids).update_all(is_deleted: true)
+  end
 end

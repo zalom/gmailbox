@@ -100,6 +100,6 @@ class MessagesController < ApplicationController
   end
 
   def bulk_action_params
-    params.permit(:mark_read, :mark_unread, :mark_as_trash, :remove_from_trash, :mark_starred, :mark_unstarred)
+    params.permit(:mark_read, :mark_unread, :mark_as_trash, :remove_from_trash, :mark_starred, :mark_unstarred, :delete_forever)
   end
 end
