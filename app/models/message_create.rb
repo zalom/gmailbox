@@ -33,7 +33,16 @@ class MessageCreate
       set_thread
       create_flags_for_sender
       create_flags_for_recipient
+      set_conversation_unread_for_recipient
     end if message.save
+  end
+
+  def redirect_location
+    if message.thread.blank?
+      'root'.to_sym
+    else
+      message.thread
+    end
   end
 
   protected
@@ -56,7 +65,7 @@ class MessageCreate
   end
 
   def set_recipient
-    message.update(recipient_id: User.find_by_email(message_params[:recipient_email]).id) unless message_params[:recipient_email].blank?
+    message.update(recipient_id: User.find_by_email(message_params[:recipient_email]).id) unless message_params[:recipient_email].blank? || !recipient_exists?
   end
 
   def recipient_exists?
@@ -77,11 +86,16 @@ class MessageCreate
 
   def create_flags_for_recipient
     return if message.recipient_id.nil?
-    message.message_flags.where(user_id: message.recipient_id).first_or_create(is_read: false, is_draft: false)
+    message.message_flags.where(user_id: message.recipient_id).first_or_create(is_draft: false)
   end
 
   def create_flags_for_sender
     return if message.sender_id.nil?
     message.message_flags.where(user_id: message.sender_id).first_or_create(is_read: true, is_draft: false)
+  end
+
+  def set_conversation_unread_for_recipient
+    return if message.thread.blank?
+    message.thread.message_flags.where(user_id: message.recipient_id).update(is_read: false)
   end
 end

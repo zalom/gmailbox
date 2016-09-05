@@ -23,7 +23,7 @@ class MessagesController < ApplicationController
     message = MessageCreate.new(current_user, message_params, other_params)
     respond_to do |format|
       if message.create
-        format.html { redirect_to root_path, notice: message.notice }
+        format.html { redirect_to message.redirect_location, notice: message.notice }
       else
         format.html { render :new, alert: 'Something went wrong!' }
       end
