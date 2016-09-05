@@ -12,4 +12,6 @@ class User < ApplicationRecord
 
   validates :password, presence: true, length: { minimum: 5, maximum: 120 }, on: :create
   validates :password, length: { minimum: 5, maximum: 120 }, on: :update, allow_blank: true
+
+  scope :find_all_but, -> (user) { where.not(id: user) }
 end
