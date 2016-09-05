@@ -3,7 +3,7 @@
     <div class="inbox-form-group mail-to">
       <label class="control-label">To:</label>
       <div class="controls controls-to">
-        <%= f.text_field :recipient_email, class: 'form-control', html: { name: 'to' } %>
+        <%= f.text_field :recipient_email, class: 'form-control', value: params[:recipient_email], html: { name: 'to' } %>
       </div>
     </div>
     <div class="inbox-form-group">

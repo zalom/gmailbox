@@ -4,6 +4,7 @@ class MessagesController < ApplicationController
 
   def new
     @message = current_user.sent_messages.new
+    @message.recipient_email = params[:recipient_email]
   end
 
   def index
@@ -91,8 +92,7 @@ class MessagesController < ApplicationController
   end
 
   def message_params
-    params.require(:message).permit(:subject, :content, :recipient_email, :thread_id, :thread_ids, :draft,
-                                    :drafts, :starred, :trash, :sent)
+    params.require(:message).permit(:subject, :content, :recipient_email, :thread_id, :thread_ids, :draft)
   end
 
   def other_params

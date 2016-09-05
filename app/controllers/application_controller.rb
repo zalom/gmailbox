@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   before_action :set_users
 
   def set_users
-    @users = User.all
+    @users = User.where.not(id: current_user)
   end
 
   protected
