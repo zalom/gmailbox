@@ -23,7 +23,7 @@ class MessagesController < ApplicationController
     message = MessageCreate.new(current_user, message_params, other_params)
     respond_to do |format|
       if message.create
-        format.html { redirect_to message.redirect_location, notice: message.notice }
+        format.html { redirect_to redirect_location_for(message), notice: message.notice }
       else
         format.html { render :new, alert: 'Something went wrong!' }
       end
@@ -79,6 +79,16 @@ class MessagesController < ApplicationController
     else
       @message = current_user.messages.exclude_trash_and_drafts.find(params[:id])
     end
+  end
+
+  def redirect_location_for(message)
+    location = message.redirect_location
+    debugger
+    location.is_a?(String) ? give_correct_location(location) : location
+  end
+
+  def give_correct_location(location)
+    location == 'drafts' ? messages_path(drafts: true) : messages_path
   end
 
   def message_params

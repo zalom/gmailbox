@@ -6,6 +6,7 @@ class MessageCreate
     @other_params = other_params
   end
   attr_reader :message, :message_params, :notice, :thread_id, :other_params
+  attr_accessor :redirect_location
 
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 
@@ -24,6 +25,7 @@ class MessageCreate
       set_recipient
       create_draft
     end if message.save
+    self.redirect_location = 'drafts'
   end
 
   def create_and_send_email
@@ -35,14 +37,11 @@ class MessageCreate
       create_flags_for_recipient
       set_conversation_unread_for_recipient
     end if message.save
+    redirect_to_thread_or_inbox
   end
 
-  def redirect_location
-    if message.thread.blank?
-      'root'.to_sym
-    else
-      message.thread
-    end
+  def redirect_to_thread_or_inbox
+    self.redirect_location = message.thread.blank? ? 'inbox' : message.thread
   end
 
   protected
