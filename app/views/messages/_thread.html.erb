@@ -1,6 +1,6 @@
 <tr class="<%= read_class(thread.read?(current_user.id)) %>" data-thread-id="<%= thread.id %>">
   <td class="inbox-small-cells">
-    <label for="message-checkbox-<%= thread.id %>" class="mt-checkbox mt-checkbox-single mt-checkbox-outline" id="message-label-<%= thread.id %>">
+    <label for="message-checkbox-<%= thread.id %>" class="mt-checkbox mt-checkbox-single mt-checkbox-outline single-label" id="message-label-<%= thread.id %>">
       <%= check_box_tag "thread_ids[]", thread.id, false, class: "mail-checkbox single-checkbox", id: "message-checkbox-#{thread.id}" %>
       <span></span>
     </label>
