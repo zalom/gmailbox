@@ -33,9 +33,6 @@
         <%= button_tag class: 'btn blue action-btn margin-right-10', name: 'reply', value: thread.id, readonly: true do %>
           <i class="fa fa-reply"></i> Reply
         <% end %>
-        <button data-messageid="<%= @message.id %>" class="btn blue action-btn">
-          <i class="fa fa-trash-o"></i> Delete
-        </button>
       </div>
     <% end %>
   </div>
