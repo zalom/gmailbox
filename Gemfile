@@ -1,6 +1,12 @@
 source 'https://rubygems.org'
+ruby '2.3.3'
 
-gem 'rails', '>= 5.0.0.rc2', '< 5.1'
+git_source(:github) do |repo_name|
+  repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")
+  "https://github.com/#{repo_name}.git"
+end
+
+gem 'rails', '~> 5.0.1'
 gem 'puma', '~> 3.0'
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
@@ -9,7 +15,7 @@ gem 'jquery-ui-rails'
 gem 'turbolinks', '~> 5.x'
 gem 'devise'
 gem 'bootstrap-sass'
-gem "font-awesome-rails"
+gem 'font-awesome-rails'
 gem 'simple-line-icons-rails'
 gem 'trix'
 gem 'kaminari', github: 'amatsuda/kaminari', branch: '0-17-stable'
