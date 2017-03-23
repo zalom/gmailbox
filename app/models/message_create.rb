@@ -90,7 +90,7 @@ class MessageCreate
 
   def create_flags_for_recipient
     return if message.recipient_id.nil?
-    message.message_flags.where(user_id: message.recipient_id).first_or_create(is_draft: false)
+    message.message_flags.where(user_id: message.recipient_id).first_or_create(is_draft: false, is_read: false)
   end
 
   def create_flags_for_sender
