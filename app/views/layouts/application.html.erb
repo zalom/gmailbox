@@ -12,61 +12,37 @@
     <% if !user_signed_in? %>
       <div class="login">
         <%= render 'shared/notice_alerts' %>
-        <!-- BEGIN LOGO -->
         <%= render 'shared/logo' %>
-        <!-- END LOGO -->
         <%= yield %>
         <%= render 'shared/footer' %>
       </div>
     <%else %>
       <div class="page-header-fixed page-sidebar-closed-hide-logo page-content-white">
-        <!-- BEGIN HEADER -->
         <div class="page-header navbar navbar-fixed-top">
-          <!-- BEGIN HEADER INNER -->
           <div class="page-header-inner ">
-            <!-- BEGIN LOGO -->
             <div class="page-logo">
               <%= link_to root_path do %>
                 <%= image_tag 'logo.png', class: 'logo-default' %>
               <% end %>
             </div>
-            <!-- END LOGO -->
-            <!-- BEGIN TOP NAVIGATION MENU -->
             <%= render 'messages/shared/top_navigation' %>
-            <!-- END TOP NAVIGATION MENU -->
           </div>
-          <!-- END HEADER INNER -->
         </div>
-        <!-- END HEADER -->
-        <!-- BEGIN HEADER & CONTENT DIVIDER -->
         <div class="clearfix"> </div>
-        <!-- END HEADER & CONTENT DIVIDER -->
         <div class="page-container">
-          <!-- BEGIN SIDEBAR -->
-          <!-- END SIDEBAR -->
-          <!-- BEGIN CONTENT -->
           <div class="page-content-wrapper">
-            <!-- BEGIN CONTENT BODY -->
             <div class="page-content">
-              <!-- BEGIN PAGE HEADER-->
-              <!-- BEGIN PAGE BAR -->
               <div class="page-bar">
                 <div class="page-toolbar">
                 </div>
               </div>
             </div>
-            <!-- END PAGE BAR -->
-            <!-- BEGIN PAGE TITLE-->
-            <!-- END PAGE TITLE-->
-            <!-- END PAGE HEADER-->
             <%= render 'shared/notice_alerts' %>
             <div class="inbox">
               <%= yield %>
             </div>
           </div>
-            <!-- END CONTENT BODY -->
         </div>
-        <!-- END CONTENT -->
       </div>
     <% end %>
   </body>
