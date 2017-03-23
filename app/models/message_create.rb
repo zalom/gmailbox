@@ -68,7 +68,7 @@ class MessageCreate
   end
 
   def set_recipient
-    return unless message_params[:recipient_email].blank? || !recipient_exists?
+    return if message_params[:recipient_email].blank? || !recipient_exists?
     message.update(recipient_id: User.find_by_email(message_params[:recipient_email]).id)
   end
 
