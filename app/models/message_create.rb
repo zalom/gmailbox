@@ -21,22 +21,26 @@ class MessageCreate
   end
 
   def create_as_draft
-    message.class.transaction do
-      set_recipient
-      create_draft
-    end if message.save
+    set_recipient
+    if message.save
+      message.class.transaction do
+        create_draft
+      end
+    end
     self.redirect_location = 'drafts'
   end
 
   def create_and_send_email
-    message.class.transaction do
-      set_recipient
-      set_sent
-      set_thread
-      create_flags_for_sender
-      create_flags_for_recipient
-      set_conversation_unread_for_recipient
-    end if message.save
+    set_recipient
+    if message.save
+      message.class.transaction do
+        set_sent
+        set_thread
+        create_flags_for_sender
+        create_flags_for_recipient
+        set_conversation_unread_for_recipient
+      end
+    end
     redirect_to_thread_or_inbox
   end
 
@@ -64,7 +68,8 @@ class MessageCreate
   end
 
   def set_recipient
-    message.update(recipient_id: User.find_by_email(message_params[:recipient_email]).id) unless message_params[:recipient_email].blank? || !recipient_exists?
+    return unless message_params[:recipient_email].blank? || !recipient_exists?
+    message.update(recipient_id: User.find_by_email(message_params[:recipient_email]).id)
   end
 
   def recipient_exists?
