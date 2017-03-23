@@ -1,7 +1,7 @@
 class Message < ApplicationRecord
   before_create :set_subject_if_empty
 
-  belongs_to :thread, class_name: 'Message'
+  belongs_to :thread, class_name: 'Message', optional: true
   belongs_to :recipient, class_name: 'User', foreign_key: 'recipient_id'
   belongs_to :sender, class_name: 'User', foreign_key: 'sender_id'
 
